@@ -1,33 +1,30 @@
-using AeroDroxUAV.Data;
 using AeroDroxUAV.Models;
+using AeroDroxUAV.Services; 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AeroDroxUAV.Controllers
 {
-    // Fix: Corrected 'ResponseCacheCacheLocation' to 'ResponseCacheLocation'
-    // Ensure all actions in DroneController are NEVER cached by the browser
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class DroneController : Controller
     {
-        private readonly AppDbContext _context;
-        public DroneController(AppDbContext context)
+        private readonly IDroneService _droneService; 
+
+        public DroneController(IDroneService droneService) 
         {
-            _context = context;
+            _droneService = droneService;
         }
 
-        // Helper to check for Admin role
+        // Security Helpers
         private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
-        
-        // New Helper to check if a user is logged in
         private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
 
-        // View all drones for everyone (now protected)
+
+        // View all drones for everyone
         public async Task<IActionResult> Index()
         {
             if (!IsLoggedIn()) return RedirectToAction("Login", "Account");
 
-            var drones = await _context.Drones.ToListAsync();
+            var drones = await _droneService.GetAllDronesAsync();
             ViewBag.Role = HttpContext.Session.GetString("Role");
             return View(drones);
         }
@@ -47,8 +44,7 @@ namespace AeroDroxUAV.Controllers
 
             if(ModelState.IsValid)
             {
-                _context.Drones.Add(drone);
-                await _context.SaveChangesAsync();
+                await _droneService.CreateDroneAsync(drone);
                 return RedirectToAction("Index");
             }
             return View(drone);
@@ -58,7 +54,7 @@ namespace AeroDroxUAV.Controllers
         {
             if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
 
-            var drone = await _context.Drones.FindAsync(id);
+            var drone = await _droneService.GetDroneByIdAsync(id);
             if(drone == null) return NotFound();
             return View(drone);
         }
@@ -70,8 +66,7 @@ namespace AeroDroxUAV.Controllers
 
             if(ModelState.IsValid)
             {
-                _context.Drones.Update(drone);
-                await _context.SaveChangesAsync();
+                await _droneService.UpdateDroneAsync(drone);
                 return RedirectToAction("Index");
             }
             return View(drone);
@@ -81,7 +76,7 @@ namespace AeroDroxUAV.Controllers
         {
             if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
 
-            var drone = await _context.Drones.FindAsync(id);
+            var drone = await _droneService.GetDroneByIdAsync(id);
             if(drone == null) return NotFound();
             return View(drone);
         }
@@ -91,12 +86,8 @@ namespace AeroDroxUAV.Controllers
         {
             if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
 
-            var drone = await _context.Drones.FindAsync(id);
-            if(drone != null)
-            {
-                _context.Drones.Remove(drone);
-                await _context.SaveChangesAsync();
-            }
+            await _droneService.DeleteDroneAsync(id);
+            
             return RedirectToAction("Index");
         }
     }

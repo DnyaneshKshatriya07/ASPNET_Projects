@@ -1,23 +1,24 @@
-using AeroDroxUAV.Data;
 using AeroDroxUAV.Models;
+using AeroDroxUAV.Services; // NEW: Dependency on Service Layer
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AeroDroxUAV.Controllers
 {
-    // 1. Mark as API Controller: Enables API-specific conventions (like automatic 400 response)
+    // The routing and API attributes remain the same
     [Route("api/[controller]")]
     [ApiController] 
     public class DronesApiController : ControllerBase 
     {
-        private readonly AppDbContext _context;
+        private readonly IDroneService _droneService; // CHANGED: Use Service Interface
 
-        public DronesApiController(AppDbContext context)
+        // NEW: Constructor now injects the service
+        public DronesApiController(IDroneService droneService)
         {
-            _context = context;
+            _droneService = droneService;
         }
 
-        // Helper to check if a user is logged in via Session (for simplicity)
+        // Authorization Helpers (Remain in Controller as the application boundary)
         private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
         private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
 
@@ -29,7 +30,10 @@ namespace AeroDroxUAV.Controllers
             {
                 return Unauthorized(); // Returns 401
             }
-            return await _context.Drones.ToListAsync(); // Returns 200 OK with JSON list
+            
+            // DELEGATION: Calls the Service layer
+            var drones = await _droneService.GetAllDronesAsync(); 
+            return Ok(drones); // Explicitly return 200 OK with data
         }
 
         // GET: api/DronesApi/5
@@ -41,14 +45,15 @@ namespace AeroDroxUAV.Controllers
                 return Unauthorized();
             }
 
-            var drone = await _context.Drones.FindAsync(id);
+            // DELEGATION: Calls the Service layer
+            var drone = await _droneService.GetDroneByIdAsync(id);
 
             if (drone == null)
             {
                 return NotFound(); // Returns 404
             }
 
-            return drone; // Returns 200 OK with single JSON object
+            return Ok(drone); // Returns 200 OK with single JSON object
         }
 
         // POST: api/DronesApi
@@ -57,11 +62,11 @@ namespace AeroDroxUAV.Controllers
         {
             if (!IsLoggedIn() || !IsAdmin())
             {
-                return Forbid(); // Returns 403 (Logged in but wrong role) or 401
+                return Forbid(); // Returns 403 (Logged in but wrong role)
             }
-
-            _context.Drones.Add(drone);
-            await _context.SaveChangesAsync();
+            
+            // DELEGATION: Calls the Service layer
+            await _droneService.CreateDroneAsync(drone);
 
             // Returns 201 CreatedAtAction with the created resource and its URL
             return CreatedAtAction(nameof(GetDrone), new { id = drone.Id }, drone);
@@ -80,23 +85,23 @@ namespace AeroDroxUAV.Controllers
             {
                 return Forbid();
             }
-
-            _context.Entry(drone).State = EntityState.Modified;
+            
+            // DELEGATION: Check if drone exists before updating (business logic in service)
+            var existingDrone = await _droneService.GetDroneByIdAsync(id);
+            if (existingDrone == null)
+            {
+                return NotFound();
+            }
 
             try
             {
-                await _context.SaveChangesAsync();
+                // DELEGATION: Calls the Service layer
+                await _droneService.UpdateDroneAsync(drone);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Drones.Any(e => e.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                // Handle concurrency issues if required, but simpler to check existence post-facto
+                return NotFound();
             }
 
             return NoContent(); // Returns 204 success, no content
@@ -111,15 +116,11 @@ namespace AeroDroxUAV.Controllers
                 return Forbid();
             }
 
-            var drone = await _context.Drones.FindAsync(id);
-            if (drone == null)
-            {
-                return NotFound();
-            }
-
-            _context.Drones.Remove(drone);
-            await _context.SaveChangesAsync();
-
+            // DELEGATION: Calls the Service layer
+            await _droneService.DeleteDroneAsync(id);
+            
+            // Service handles NotFound implicitly. If no exception, assume success.
+            // A common pattern is checking service result, but we return 204 regardless of if it existed.
             return NoContent(); // Returns 204 success
         }
     }
