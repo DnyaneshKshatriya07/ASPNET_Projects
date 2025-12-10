@@ -1,7 +1,7 @@
 namespace AeroDroxUAV.Services
 {
     using AeroDroxUAV.Models;
-    using AeroDroxUAV.Repositories; // <-- This using statement is essential
+    using AeroDroxUAV.Repositories;
     
     public class DroneService : IDroneService
     {
@@ -19,6 +19,7 @@ namespace AeroDroxUAV.Services
 
         public async Task<Drone?> GetDroneByIdAsync(int id)
         {
+            // This call uses the corrected non-tracking repository method
             return await _droneRepository.GetByIdAsync(id);
         }
 
@@ -36,6 +37,7 @@ namespace AeroDroxUAV.Services
 
         public async Task DeleteDroneAsync(int id)
         {
+            // This call uses the corrected non-tracking repository method
             var drone = await _droneRepository.GetByIdAsync(id);
             if (drone != null)
             {

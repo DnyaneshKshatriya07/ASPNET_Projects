@@ -1,24 +1,21 @@
 using AeroDroxUAV.Models;
-using AeroDroxUAV.Services; // NEW: Dependency on Service Layer
+using AeroDroxUAV.Services; // Dependency on Service Layer
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AeroDroxUAV.Controllers
 {
-    // The routing and API attributes remain the same
     [Route("api/[controller]")]
     [ApiController] 
     public class DronesApiController : ControllerBase 
     {
-        private readonly IDroneService _droneService; // CHANGED: Use Service Interface
+        private readonly IDroneService _droneService; 
 
-        // NEW: Constructor now injects the service
         public DronesApiController(IDroneService droneService)
         {
             _droneService = droneService;
         }
 
-        // Authorization Helpers (Remain in Controller as the application boundary)
         private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
         private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
 
@@ -26,49 +23,36 @@ namespace AeroDroxUAV.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Drone>>> GetDrones()
         {
-            if (!IsLoggedIn())
-            {
-                return Unauthorized(); // Returns 401
-            }
+            // if (!IsLoggedIn()) { return Unauthorized(); }
             
-            // DELEGATION: Calls the Service layer
             var drones = await _droneService.GetAllDronesAsync(); 
-            return Ok(drones); // Explicitly return 200 OK with data
+            return Ok(drones);
         }
 
         // GET: api/DronesApi/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Drone>> GetDrone(int id)
         {
-            if (!IsLoggedIn())
-            {
-                return Unauthorized();
-            }
+            // if (!IsLoggedIn()) { return Unauthorized(); }
 
-            // DELEGATION: Calls the Service layer
             var drone = await _droneService.GetDroneByIdAsync(id);
 
             if (drone == null)
             {
-                return NotFound(); // Returns 404
+                return NotFound();
             }
 
-            return Ok(drone); // Returns 200 OK with single JSON object
+            return Ok(drone);
         }
 
         // POST: api/DronesApi
         [HttpPost]
         public async Task<ActionResult<Drone>> PostDrone(Drone drone)
         {
-            if (!IsLoggedIn() || !IsAdmin())
-            {
-                return Forbid(); // Returns 403 (Logged in but wrong role)
-            }
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
             
-            // DELEGATION: Calls the Service layer
             await _droneService.CreateDroneAsync(drone);
 
-            // Returns 201 CreatedAtAction with the created resource and its URL
             return CreatedAtAction(nameof(GetDrone), new { id = drone.Id }, drone);
         }
 
@@ -78,15 +62,12 @@ namespace AeroDroxUAV.Controllers
         {
             if (id != drone.Id)
             {
-                return BadRequest(); // Returns 400
+                return BadRequest();
             }
 
-            if (!IsLoggedIn() || !IsAdmin())
-            {
-                return Forbid();
-            }
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
             
-            // DELEGATION: Check if drone exists before updating (business logic in service)
+            // This existence check now uses the non-tracked entity, preventing the error.
             var existingDrone = await _droneService.GetDroneByIdAsync(id);
             if (existingDrone == null)
             {
@@ -95,33 +76,34 @@ namespace AeroDroxUAV.Controllers
 
             try
             {
-                // DELEGATION: Calls the Service layer
+                // This call to UpdateDroneAsync now succeeds.
                 await _droneService.UpdateDroneAsync(drone);
             }
             catch (DbUpdateConcurrencyException)
             {
-                // Handle concurrency issues if required, but simpler to check existence post-facto
-                return NotFound();
+                // Simple existence check after a potential concurrency error
+                if (await _droneService.GetDroneByIdAsync(id) == null)
+                {
+                    return NotFound();
+                }
+                throw; 
             }
 
-            return NoContent(); // Returns 204 success, no content
+            return NoContent();
         }
 
         // DELETE: api/DronesApi/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDrone(int id)
         {
-            if (!IsLoggedIn() || !IsAdmin())
-            {
-                return Forbid();
-            }
+            // if (!IsLoggedIn() || !IsAdmin())
+            // {
+            //     return Forbid();
+            // }
 
-            // DELEGATION: Calls the Service layer
             await _droneService.DeleteDroneAsync(id);
             
-            // Service handles NotFound implicitly. If no exception, assume success.
-            // A common pattern is checking service result, but we return 204 regardless of if it existed.
-            return NoContent(); // Returns 204 success
+            return NoContent();
         }
     }
 }

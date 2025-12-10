@@ -27,10 +27,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDroneRepository, DroneRepository>();
+builder.Services.AddScoped<IDroneServicesRepository, DroneServicesRepository>();
 
 // Register Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDroneService, DroneService>();
+builder.Services.AddScoped<IDroneServicesService, DroneServicesService>();
+
 
 // Add Session services
 builder.Services.AddSession(options =>
