@@ -34,7 +34,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IDroneService, DroneService>();
 builder.Services.AddScoped<IDroneServicesService, DroneServicesService>();
 
-
 // Add Session services
 builder.Services.AddSession(options =>
 {
@@ -58,7 +57,6 @@ using (var scope = app.Services.CreateScope())
     
     dbContext.Database.EnsureCreated();
 
-    // Uses the Service Layer to seed users (admin/admin123, user/user123)
     var userService = serviceProvider.GetRequiredService<IUserService>();
     await userService.SeedDefaultUsersAsync();
 }
@@ -81,6 +79,12 @@ else
 app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
+
+// ===============================
+// ADD BASIC AUTH MIDDLEWARE HERE
+// ===============================
+app.UseMiddleware<BasicAuthMiddleware>();
+
 app.UseAuthorization();
 
 // Map attribute-routed controllers (e.g., DronesApiController)
