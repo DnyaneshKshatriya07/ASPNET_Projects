@@ -1,8 +1,145 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "AeroDroxUAV - Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<style>
+    /* Custom styles for the single page sections */
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://dummyimage.com/1200x600/343a40/ffffff&text=Aerial+View+Background') no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 8rem 0;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .section-padding {
+        padding: 4rem 0;
+    }
+</style>
+
+<header class="hero-section">
+    <div class="container">
+        <h1 class="display-2 fw-bold mb-3">AeroDroxUAV</h1>
+        <p class="lead mb-4">Leading the Future of Precision Aerial Solutions.</p>
+        <a href="#products" class="btn btn-primary btn-lg me-2">Explore Drones</a>
+        <a href="#contact" class="btn btn-outline-light btn-lg">Get a Quote</a>
+    </div>
+</header>
+
+
+<section id="about" class="section-padding bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 mb-4">About AeroDroxUAV</h2>
+                <p>
+                    Founded in 2018, AeroDroxUAV is committed to delivering cutting-edge, reliable, and sustainable UAV solutions for industrial and recreational use. Our technology is built for durability and precision, empowering professionals across agriculture, construction, and media.
+                </p>
+                <p>
+                    We believe in the power of aerial data to drive efficiency and safety. Our dedicated team of engineers and pilots works tirelessly to push the boundaries of drone capability.
+                </p>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://dummyimage.com/500x350/6c757d/ffffff&text=AeroDroxUAV+Team" class="img-fluid rounded shadow" alt="AeroDroxUAV Team">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="products" class="section-padding">
+    <div class="container">
+        <h2 class="display-5 text-center mb-5">Our Flagship Drones</h2>
+        <div class="row g-4">
+            
+            @* Dummy Data - Replace with actual model data if available *@
+            @{
+                var drones = new List<dynamic>
+                {
+                    new { Name = "Sentinel X10", Type = "Industrial Quadcopter", Price = 4999.99, Description = "Heavy-lift capacity, long endurance for infrastructure inspection." },
+                    new { Name = "Aviator Pro", Type = "Professional Cinematography", Price = 2799.00, Description = "4K 60fps stabilized camera, advanced obstacle avoidance." },
+                    new { Name = "Agri-View 500", Type = "Agricultural Surveying", Price = 5999.50, Description = "Multi-spectral sensor package for crop health analysis." }
+                };
+            }
+
+            @foreach(var drone in drones)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://dummyimage.com/400x250/007bff/ffffff&text=@drone.Name" class="card-img-top" alt="@drone.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@drone.Name</h5>
+                            <p class="card-text text-muted">@drone.Type</p>
+                            <p class="card-text">@drone.Description</p>
+                            <h6 class="text-primary">$@drone.Price.ToString("N2")</h6>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center mt-5">
+            <a href="/Drone/Index" class="btn btn-outline-dark">View All Products (Requires Login)</a>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="display-5 text-center mb-5">Professional Drone Services</h2>
+        <div class="row g-4">
+            
+            @* Dummy Data - Replace with actual model data if available *@
+            @{
+                var services = new List<dynamic>
+                {
+                    new { Name = "Infrastructure Inspection", Description = "High-resolution thermal and visual scans of bridges, towers, and utility lines." },
+                    new { Name = "3D Mapping & Modeling", Description = "Accurate photogrammetry for detailed digital terrain and building models." },
+                    new { Name = "Aerial Cinematography", Description = "Broadcast-quality video production for films, events, and marketing." }
+                };
+            }
+
+            @foreach(var service in services)
+            {
+                <div class="col-md-4">
+                    <div class="p-4 border rounded h-100 bg-white shadow-sm">
+                        <h4 class="text-success">@service.Name</h4>
+                        <p>@service.Description</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section-padding">
+    <div class="container">
+        <h2 class="display-5 text-center mb-5">Get In Touch</h2>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <p class="text-center mb-4">Have questions or ready to start a project? Fill out the form below or contact us directly.</p>
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" rows="5" class="form-control" required></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,38 +1,56 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AeroDroxUAV.Models;
+using AeroDroxUAV.Services; // Add this using statement
 
 namespace AeroDroxUAV.Controllers;
 
-// Fix: Corrected 'ResponseCacheCacheLocation' to 'ResponseCacheLocation'
-// Apply anti-caching to Home pages as well
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IDroneServicesService _droneServicesService; // Injected Service
 
-    public HomeController(ILogger<HomeController> logger)
+    // Constructor updated to include IDroneServicesService
+    public HomeController(ILogger<HomeController> logger, IDroneServicesService droneServicesService)
     {
         _logger = logger;
+        _droneServicesService = droneServicesService;
     }
 
     private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index() // Made async to fetch services
     {
-        // If not logged in, redirect to login
+        // Fetch services for the navbar dropdown
+        // var services = await _droneServicesService.GetAllDroneServicesAsync();
+        // ViewBag.DroneServices = services; // Pass to ViewBag for _Layout.cshtml
+
         if (!IsLoggedIn())
         {
             return RedirectToAction("Login", "Account");
         }
         
-        // If logged in, redirect them to the main application page
+        // Redirect to the main application page
         return RedirectToAction("Index", "Drone");
     }
 
+        // public IActionResult Index()
+        // {
+        //     // If logged in, redirect them to the main application/dashboard page
+        //     if (IsLoggedIn())
+        //     {
+        //         // This keeps the existing dashboard behavior for authenticated users
+        //         return RedirectToAction("Index", "Drone");
+        //     }
+
+        //     // If not logged in, display the public-facing single-page website.
+        //     ViewData["Title"] = "AeroDroxUAV - Precision Aerial Solutions";
+        //     return View(); 
+        // }
+
     public IActionResult Privacy()
     {
-        // This page remains accessible to all, though often it's protected if tied to user data.
         return View();
     }
 

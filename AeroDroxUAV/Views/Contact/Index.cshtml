@@ -1,0 +1,35 @@
+@* Views/Contact/Index.cshtml *@
+@* No model needed for a simple contact form *@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
+        
+        @if(ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success">
+                <strong>Success!</strong> @ViewBag.SuccessMessage
+            </div>
+        }
+
+        <form method="post" asp-controller="Contact" asp-action="Submit">
+            <div class="mb-3">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" name="name" id="name" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+    </div>
+</div>

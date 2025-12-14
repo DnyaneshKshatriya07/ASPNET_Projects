@@ -1,0 +1,42 @@
+@model IEnumerable<AeroDroxUAV.Models.Accessories>
+@{
+    ViewData["Title"] = "Accessories";
+    var role = ViewBag.Role as string;
+}
+
+<h2>Accessories</h2>
+
+@if(role == "Admin")
+{
+    <a href="/Accessories/Create" class="btn btn-success mb-2">Add Accessory</a>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Description</th>
+            @if(role == "Admin") { <th>Actions</th> }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var accessory in Model)
+        {
+            <tr>
+                <td>@accessory.Name</td>
+                <td>@accessory.Type</td>
+                <td>@accessory.Price</td>
+                <td>@accessory.Description</td>
+                @if(role == "Admin")
+                {
+                    <td>
+                        <a href="/Accessories/Edit/@accessory.Id" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/Accessories/Delete/@accessory.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

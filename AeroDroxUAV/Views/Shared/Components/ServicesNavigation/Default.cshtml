@@ -1,0 +1,39 @@
+@model IEnumerable<AeroDroxUAV.Models.DroneServices>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    var role = HttpContextAccessor.HttpContext?.Session.GetString("Role") ?? "";
+    var isAdmin = role == "Admin";
+    var services = Model ?? new List<AeroDroxUAV.Models.DroneServices>();
+}
+
+@* SERVICES DROPDOWN - Visible to both Admin and User *@
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle text-white" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Services
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
+        @if (services.Any())
+        {
+            @foreach (var service in services)
+            {
+                @* Placeholder link. You would create a ServicesController/Details action for this. *@
+                <li><a class="dropdown-item" href="/DroneServices/Details/@service.Id">@service.Name</a></li>
+            }
+        }
+        else if (!isAdmin)
+        {
+            <li><span class="dropdown-item text-muted">No services available</span></li>
+        }
+
+        @if (isAdmin)
+        {
+            if (services.Any())
+            {
+                <li><hr class="dropdown-divider"></li>
+            }
+            @* Admin link to manage services *@
+            <li><a class="dropdown-item text-primary" asp-controller="DroneServices" asp-action="Index">Manage Services</a></li>
+        }
+    </ul>
+</li>

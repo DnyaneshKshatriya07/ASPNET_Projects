@@ -1,0 +1,30 @@
+@model AeroDroxUAV.Models.DroneServices
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Edit Drone Service";
+}
+
+<h2>Edit Drone Service</h2>
+
+<form method="post" asp-controller="DroneServices" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Type</label>
+        <input asp-for="Type" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Price</label>
+        <input asp-for="Price" class="form-control" step="0.01" required />
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Drone Service</button>
+    <a href="/DroneServices/Index" class="btn btn-secondary">Cancel</a>
+</form>
