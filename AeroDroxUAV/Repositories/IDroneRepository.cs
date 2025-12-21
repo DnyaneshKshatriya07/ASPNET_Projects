@@ -10,5 +10,9 @@ namespace AeroDroxUAV.Repositories
         void Update(Drone drone);
         void Delete(Drone drone);
         Task SaveChangesAsync();
+        
+        // Optional methods
+        Task<IEnumerable<Drone>> GetByCategoryAsync(string category);
+        Task<IEnumerable<Drone>> GetFeaturedAsync();
     }
 }

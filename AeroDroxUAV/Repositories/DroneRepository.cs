@@ -3,6 +3,7 @@ namespace AeroDroxUAV.Repositories
     using AeroDroxUAV.Data;
     using AeroDroxUAV.Models;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
 
     public class DroneRepository : IDroneRepository
     {
@@ -20,10 +21,6 @@ namespace AeroDroxUAV.Repositories
 
         public async Task<Drone?> GetByIdAsync(int id)
         {
-            // *** FIX FOR EDIT/TRACKING CONFLICT ***
-            // Change from Find(id) or FirstOrDefaultAsync() to use AsNoTracking() 
-            // to ensure the entity retrieved for existence checks in PUT/Edit methods 
-            // is NOT tracked by EF Core. This prevents the "already tracked" error.
             return await _context.Drones.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -34,20 +31,32 @@ namespace AeroDroxUAV.Repositories
 
         public void Update(Drone drone)
         {
-            // This is now safe because the GetByIdAsync call in the controller is non-tracking.
             _context.Drones.Update(drone);
         }
 
         public void Delete(Drone drone)
         {
-            // Note: If the incoming 'drone' object here is the result of a non-tracking query, 
-            // EF Core will track it first, then remove it. This is usually fine.
             _context.Drones.Remove(drone);
         }
 
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        // Additional helper methods if needed
+        public async Task<IEnumerable<Drone>> GetByCategoryAsync(string category)
+        {
+            return await _context.Drones
+                .Where(d => d.Category == category)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Drone>> GetFeaturedAsync()
+        {
+            return await _context.Drones
+                .Where(d => d.IsFeatured)
+                .ToListAsync();
         }
     }
 }

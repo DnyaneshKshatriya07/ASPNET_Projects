@@ -15,24 +15,50 @@ namespace AeroDroxUAV.Repositories
 
         public async Task<IEnumerable<DroneServices>> GetAllAsync()
         {
-            return await _context.DroneServices.ToListAsync();
+            return await _context.DroneServices
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetActiveServicesAsync()
+        {
+            return await _context.DroneServices
+                .Where(s => s.IsActive)
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetByCategoryAsync(string category)
+        {
+            return await _context.DroneServices
+                .Where(s => s.Category == category && s.IsActive)
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetFeaturedServicesAsync()
+        {
+            return await _context.DroneServices
+                .Where(s => s.IsActive)
+                .OrderByDescending(s => s.CreatedAt)
+                .Take(8)
+                .ToListAsync();
         }
 
         public async Task<DroneServices?> GetByIdAsync(int id)
         {
-            // *** FIX FOR EDIT/TRACKING CONFLICT ***
-            // By making this read non-tracking, we allow the subsequent Update() call
-            // in the API controller to attach the incoming entity without conflict.
             return await _context.DroneServices.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task AddAsync(DroneServices droneServices)
         {
+            droneServices.CreatedAt = DateTime.UtcNow;
             await _context.DroneServices.AddAsync(droneServices);
         }
 
         public void Update(DroneServices droneServices)
         {
+            droneServices.UpdatedAt = DateTime.UtcNow;
             _context.DroneServices.Update(droneServices);
         }
 

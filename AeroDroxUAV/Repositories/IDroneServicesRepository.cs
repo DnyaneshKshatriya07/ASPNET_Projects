@@ -5,7 +5,9 @@ namespace AeroDroxUAV.Repositories
     public interface IDroneServicesRepository
     {
         Task<IEnumerable<DroneServices>> GetAllAsync();
-        // CHANGED: Removed underscores from parameter names for consistency
+        Task<IEnumerable<DroneServices>> GetActiveServicesAsync();
+        Task<IEnumerable<DroneServices>> GetByCategoryAsync(string category);
+        Task<IEnumerable<DroneServices>> GetFeaturedServicesAsync();
         Task<DroneServices?> GetByIdAsync(int id);
         Task AddAsync(DroneServices droneService);
         void Delete(DroneServices droneService);
