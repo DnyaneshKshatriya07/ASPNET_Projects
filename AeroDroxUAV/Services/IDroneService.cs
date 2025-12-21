@@ -9,5 +9,10 @@ namespace AeroDroxUAV.Services
         Task CreateDroneAsync(Drone drone);
         Task UpdateDroneAsync(Drone drone);
         Task DeleteDroneAsync(int id);
+        
+        // Optional methods you might need:
+        Task<IEnumerable<Drone>> GetFeaturedDronesAsync();
+        Task<IEnumerable<Drone>> GetDronesByCategoryAsync(string category);
+        Task UpdateStockQuantityAsync(int droneId, int quantity);
     }
 }

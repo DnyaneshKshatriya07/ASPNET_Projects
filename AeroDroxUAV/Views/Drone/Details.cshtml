@@ -1,0 +1,208 @@
+@model AeroDroxUAV.Models.Drone
+@{
+    ViewData["Title"] = Model.Name + " - Details";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <!-- Product Images -->
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Model.ImageUrl" class="img-fluid rounded-3" 
+                                 alt="@Model.Name" style="max-height: 400px; object-fit: contain;">
+                        }
+                        else
+                        {
+                            <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="img-fluid rounded-3" 
+                                 alt="@Model.Name">
+                        }
+                    </div>
+                    
+                    <!-- Stock Status -->
+                    <div class="alert @(Model.StockQuantity > 0 ? "alert-success" : "alert-warning") mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas @(Model.StockQuantity > 0 ? "fa-check-circle" : "fa-exclamation-triangle") me-3 fa-lg"></i>
+                            <div>
+                                <h6 class="alert-heading mb-1">
+                                    @(Model.StockQuantity > 0 ? "In Stock" : "Out of Stock")
+                                </h6>
+                                <p class="mb-0">
+                                    @if(Model.StockQuantity > 0)
+                                    {
+                                        <span>@Model.StockQuantity units available</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Currently unavailable. Check back soon!</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Details -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <!-- Badges -->
+                    <div class="mb-4">
+                        @if(Model.IsFeatured)
+                        {
+                            <span class="badge bg-warning me-2 mb-2">
+                                <i class="fas fa-star me-1"></i>Featured
+                            </span>
+                        }
+                        <span class="badge bg-info me-2 mb-2">
+                            <i class="fas fa-tag me-1"></i>@Model.Category
+                        </span>
+                        <span class="badge bg-secondary me-2 mb-2">
+                            <i class="fas fa-box me-1"></i>@Model.Type
+                        </span>
+                    </div>
+                    
+                    <!-- Product Title and Price -->
+                    <h1 class="h2 fw-bold mb-3">@Model.Name</h1>
+                    <div class="d-flex align-items-center mb-4">
+                        <h2 class="text-success fw-bold me-3">$@Model.Price.ToString("N2")</h2>
+                        @if(Model.StockQuantity > 0)
+                        {
+                            <span class="text-muted">+ Free Shipping</span>
+                        }
+                    </div>
+                    
+                    <!-- Specifications -->
+                    <div class="row mb-4">
+                        @if(!string.IsNullOrEmpty(Model.BatteryLife))
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-battery-full"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Battery Life</h6>
+                                        <p class="mb-0 fw-semibold">@Model.BatteryLife</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        @if(Model.Range.HasValue && Model.Range > 0)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-info text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-satellite-dish"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Flight Range</h6>
+                                        <p class="mb-0 fw-semibold">@Model.Range.Value.ToString("N1") km</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <h4 class="h5 mb-3">
+                            <i class="fas fa-align-left me-2"></i>Description
+                        </h4>
+                        <p class="text-muted">@Model.Description</p>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-3">
+                        @if(Model.StockQuantity > 0)
+                        {
+                            <button class="btn btn-primary btn-lg py-3">
+                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg py-3">
+                                <i class="fas fa-bolt me-2"></i>Buy Now
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-lg py-3" disabled>
+                                <i class="fas fa-times-circle me-2"></i>Out of Stock
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg py-3">
+                                <i class="fas fa-bell me-2"></i>Notify When Available
+                            </button>
+                        }
+                        
+                        <a href="/Drone/Index" class="btn btn-outline-secondary btn-lg py-3">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Store
+                        </a>
+                    </div>
+                    
+                    <!-- Additional Info -->
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3">
+                                <div class="bg-light p-3 rounded">
+                                    <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
+                                    <h6 class="fw-bold mb-1">Free Shipping</h6>
+                                    <p class="text-muted small mb-0">On orders over $100</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="bg-light p-3 rounded">
+                                    <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                                    <h6 class="fw-bold mb-1">2-Year Warranty</h6>
+                                    <p class="text-muted small mb-0">Full manufacturer coverage</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="bg-light p-3 rounded">
+                                    <i class="fas fa-headset fa-2x text-info mb-2"></i>
+                                    <h6 class="fw-bold mb-1">24/7 Support</h6>
+                                    <p class="text-muted small mb-0">Dedicated customer service</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+    
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5em 1em;
+        border-radius: 50px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-lg {
+        padding: 1rem 2rem;
+    }
+</style>

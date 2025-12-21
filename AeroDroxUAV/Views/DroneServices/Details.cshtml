@@ -1,55 +1,317 @@
 @model AeroDroxUAV.Models.DroneServices
 
 @{
-    // Ensure this is the first line after @model, not counting blank lines
     ViewData["Title"] = @Model.Name;
 }
 
-<div class="row">
-    <div class="col-lg-8 offset-lg-2">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-primary text-white text-center">
-                <h1 class="h3 mb-0">@Model.Name</h1>
-            </div>
-            <div class="card-body">
+<div class="container py-5">
+    <div class="row">
+        <!-- Service Details -->
+        <div class="col-lg-8">
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-gradient-primary text-white py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-concierge-bell fa-2x"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h1 class="h2 mb-1">@Model.Name</h1>
+                            <p class="mb-0 opacity-75">Professional Drone Service</p>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-dark fs-6 px-3 py-2">
+                                $@Model.PricePerAcre <small class="text-muted">/acre</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 
-                <h4 class="card-title text-primary">Service Details</h4>
-                <p class="card-text">
-                    This is the view for the service: <strong>@Model.Name</strong>.
-                    <br/>
-                    Please replace this placeholder text with the actual details, description, and pricing information from your <code>DroneServices</code> model.
-                </p>
+                <!-- Service Image -->
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="card-img-top" style="height: 400px; overflow: hidden;">
+                        <img src="@Model.ImageUrl" class="img-fluid w-100 h-100" 
+                             style="object-fit: cover;" alt="@Model.Name">
+                    </div>
+                }
                 
-                <hr/>
-                
-                <dl class="row">
-                    <dt class="col-sm-4 text-muted">Service ID</dt>
-                    <dd class="col-sm-8">@Model.Id</dd>
+                <div class="card-body p-5">
+                    <!-- Service Type and Category -->
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                    <i class="fas fa-tag fa-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0">Service Type</p>
+                                    <h5 class="mb-0">
+                                        <span class="badge bg-primary">@Model.Type</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success text-white rounded-circle p-3 me-3">
+                                    <i class="fas fa-layer-group fa-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-muted mb-0">Category</p>
+                                    <h5 class="mb-0">
+                                        <span class="badge bg-success">@Model.Category</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    @* NOTE: I removed Duration and Price properties to fix the build errors.
-                       You must add them back ONLY if your DroneServices model contains them. 
-                    *@
-                </dl>
-                
-                <hr/>
-                
-                <div class="text-center">
-                    <a asp-controller="Contact" asp-action="Index" class="btn btn-success btn-lg mx-2">
-                        Request This Service
-                    </a>
-                    <a asp-controller="DroneServices" asp-action="Index" class="btn btn-outline-secondary mx-2">
-                        Back to All Services
-                    </a>
+                    <!-- Service Description -->
+                    <div class="mb-5">
+                        <h4 class="mb-4">
+                            <i class="fas fa-align-left me-2 text-primary"></i>Service Description
+                        </h4>
+                        <div class="p-4 bg-light rounded">
+                            <p class="lead mb-0">@Model.Description</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Benefits -->
+                    @if(!string.IsNullOrEmpty(Model.Benefits))
+                    {
+                        <div class="mb-5">
+                            <h4 class="mb-4">
+                                <i class="fas fa-star me-2 text-warning"></i>Service Benefits
+                            </h4>
+                            <div class="row">
+                                @{
+                                    var benefits = Model.Benefits.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                                    foreach(var benefit in benefits)
+                                    {
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex">
+                                                <div class="me-3">
+                                                    <i class="fas fa-check-circle text-success"></i>
+                                                </div>
+                                                <div>
+                                                    <h6>@benefit.Trim()</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Action Buttons -->
+                    <div class="text-center mt-5">
+                        <div class="d-flex justify-content-center gap-3">
+                            <a asp-controller="Contact" asp-action="Index" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-calendar-check me-2"></i>Book This Service
+                            </a>
+                            <a asp-controller="DroneServices" asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Services
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            @* Optional: Admin-only quick links for editing *@
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Service Info Card -->
+            <div class="card shadow border-0 mb-4">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2 text-primary"></i>Service Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-hashtag me-2 text-muted"></i>
+                                <span class="fw-semibold">Service ID</span>
+                            </div>
+                            <span class="badge bg-light text-dark">@Model.Id</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-tag me-2 text-muted"></i>
+                                <span class="fw-semibold">Type</span>
+                            </div>
+                            <span class="badge bg-primary">@Model.Type</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-layer-group me-2 text-muted"></i>
+                                <span class="fw-semibold">Category</span>
+                            </div>
+                            <span class="badge bg-success">@Model.Category</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-dollar-sign me-2 text-muted"></i>
+                                <span class="fw-semibold">Price Per Acre</span>
+                            </div>
+                            <span class="fw-bold text-success">
+                                $@Model.PricePerAcre
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-toggle-on me-2 text-muted"></i>
+                                <span class="fw-semibold">Status</span>
+                            </div>
+                            <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
+                                @(Model.IsActive ? "Active" : "Inactive")
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-3">
+                            <div>
+                                <i class="fas fa-calendar me-2 text-muted"></i>
+                                <span class="fw-semibold">Created</span>
+                            </div>
+                            <small class="text-muted">@Model.CreatedAt.ToString("MMM dd, yyyy")</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Card -->
+            <div class="card shadow border-0">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-headset me-2 text-primary"></i>Need Help?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Have questions about this service? Contact our support team.</p>
+                    <a href="/Contact/Index" class="btn btn-outline-primary w-100 mb-3">
+                        <i class="fas fa-envelope me-2"></i>Contact Support
+                    </a>
+                    <div class="text-center">
+                        <p class="text-muted small mb-0">
+                            <i class="fas fa-phone me-1"></i>
+                            Call: (555) 123-4567
+                        </p>
+                        <p class="text-muted small mb-0">
+                            <i class="fas fa-envelope me-1"></i>
+                            support@aerodrox.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Actions -->
             @if (ViewBag.Role == "Admin")
             {
-                <div class="card-footer text-end bg-light">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-warning">Edit Service</a>
+                <div class="card shadow border-0 mt-4">
+                    <div class="card-header bg-warning text-dark py-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-cog me-2"></i>Admin Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                                <i class="fas fa-edit me-2"></i>Edit Service
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i>Delete Service
+                            </a>
+                            <form method="post" action="/DroneServices/ToggleStatus/@Model.Id">
+                                <button type="submit" class="btn @(Model.IsActive ? "btn-outline-warning" : "btn-outline-success") w-100">
+                                    <i class="fas @(Model.IsActive ? "fa-eye-slash" : "fa-eye") me-2"></i>
+                                    @(Model.IsActive ? "Deactivate" : "Activate") Service
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
     </div>
 </div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 1em;
+        border-radius: 50px;
+    }
+    
+    .bg-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    
+    .bg-success {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%) !important;
+    }
+    
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+    
+    .rounded-circle {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .list-group-item {
+        background-color: transparent;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-outline-secondary {
+        border-radius: 10px;
+        padding: 12px 24px;
+        border-width: 2px;
+    }
+    
+    .btn-warning {
+        background: linear-gradient(135deg, #fbb034 0%, #ffdd00 100%);
+        border: none;
+        border-radius: 10px;
+        color: #000;
+        font-weight: 600;
+    }
+    
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #ffdd00 0%, #fbb034 100%);
+        color: #000;
+        transform: translateY(-2px);
+    }
+</style>

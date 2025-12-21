@@ -4,39 +4,268 @@
     var role = ViewBag.Role as string;
 }
 
-<h2>Drone Services</h2>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">
+                <i class="fas fa-concierge-bell me-2"></i>Drone Services
+            </h1>
+            <p class="text-muted mb-0">Professional drone services for various industries</p>
+        </div>
+        @if(role == "Admin")
+        {
+            <a href="/DroneServices/Create" class="btn btn-success">
+                <i class="fas fa-plus me-2"></i>Add New Service
+            </a>
+        }
+    </div>
 
-@if(role == "Admin")
-{
-    <a href="/DroneServices/Create" class="btn btn-success mb-2">Add Drone Service</a>
-}
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white shadow-sm border-0">
+                <div class="card-body py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-list fa-2x"></i>
+                        </div>
+                        <div>
+                            <h3 class="h2 mb-0">@Model.Count()</h3>
+                            <p class="mb-0">Total Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white shadow-sm border-0">
+                <div class="card-body py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h3 class="h2 mb-0">@Model.Count(s => s.IsActive)</h3>
+                            <p class="mb-0">Active Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white shadow-sm border-0">
+                <div class="card-body py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-tractor fa-2x"></i>
+                        </div>
+                        <div>
+                            <h3 class="h2 mb-0">@Model.Count(s => s.Category == "Agriculture")</h3>
+                            <p class="mb-0">Agricultural Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white shadow-sm border-0">
+                <div class="card-body py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-camera fa-2x"></i>
+                        </div>
+                        <div>
+                            <h3 class="h2 mb-0">@Model.Count(s => s.Type.Contains("Photography") || s.Type.Contains("Videography"))</h3>
+                            <p class="mb-0">Media Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Description</th>
-            @if(role == "Admin") { <th>Actions</th> }
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Services Grid -->
+    <div class="row">
         @foreach(var service in Model)
         {
-            <tr>
-                <td>@service.Name</td>
-                <td>@service.Type</td>
-                <td>@service.Price</td>
-                <td>@service.Description</td>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <!-- Service Image -->
+                    <div class="position-relative" style="height: 200px; overflow: hidden;">
+                        @if (!string.IsNullOrEmpty(service.ImageUrl))
+                        {
+                            <img src="@service.ImageUrl" class="card-img-top" alt="@service.Name" 
+                                 style="height: 100%; width: 100%; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                 style="height: 100%;">
+                                <i class="fas fa-concierge-bell fa-3x text-muted"></i>
+                            </div>
+                        }
+                        
+                        <!-- Status Badge -->
+                        <div class="position-absolute top-0 end-0 m-3">
+                            @if(service.IsActive)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle me-1"></i>Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-times-circle me-1"></i>Inactive
+                                </span>
+                            }
+                        </div>
+                        
+                        <!-- Category Badge -->
+                        <div class="position-absolute top-0 start-0 m-3">
+                            <span class="badge bg-primary">@service.Category</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">@service.Name</h5>
+                            <h5 class="text-success fw-bold mb-0">
+                                $@service.PricePerAcre<span class="text-muted small fw-normal">/acre</span>
+                            </h5>
+                        </div>
+                        
+                        <p class="card-text text-muted small">
+                            <i class="fas fa-tag me-1"></i>@service.Type
+                        </p>
+                        
+                        <p class="card-text text-truncate-3" style="height: 4.5em; overflow: hidden;">
+                            @service.Description
+                        </p>
+                        
+                        <!-- Benefits Preview -->
+                        @if(!string.IsNullOrEmpty(service.Benefits))
+                        {
+                            <div class="mb-3">
+                                <small class="text-muted d-block mb-1">
+                                    <i class="fas fa-star me-1"></i>Key Benefits:
+                                </small>
+                                <div class="d-flex flex-wrap gap-1">
+                                    @{
+                                        var benefits = service.Benefits.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                                        foreach(var benefit in benefits.Take(3))
+                                        {
+                                            <span class="badge bg-light text-dark small">@benefit.Trim()</span>
+                                        }
+                                        @if(benefits.Length > 3)
+                                        {
+                                            <span class="badge bg-light text-dark small">+@(benefits.Length - 3) more</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="card-footer bg-white border-top-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/DroneServices/Details/@service.Id" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-eye me-1"></i>View Details
+                            </a>
+                            @if(role == "Admin")
+                            {
+                                <div class="btn-group" role="group">
+                                    <a href="/DroneServices/Edit/@service.Id" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/DroneServices/Delete/@service.Id" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <form method="post" action="/DroneServices/ToggleStatus/@service.Id" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-@(service.IsActive ? "warning" : "success") btn-sm">
+                                            @if(service.IsActive)
+                                            {
+                                                <i class="fas fa-eye-slash"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-eye"></i>
+                                            }
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Empty State -->
+    @if(!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-concierge-bell fa-4x text-muted mb-3"></i>
+                <h3 class="text-muted">No Drone Services Available</h3>
+                <p class="text-muted mb-4">There are no drone services to display at the moment.</p>
                 @if(role == "Admin")
                 {
-                    <td>
-                        <a href="/DroneServices/Edit/@service.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/DroneServices/Delete/@service.Id" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
+                    <a href="/DroneServices/Create" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Your First Service
+                    </a>
                 }
-            </tr>
-        }
-    </tbody>
-</table>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .bg-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    
+    .bg-success {
+        background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%) !important;
+    }
+    
+    .bg-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+    }
+    
+    .bg-warning {
+        background: linear-gradient(135deg, #fbb034 0%, #ffdd00 100%) !important;
+        color: #000 !important;
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+        border-radius: 50px;
+    }
+    
+    .text-truncate-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .btn-group .btn {
+        border-radius: 8px;
+        padding: 0.25rem 0.5rem;
+        margin-left: 0.25rem;
+    }
+</style>

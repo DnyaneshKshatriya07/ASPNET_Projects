@@ -1,42 +1,378 @@
 @model IEnumerable<AeroDroxUAV.Models.Accessories>
 @{
-    ViewData["Title"] = "Accessories";
+    ViewData["Title"] = "Accessories Store";
     var role = ViewBag.Role as string;
 }
 
-<h2>Accessories</h2>
+<div class="container-fluid px-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">
+                <i class="fas fa-tools me-2"></i>Accessories Store
+            </h1>
+            <p class="text-muted mb-0">Browse and purchase drone accessories and spare parts</p>
+        </div>
+        @if(role == "Admin")
+        {
+            <a href="/Accessories/Create" class="btn btn-success">
+                <i class="fas fa-plus me-2"></i>Add New Accessory
+            </a>
+        }
+    </div>
 
-@if(role == "Admin")
-{
-    <a href="/Accessories/Create" class="btn btn-success mb-2">Add Accessory</a>
-}
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search accessories by name, type, or category...">
+                <button class="btn btn-outline-primary" type="button" id="searchBtn">
+                    Search
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <select class="form-select" id="categoryFilter">
+                <option value="">All Categories</option>
+                <option value="batteries">Batteries</option>
+                <option value="propellers">Propellers</option>
+                <option value="controllers">Controllers</option>
+                <option value="cases">Cases & Bags</option>
+                <option value="chargers">Chargers</option>
+                <option value="cameras">Cameras</option>
+                <option value="sensors">Sensors</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+    </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Description</th>
-            @if(role == "Admin") { <th>Actions</th> }
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-6">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-tools fa-2x"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0">@Model.Count()</h4>
+                            <p class="mb-0">Total Accessories</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card bg-success text-white shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-boxes fa-2x"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0">@Model.Sum(a => a.StockQuantity)</h4>
+                            <p class="mb-0">In Stock</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card bg-info text-white shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-battery-full fa-2x"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0">@Model.Count(a => a.Category == "Batteries")</h4>
+                            <p class="mb-0">Batteries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card bg-warning text-white shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i class="fas fa-tools fa-2x"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0">@Model.Count(a => a.StockQuantity == 0)</h4>
+                            <p class="mb-0">Out of Stock</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessories Cards Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="accessoryGrid">
         @foreach(var accessory in Model)
         {
-            <tr>
-                <td>@accessory.Name</td>
-                <td>@accessory.Type</td>
-                <td>@accessory.Price</td>
-                <td>@accessory.Description</td>
-                @if(role == "Admin")
-                {
-                    <td>
-                        <a href="/Accessories/Edit/@accessory.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/Accessories/Delete/@accessory.Id" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                }
-            </tr>
+            <div class="col accessory-card" 
+                 data-name="@accessory.Name.ToLower()" 
+                 data-type="@accessory.Type.ToLower()"
+                 data-category="@accessory.Category?.ToLower()">
+                <div class="card product-card shadow-sm h-100">
+                    <!-- Image Section -->
+                    <div class="position-relative">
+                        @if (!string.IsNullOrEmpty(accessory.ImageUrl))
+                        {
+                            <img src="@accessory.ImageUrl" class="card-img-top accessory-image" 
+                                 alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top accessory-image" 
+                                 alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                        }
+                        
+                        <!-- Badges -->
+                        <div class="position-absolute top-0 start-0 p-3">
+                            <span class="badge bg-primary">
+                                <i class="fas fa-tag me-1"></i>@accessory.Category
+                            </span>
+                        </div>
+                        
+                        <div class="position-absolute top-0 end-0 p-3">
+                            @if(!string.IsNullOrEmpty(accessory.Condition))
+                            {
+                                <span class="badge @(accessory.Condition == "New" ? "bg-success" : accessory.Condition == "Refurbished" ? "bg-warning" : "bg-secondary")">
+                                    @accessory.Condition
+                                </span>
+                            }
+                        </div>
+                        
+                        <!-- Stock Status -->
+                        <div class="position-absolute bottom-0 start-0 p-3">
+                            @if(accessory.StockQuantity > 0)
+                            {
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle me-1"></i>In Stock (@accessory.StockQuantity)
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-times-circle me-1"></i>Out of Stock
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div class="card-body d-flex flex-column">
+                        <!-- Title and Type -->
+                        <div class="mb-3">
+                            <h5 class="card-title fw-bold mb-1">@accessory.Name</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-info">@accessory.Type</span>
+                                <span class="text-success fw-bold fs-5">$@accessory.Price.ToString("N2")</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Specifications -->
+                        <div class="mb-3">
+                            @if(!string.IsNullOrEmpty(accessory.Compatibility))
+                            {
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-link text-primary me-2"></i>
+                                    <small class="text-muted">Compatible: @accessory.Compatibility</small>
+                                </div>
+                            }
+                        </div>
+                        
+                        <!-- Description -->
+                        <p class="card-text text-muted mb-4 flex-grow-1">
+                            @if(!string.IsNullOrEmpty(accessory.Description))
+                            {
+                                @(accessory.Description.Length > 100 ? accessory.Description.Substring(0, 100) + "..." : accessory.Description)
+                            }
+                        </p>
+                        
+                        <!-- Action Buttons -->
+                        <div class="mt-auto">
+                            @if(role == "Admin")
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <a href="/Accessories/Edit/@accessory.Id" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit me-1"></i>Edit
+                                    </a>
+                                    <a href="/Accessories/Delete/@accessory.Id" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-grid gap-2">
+                                    @if(accessory.StockQuantity > 0)
+                                    {
+                                        <button class="btn btn-primary btn-buy" data-accessory-id="@accessory.Id">
+                                            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-bell me-2"></i>Notify When Available
+                                        </button>
+                                    }
+                                    <a href="/Accessories/Details/@accessory.Id" class="btn btn-outline-secondary">
+                                        <i class="fas fa-info-circle me-2"></i>View Details
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <!-- Card Footer -->
+                    <div class="card-footer bg-white border-top py-2">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Added @accessory.CreatedAt.ToString("MMM dd, yyyy")
+                        </small>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="text-center py-5 d-none">
+        <i class="fas fa-search fa-4x text-muted mb-3"></i>
+        <h4>No accessories found</h4>
+        <p class="text-muted">Try adjusting your search or filter</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Search and Filter functionality
+            function filterAccessories() {
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                const categoryFilter = $('#categoryFilter').val().toLowerCase();
+                let visibleCount = 0;
+                
+                $('.accessory-card').each(function() {
+                    const accessoryName = $(this).data('name') || '';
+                    const accessoryType = $(this).data('type') || '';
+                    const accessoryCategory = $(this).data('category') || '';
+                    
+                    const matchesSearch = accessoryName.includes(searchTerm) || 
+                                         accessoryType.includes(searchTerm) ||
+                                         accessoryCategory.includes(searchTerm);
+                    
+                    const matchesCategory = !categoryFilter || accessoryCategory.includes(categoryFilter);
+                    
+                    if (matchesSearch && matchesCategory) {
+                        $(this).show();
+                        visibleCount++;
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    $('#noResults').removeClass('d-none');
+                } else {
+                    $('#noResults').addClass('d-none');
+                }
+            }
+            
+            // Event listeners for search and filter
+            $('#searchInput').on('keyup', filterAccessories);
+            $('#searchBtn').on('click', filterAccessories);
+            $('#categoryFilter').on('change', filterAccessories);
+            
+            // Buy button click handler
+            $('.btn-buy').click(function() {
+                const accessoryId = $(this).data('accessory-id');
+                if (accessoryId) {
+                    alert('Add to cart functionality for accessory #' + accessoryId + ' will be implemented!');
+                }
+            });
+            
+            // Image hover effect
+            $('.accessory-image').hover(
+                function() {
+                    $(this).css('transform', 'scale(1.05)');
+                },
+                function() {
+                    $(this).css('transform', 'scale(1)');
+                }
+            );
+        });
+    </script>
+    
+    <style>
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-card .card-img-top {
+            transition: transform 0.3s ease;
+        }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.35em 0.65em;
+            border-radius: 50px;
+        }
+        
+        .btn-buy {
+            background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-buy:hover {
+            background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(32, 201, 151, 0.4);
+        }
+        
+        .position-absolute {
+            z-index: 1;
+        }
+        
+        .input-group {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-right: none;
+        }
+        
+        .stats-card {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .stats-card i {
+            opacity: 0.9;
+        }
+    </style>
+}

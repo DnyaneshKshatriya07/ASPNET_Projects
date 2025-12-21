@@ -1,11 +1,10 @@
 namespace AeroDroxUAV.Services
 {
     using AeroDroxUAV.Models;
-    using AeroDroxUAV.Repositories; // <-- This using statement is essential
+    using AeroDroxUAV.Repositories;
     
     public class DroneServicesService : IDroneServicesService
     {
-        // Correct field name: _droneServicesRepository
         private readonly IDroneServicesRepository _droneServicesRepository;
 
         public DroneServicesService(IDroneServicesRepository droneServicesRepository)
@@ -16,6 +15,21 @@ namespace AeroDroxUAV.Services
         public async Task<IEnumerable<DroneServices>> GetAllDroneServicesAsync()
         {
             return await _droneServicesRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetActiveDroneServicesAsync()
+        {
+            return await _droneServicesRepository.GetActiveServicesAsync();
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetDroneServicesByCategoryAsync(string category)
+        {
+            return await _droneServicesRepository.GetByCategoryAsync(category);
+        }
+
+        public async Task<IEnumerable<DroneServices>> GetFeaturedDroneServicesAsync()
+        {
+            return await _droneServicesRepository.GetFeaturedServicesAsync();
         }
 
         public async Task<DroneServices?> GetDroneServicesByIdAsync(int id)
@@ -37,12 +51,22 @@ namespace AeroDroxUAV.Services
 
         public async Task DeleteDroneServicesAsync(int id)
         {
-            // *** FIX APPLIED HERE: Changed _droneServicesService to _droneServicesRepository ***
             var droneServices = await _droneServicesRepository.GetByIdAsync(id);
-            
             if (droneServices != null)
             {
                 _droneServicesRepository.Delete(droneServices);
+                await _droneServicesRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task ToggleServiceStatusAsync(int id)
+        {
+            var droneServices = await _droneServicesRepository.GetByIdAsync(id);
+            if (droneServices != null)
+            {
+                droneServices.IsActive = !droneServices.IsActive;
+                droneServices.UpdatedAt = DateTime.UtcNow;
+                _droneServicesRepository.Update(droneServices);
                 await _droneServicesRepository.SaveChangesAsync();
             }
         }
