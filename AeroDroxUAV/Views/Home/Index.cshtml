@@ -1,126 +1,450 @@
-﻿@* Views/Home/Index.cshtml *@
-@{
-    ViewData["Title"] = "AeroDroxUAV - Precision Aerial Solutions";
+﻿﻿@{
+    ViewData["Title"] = "AeroDrox UAV - Precision Aerial Solutions";
+    
+    // Helper function to check if user is logged in
+    bool IsLoggedIn()
+    {
+        return !string.IsNullOrEmpty(Context.Session.GetString("Username"));
+    }
 }
 
 <style>
-    /* Custom styles for the single page sections */
+    /* Hero Section */
     .hero-section {
-        /* Placeholder background image. In a real app, use a local, high-res image. */
-        /*  */
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://dummyimage.com/1200x600/343a40/ffffff&text=Aerial+View+Background') no-repeat center center;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%), 
+                    url('https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') 
+                    no-repeat center center;
         background-size: cover;
         color: white;
-        padding: 8rem 0;
+        padding: 120px 0 80px;
         text-align: center;
-        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
     }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Sections */
     .section-padding {
-        padding: 4rem 0;
+        padding: 80px 0;
     }
+    
+    .section-title {
+        position: relative;
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
+    }
+    
+    /* Cards */
+    .service-card, .product-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        height: 100%;
+    }
+    
+    .service-card:hover, .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .service-card .card-body {
+        padding: 2rem;
+    }
+    
+    .product-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    /* Stats */
+    .stats-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+    
+    /* Contact Form */
+    .contact-form-container {
+        background: white;
+        border-radius: 15px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Features */
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .feature-icon i {
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .btn-gradient-success {
+    background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-gradient-success:hover {
+    background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(32, 201, 151, 0.4);
+    color: white;
+}
+    
+    /* Gradient Buttons */
+    .btn-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-gradient-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+    
+    .btn-gradient-outline {
+        background: transparent;
+        border: 2px solid #667eea;
+        color: #667eea;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-gradient-outline:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: transparent;
+        transform: translateY(-3px);
+    }
+    
+    /* Responsive */
+   
 </style>
 
-@* --- 1. HERO SECTION --- *@
-<header class="hero-section">
+<!-- Hero Section -->
+<header class="hero-section" id="home">
     <div class="container">
-        <h1 class="display-2 fw-bold mb-3">AeroDroxUAV</h1>
-        <p class="lead mb-4">Leading the Future of Precision Aerial Solutions.</p>
-        <a href="#products" class="btn btn-primary btn-lg me-2">Explore Drones</a>
-        <a href="#contact" class="btn btn-outline-light btn-lg">Get a Quote</a>
+        <div class="hero-content">
+            <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInDown">
+                AeroDrox UAV
+            </h1>
+            <p class="lead mb-4 fs-4 animate__animated animate__fadeInUp animate__delay-1s">
+                Leading the Future of Precision Aerial Solutions
+            </p>
+            <p class="mb-5 fs-5 animate__animated animate__fadeInUp animate__delay-2s">
+                Professional drones and services for industrial, commercial, and recreational applications.
+            </p>
+            <div class="mt-4 animate__animated animate__fadeInUp animate__delay-3s">
+                <a href="#products" class="btn btn-gradient-primary btn-lg me-3">
+                    <i class="fas fa-drone me-2"></i>Explore Products
+                </a>
+                <a href="#contact" class="btn btn-gradient-outline btn-lg">
+                    <i class="fas fa-calendar-check me-2"></i>Get a Quote
+                </a>
+            </div>
+        </div>
     </div>
 </header>
 
-
-@* --- 2. ABOUT US SECTION --- *@
+<!-- About Section -->
 <section id="about" class="section-padding bg-light">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h2 class="display-5 mb-4">About AeroDroxUAV</h2>
-                <p>
-                    Founded in 2018, AeroDroxUAV is committed to delivering cutting-edge, reliable, and sustainable UAV solutions for industrial and recreational use.
-                    Our technology is built for durability and precision, empowering professionals across agriculture, construction, and media.
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-4">About <span class="text-primary">AeroDrox UAV</span></h2>
+                <p class="lead mb-4">
+                    Founded with a vision to revolutionize aerial technology, AeroDrox UAV delivers cutting-edge, 
+                    reliable, and sustainable UAV solutions for industrial and recreational use.
                 </p>
-                <p>
-                    We believe in the power of aerial data to drive efficiency and safety.
-                    Our dedicated team of engineers and pilots works tirelessly to push the boundaries of drone capability.
+                <p class="mb-4">
+                    Our technology is engineered for durability and precision, empowering professionals across 
+                    agriculture, construction, media, and security sectors. We believe in the power of aerial 
+                    data to drive efficiency, safety, and innovation.
                 </p>
+                <div class="row mt-5">
+                    <div class="col-md-6 mb-3">
+                        <div class="feature-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Precision Focused</h5>
+                        <p class="text-muted">Accuracy in every flight and data collection</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Safety First</h5>
+                        <p class="text-muted">FAA compliant operations and protocols</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <img src="https://dummyimage.com/500x350/6c757d/ffffff&text=AeroDroxUAV+Team" class="img-fluid rounded shadow" alt="AeroDroxUAV Team">
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1506947411487-a56738267384?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         class="img-fluid rounded-3 shadow-lg" 
+                         alt="AeroDrox UAV Team">
+                    <div class="position-absolute bottom-0 start-0 bg-primary text-white p-4 rounded-end rounded-top" 
+                         style="max-width: 300px;">
+                        <h5 class="fw-bold mb-0">Innovating Since 2018</h5>
+                        <p class="mb-0 small">5+ years of aerial excellence</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-@* --- 3. PRODUCTS SECTION (DRONES) --- *@
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Expert Pilots</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
 <section id="products" class="section-padding">
     <div class="container">
-        <h2 class="display-5 text-center mb-5">Our Flagship Drones</h2>
+        <h2 class="section-title display-5 fw-bold">Our Flagship Drones</h2>
+        <p class="text-center text-muted mb-5 fs-5">
+            Cutting-edge drones designed for professional performance
+        </p>
         
         <div class="row g-4">
-            
-            @* Dummy Data for demonstration *@
             @{
                 var drones = new List<dynamic>
                 {
-                    new { Name = "Sentinel X10", Type = "Industrial Quadcopter", Price = 4999.99, Description = "Heavy-lift capacity, long endurance for infrastructure inspection."
+                    new { 
+                        Name = "Sentinel X10", 
+                        Type = "Industrial Quadcopter", 
+                        Price = 4999.99, 
+                        Description = "Heavy-lift capacity, long endurance for infrastructure inspection.",
+                        Features = new List<string> { "30km Range", "4K Camera", "Thermal Imaging", "3-Hour Flight" }
                     },
-                    new { Name = "Aviator Pro", Type = "Professional Cinematography", Price = 2799.00, Description = "4K 60fps stabilized camera, advanced obstacle avoidance."
+                    new { 
+                        Name = "Aviator Pro", 
+                        Type = "Cinematography Drone", 
+                        Price = 2799.00, 
+                        Description = "4K 60fps stabilized camera, advanced obstacle avoidance.",
+                        Features = new List<string> { "Cinematic Quality", "Obstacle Avoidance", "Follow Me Mode", "Compact Design" }
                     },
-                    new { Name = "Agri-View 500", Type = "Agricultural Surveying", Price = 5999.50, Description = "Multi-spectral sensor package for crop health analysis."
+                    new { 
+                        Name = "Agri-View 500", 
+                        Type = "Agricultural Surveying", 
+                        Price = 5999.50, 
+                        Description = "Multi-spectral sensor package for crop health analysis.",
+                        Features = new List<string> { "Multi-Spectral", "AI Analysis", "Large Coverage", "Weather Resistant" }
                     }
                 };
             }
 
             @foreach(var drone in drones)
             {
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        @*  *@@*  *@@*  *@
-                        <img src="https://dummyimage.com/400x250/007bff/ffffff&text=@drone.Name" class="card-img-top" alt="@drone.Name">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card product-card shadow-sm">
+                        <div class="position-relative">
+                            <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" 
+                                 alt="@drone.Name">
+                            <span class="position-absolute top-0 end-0 bg-primary text-white px-3 py-2 m-3 rounded-pill">
+                                $@drone.Price.ToString("N2")
+                            </span>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">@drone.Name</h5>
-                            <p class="card-text text-muted">@drone.Type</p>
-                            <p class="card-text">@drone.Description</p>
-                            <h6 class="text-primary">$@drone.Price.ToString("N2")</h6>
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title fw-bold mb-1">@drone.Name</h5>
+                                    <span class="badge bg-info">@drone.Type</span>
+                                </div>
+                                <i class="fas fa-drone fa-2x text-primary"></i>
+                            </div>
+                            <p class="card-text text-muted mb-4">@drone.Description</p>
+                            
+                            <div class="mb-4">
+                                @foreach(var feature in drone.Features)
+                                {
+                                    <span class="badge bg-light text-dark me-2 mb-2">
+                                        <i class="fas fa-check-circle text-success me-1"></i>@feature
+                                    </span>
+                                }
+                            </div>
+                            
+                            <div class="d-grid">
+                                <a href="/Drone/Index" class="btn btn-outline-primary">
+                                    <i class="fas fa-shopping-cart me-2"></i>View Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
+        
         <div class="text-center mt-5">
-            @* Link to the internal dashboard/catalogue *@
-            <a href="/Drone/Index" class="btn btn-outline-dark">View All Products (Requires Login)</a>
+            <a href="/Drone/Index" class="btn btn-gradient-primary btn-lg">
+                <i class="fas fa-arrow-right me-2"></i>View All Products
+            </a>
         </div>
     </div>
 </section>
 
-@* --- 4. SERVICES SECTION --- *@
+<!-- Services Section -->
 <section id="services" class="section-padding bg-light">
     <div class="container">
-        <h2 class="display-5 text-center mb-5">Professional Drone Services</h2>
+        <h2 class="section-title display-5 fw-bold">Professional Drone Services</h2>
+        <p class="text-center text-muted mb-5 fs-5">
+            Comprehensive aerial solutions for every industry need
+        </p>
+        
         <div class="row g-4">
-            
-            @* Dummy Data for demonstration (Fixes the previous multi-line string error) *@
             @{
                 var services = new List<dynamic>
                 {
-                    new { Name = "Infrastructure Inspection", Description = "High-resolution thermal and visual scans of bridges, towers, and utility lines." 
+                    new { 
+                        Name = "Infrastructure Inspection", 
+                        Icon = "fas fa-hard-hat",
+                        Description = "High-resolution thermal and visual scans of bridges, towers, and utility lines.",
+                        Color = "primary"
                     },
-                    new { Name = "3D Mapping & Modeling", Description = "Accurate photogrammetry for detailed digital terrain and building models."
+                    new { 
+                        Name = "3D Mapping & Modeling", 
+                        Icon = "fas fa-cube",
+                        Description = "Accurate photogrammetry for detailed digital terrain and building models.",
+                        Color = "success"
                     },
-                    new { Name = "Aerial Cinematography", Description = "Broadcast-quality video production for films, events, and marketing."
+                    new { 
+                        Name = "Aerial Cinematography", 
+                        Icon = "fas fa-video",
+                        Description = "Broadcast-quality video production for films, events, and marketing.",
+                        Color = "info"
+                    },
+                    new { 
+                        Name = "Agricultural Surveying", 
+                        Icon = "fas fa-tractor",
+                        Description = "Crop health analysis and field mapping for precision agriculture.",
+                        Color = "warning"
+                    },
+                    new { 
+                        Name = "Search & Rescue", 
+                        Icon = "fas fa-search",
+                        Description = "Rapid deployment for emergency response and search operations.",
+                        Color = "danger"
+                    },
+                    new { 
+                        Name = "Drone Training", 
+                        Icon = "fas fa-graduation-cap",
+                        Description = "Professional pilot certification and operational training programs.",
+                        Color = "dark"
                     }
                 };
             }
 
             @foreach(var service in services)
             {
-                <div class="col-md-4">
-                    <div class="p-4 border rounded h-100 bg-white shadow-sm">
-                        <h4 class="text-success">@service.Name</h4>
-                        <p>@service.Description</p>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card service-card shadow-sm h-100 border-0">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-4">
+                                <div class="icon-wrapper mx-auto mb-3" 
+                                     style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="@service.Icon fa-2x text-white"></i>
+                                </div>
+                                <h4 class="fw-bold">@service.Name</h4>
+                            </div>
+                            <p class="text-muted mb-4">@service.Description</p>
+                            <a href="/DroneServices/Index" class="btn btn-outline-primary">
+                                Learn More <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             }
@@ -128,39 +452,595 @@
     </div>
 </section>
 
-@* --- 5. CONTACT SECTION --- *@
+
+<!-- Drone Services Section -->
+@if (ViewBag.FeaturedServices != null && ((IEnumerable<AeroDroxUAV.Models.DroneServices>)ViewBag.FeaturedServices).Any())
+{
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="h1 mb-3">
+                    <i class="fas fa-concierge-bell text-primary me-2"></i>Our Drone Services
+                </h2>
+                <p class="text-muted lead mb-4">Professional drone solutions for various industries</p>
+                <a href="/DroneServices/Index" class="btn btn-outline-primary">
+                    <i class="fas fa-eye me-2"></i>View All Services
+                </a>
+            </div>
+
+            <div class="row">
+                @foreach (var service in (IEnumerable<AeroDroxUAV.Models.DroneServices>)ViewBag.FeaturedServices)
+                {
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card h-100 border-0 shadow-sm hover-card">
+                            @if (!string.IsNullOrEmpty(service.ImageUrl))
+                            {
+                                <img src="@service.ImageUrl" class="card-img-top" alt="@service.Name" 
+                                     style="height: 180px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" 
+                                     style="height: 180px;">
+                                    <i class="fas fa-concierge-bell fa-3x text-white"></i>
+                                </div>
+                            }
+                            
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title mb-0">@service.Name</h5>
+                                    <span class="badge bg-primary">@service.Category</span>
+                                </div>
+                                <p class="card-text small text-muted mb-2">
+                                    <i class="fas fa-tag me-1"></i>@service.Type
+                                </p>
+                                <p class="card-text small text-truncate-2 mb-3">
+                                    @service.Description
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="text-success fw-bold mb-0">
+                                        $@service.PricePerAcre<small class="text-muted small fw-normal">/acre</small>
+                                    </h5>
+                                    <a href="/DroneServices/Details/@service.Id" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+
+<!-- Featured Drones Section -->
+<section id="featured-drones" class="section-padding">
+    <div class="container">
+        <h2 class="section-title display-5 fw-bold">Featured Drones</h2>
+        <p class="text-center text-muted mb-5 fs-5">
+            Top-rated drones chosen by our experts
+        </p>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach(var drone in ViewBag.FeaturedDrones)
+            {
+                <div class="col">
+                    <div class="card product-card shadow-sm h-100">
+                        <!-- Image -->
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(drone.ImageUrl))
+                            {
+                                <img src="@drone.ImageUrl" class="card-img-top" 
+                                     alt="@drone.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     class="card-img-top" 
+                                     alt="@drone.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            
+                            <!-- Featured Badge -->
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <span class="badge bg-warning">
+                                    <i class="fas fa-star me-1"></i>Featured
+                                </span>
+                            </div>
+                            
+                            <!-- Price Badge -->
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <span class="badge bg-success fs-6">
+                                    $@drone.Price.ToString("N2")
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Body -->
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">@drone.Name</h5>
+                            <div class="mb-3">
+                                <span class="badge bg-info me-2">@drone.Type</span>
+                                <span class="badge bg-secondary">@drone.Category</span>
+                            </div>
+                            <p class="card-text text-muted mb-4 flex-grow-1">
+                                @if(!string.IsNullOrEmpty(drone.Description) && drone.Description.Length > 80)
+                                {
+                                    @drone.Description.Substring(0, 80)@:...
+                                }
+                                else
+                                {
+                                    @drone.Description
+                                }
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-grid gap-2">
+                                    @if(IsLoggedIn())
+                                    {
+                                        <a href="/Drone/Details/@drone.Id" class="btn btn-primary">
+                                            <i class="fas fa-info-circle me-2"></i>View Details
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Account/Login" class="btn btn-primary">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Login to View
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        @if (ViewBag.FeaturedDrones.Count == 0)
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-drone fa-4x text-muted mb-3"></i>
+                <h4>No featured drones available</h4>
+                <p class="text-muted">Check back soon for featured products</p>
+            </div>
+        }
+        
+        <div class="text-center mt-5">
+            <a href="/Drone/Index" class="btn btn-gradient-primary btn-lg">
+                <i class="fas fa-store me-2"></i>Visit Full Store
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Accessories Section -->
+<section id="featured-accessories" class="section-padding">
+    <div class="container">
+        <h2 class="section-title display-5 fw-bold">Featured Accessories</h2>
+        <p class="text-center text-muted mb-5 fs-5">
+            Essential drone accessories for enhanced performance
+        </p>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach(var accessory in ViewBag.FeaturedAccessories)
+            {
+                <div class="col">
+                    <div class="card product-card shadow-sm h-100">
+                        <!-- Image -->
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(accessory.ImageUrl))
+                            {
+                                <img src="@accessory.ImageUrl" class="card-img-top" 
+                                     alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     class="card-img-top" 
+                                     alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            
+                            <!-- Category Badge -->
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-tag me-1"></i>@accessory.Category
+                                </span>
+                            </div>
+                            
+                            <!-- Price Badge -->
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <span class="badge bg-primary fs-6">
+                                    $@accessory.Price.ToString("N2")
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Body -->
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">@accessory.Name</h5>
+                            <div class="mb-3">
+                                <span class="badge bg-info me-2">@accessory.Type</span>
+                                @if(!string.IsNullOrEmpty(accessory.Condition))
+                                {
+                                    <span class="badge @(accessory.Condition == "New" ? "bg-success" : "bg-warning")">@accessory.Condition</span>
+                                }
+                            </div>
+                            <p class="card-text text-muted mb-4 flex-grow-1">
+                                @if(!string.IsNullOrEmpty(accessory.Description) && accessory.Description.Length > 80)
+                                {
+                                    @accessory.Description.Substring(0, 80)@:...
+                                }
+                                else
+                                {
+                                    @accessory.Description
+                                }
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-grid gap-2">
+                                    @if(IsLoggedIn())
+                                    {
+                                        <a href="/Accessories/Details/@accessory.Id" class="btn btn-success">
+                                            <i class="fas fa-info-circle me-2"></i>View Details
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Account/Login" class="btn btn-success">
+                                            <i class="fas fa-sign-in-alt me-2"></i>Login to View
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        @if (ViewBag.FeaturedAccessories.Count == 0)
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-tools fa-4x text-muted mb-3"></i>
+                <h4>No featured accessories available</h4>
+                <p class="text-muted">Check back soon for featured accessories</p>
+            </div>
+        }
+        
+        <div class="text-center mt-5">
+            <a href="/Accessories/Index" class="btn btn-gradient-success btn-lg">
+                <i class="fas fa-tools me-2"></i>View All Accessories
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- New Arrivals Section -->
+<section id="new-arrivals" class="section-padding bg-light">
+    <div class="container">
+        <h2 class="section-title display-5 fw-bold">New Arrivals</h2>
+        <p class="text-center text-muted mb-5 fs-5">
+            Check out our latest drone additions
+        </p>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach(var drone in ViewBag.NewDrones)
+            {
+                <div class="col">
+                    <div class="card product-card shadow-sm h-100">
+                        <!-- Image -->
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(drone.ImageUrl))
+                            {
+                                <img src="@drone.ImageUrl" class="card-img-top" 
+                                     alt="@drone.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     class="card-img-top" 
+                                     alt="@drone.Name" style="height: 220px; object-fit: cover;">
+                            }
+                            
+                            <!-- New Badge -->
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-bolt me-1"></i>New
+                                </span>
+                            </div>
+                            
+                            <!-- Category Badge -->
+                            <div class="position-absolute top-0 end-0 p-3">
+                                <span class="badge bg-info">@drone.Category</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Body -->
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">@drone.Name</h5>
+                            <div class="mb-3">
+                                <span class="badge bg-secondary me-2">@drone.Type</span>
+                                <span class="text-success fw-bold fs-5">$@drone.Price.ToString("N2")</span>
+                            </div>
+                            <p class="card-text text-muted mb-4 flex-grow-1">
+                                @if(!string.IsNullOrEmpty(drone.Description) && drone.Description.Length > 80)
+                                {
+                                    @drone.Description.Substring(0, 80)@:...
+                                }
+                                else
+                                {
+                                    @drone.Description
+                                }
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        @drone.CreatedAt.ToString("MMM dd")
+                                    </small>
+                                    @if(IsLoggedIn())
+                                    {
+                                        <a href="/Drone/Details/@drone.Id" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye me-1"></i>View
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
 <section id="contact" class="section-padding">
     <div class="container">
-        <h2 class="display-5 text-center mb-5">Get In Touch</h2>
         <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <p class="text-center mb-4">Have questions or ready to start a project?
-                    Fill out the form below or contact us directly.</p>
-                @* Note: The form below is static HTML. In a real application, you would replace <form> with <form asp-controller="..." asp-action="..." method="post"> *@
-                <form>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" id="name" class="form-control" required>
+            <div class="col-lg-10 offset-lg-1">
+                <div class="contact-form-container">
+                    <h2 class="section-title display-5 fw-bold">Get In Touch</h2>
+                    <p class="text-center text-muted mb-5 fs-5">
+                        Ready to elevate your projects with aerial solutions? Contact us today.
+                    </p>
+                    
+                    <div class="row">
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <div class="p-4 bg-light rounded-3 h-100">
+                                <h4 class="fw-bold mb-4">Contact Information</h4>
+                                
+                                <div class="mb-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="me-3">
+                                            <div class="bg-primary text-white rounded-circle p-2">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Our Location</h6>
+                                            <p class="text-muted mb-0">123 Tech Street, Innovation City, IC 10101</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="me-3">
+                                            <div class="bg-success text-white rounded-circle p-2">
+                                                <i class="fas fa-phone"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Phone Number</h6>
+                                            <p class="text-muted mb-0">+1 (555) 123-4567</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-start mb-3">
+                                        <div class="me-3">
+                                            <div class="bg-info text-white rounded-circle p-2">
+                                                <i class="fas fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Email Address</h6>
+                                            <p class="text-muted mb-0">info@aerodrox.com</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-start">
+                                        <div class="me-3">
+                                            <div class="bg-warning text-white rounded-circle p-2">
+                                                <i class="fas fa-clock"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-1">Business Hours</h6>
+                                            <p class="text-muted mb-0">Mon-Fri: 9:00 AM - 6:00 PM</p>
+                                            <p class="text-muted mb-0">Sat: 10:00 AM - 4:00 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <h6 class="fw-bold mb-3">Follow Us</h6>
+                                    <div class="d-flex gap-3">
+                                        <a href="#" class="text-primary">
+                                            <i class="fab fa-facebook fa-lg"></i>
+                                        </a>
+                                        <a href="#" class="text-info">
+                                            <i class="fab fa-twitter fa-lg"></i>
+                                        </a>
+                                        <a href="#" class="text-danger">
+                                            <i class="fab fa-instagram fa-lg"></i>
+                                        </a>
+                                        <a href="#" class="text-primary">
+                                            <i class="fab fa-linkedin fa-lg"></i>
+                                        </a>
+                                        <a href="#" class="text-success">
+                                            <i class="fab fa-whatsapp fa-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" id="email" class="form-control" required>
+                        
+                        <div class="col-lg-6">
+                            @if(ViewBag.SuccessMessage != null)
+                            {
+                                <div class="alert alert-success alert-dismissible fade show mb-4">
+                                    <strong>Success!</strong> @ViewBag.SuccessMessage
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            }
+                            
+                            <form method="post" asp-controller="Contact" asp-action="Submit" id="contactForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-2"></i>Your Name
+                                    </label>
+                                    <input type="text" name="name" id="name" class="form-control form-control-lg" 
+                                           placeholder="John Doe" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-semibold">
+                                        <i class="fas fa-envelope me-2"></i>Email Address
+                                    </label>
+                                    <input type="email" name="email" id="email" class="form-control form-control-lg" 
+                                           placeholder="john@example.com" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label fw-semibold">
+                                        <i class="fas fa-phone me-2"></i>Phone Number
+                                    </label>
+                                    <input type="tel" name="phone" id="phone" class="form-control form-control-lg" 
+                                           placeholder="+1 (555) 123-4567">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="service" class="form-label fw-semibold">
+                                        <i class="fas fa-concierge-bell me-2"></i>Service Interested In
+                                    </label>
+                                    <select name="service" id="service" class="form-select form-select-lg">
+                                        <option value="">Select a Service</option>
+                                        <option value="inspection">Infrastructure Inspection</option>
+                                        <option value="photography">Aerial Photography</option>
+                                        <option value="mapping">3D Mapping</option>
+                                        <option value="training">Drone Training</option>
+                                        <option value="other">Other Services</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="message" class="form-label fw-semibold">
+                                        <i class="fas fa-comment me-2"></i>Your Message
+                                    </label>
+                                    <textarea name="message" id="message" rows="5" 
+                                              class="form-control form-control-lg" 
+                                              placeholder="Tell us about your project requirements..." 
+                                              required></textarea>
+                                </div>
+                                
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Subscribe to our newsletter for updates and offers
+                                    </label>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-gradient-primary btn-lg">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" id="subject" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea id="message" rows="5" class="form-control" required></textarea>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="fw-bold mb-3">Ready to Transform Your Business with Aerial Solutions?</h3>
+                <p class="mb-0 opacity-75">Schedule a consultation with our experts today.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="#contact" class="btn btn-light btn-lg">
+                    <i class="fas fa-calendar-check me-2"></i>Schedule Consultation
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('#contactForm').submit(function(e) {
+                e.preventDefault();
+                
+                var isValid = true;
+                $(this).find('[required]').each(function() {
+                    if ($(this).val() === '') {
+                        $(this).addClass('is-invalid');
+                        isValid = false;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    this.submit();
+                }
+            });
+            
+            // Form validation on blur
+            $('input[required], textarea[required]').on('blur', function() {
+                if ($(this).val() === '') {
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+            
+            // Smooth scroll for navigation
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var target = $(this).attr('href');
+                if (target === '#') return;
+                
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 80
+                }, 800);
+            });
+            
+            // Counter animation for stats
+            if ($('.stats-section').length) {
+                $('.stat-number').each(function() {
+                    var $this = $(this);
+                    var countTo = $this.text().replace(/[^0-9]/g, '');
+                    
+                    $({ countNum: 0 }).animate({
+                        countNum: countTo
+                    }, {
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function() {
+                            $this.text(Math.floor(this.countNum) + $this.text().replace(/[0-9]/g, ''));
+                        },
+                        complete: function() {
+                            $this.text(this.countNum + $this.text().replace(/[0-9]/g, ''));
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+}

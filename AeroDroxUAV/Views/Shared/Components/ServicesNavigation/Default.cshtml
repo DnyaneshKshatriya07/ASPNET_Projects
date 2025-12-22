@@ -2,45 +2,143 @@
 @* RZ2005 & RZ2001 FIX: Ensure the @model line is the very first line. *@
 
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Services
+    <a class="nav-link dropdown-toggle text-white d-flex align-items-center gap-2" href="#" id="navbarDropdownServices" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-gear-fill fs-5"></i>
+        <span class="fw-medium">Services</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownServices">
+    <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg" aria-labelledby="navbarDropdownServices" style="min-width: 280px;">
+        <!-- Dropdown Header -->
+        <li class="dropdown-header text-primary bg-dark px-3 py-2 border-bottom border-secondary">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-list-check"></i>
+                <span class="fw-bold">Professional Services</span>
+            </div>
+        </li>
+        
         @if (Model != null && Model.Any())
         {
-            foreach (var service in Model)
+            <!-- Services List -->
+            @foreach (var service in Model)
             {
-                // CS8602 Warnings are addressed by the null/Any check above, but adding 
-                // a local null check in case the enumerator contains nulls is safer if the list can have null elements.
                 if (service != null) 
                 {
                     <li>
-                        <a class="dropdown-item" 
+                        <a class="dropdown-item d-flex align-items-center gap-3 py-3 px-4 text-white hover-item" 
                            asp-controller="DroneServices" 
                            asp-action="Details" 
                            asp-route-id="@service.Id">
-                            @service.Name 
+                            <div class="icon-wrapper bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="fw-medium">@service.Name</span>
+                                <small class="text-muted">Click for details</small>
+                            </div>
+                            <i class="bi bi-chevron-right ms-auto"></i>
                         </a>
                     </li>
                 }
             }
-        }
-        else
-        {
-            <li><span class="dropdown-item disabled">No services available</span></li>
-        }
-        
-        @* Add a separator and a link to the main services page for completeness *@
-        @if (Model != null && Model.Any())
-        {
-            <li><hr class="dropdown-divider"></li>
+            
+            <!-- Separator -->
+            <li class="my-2">
+                <div class="border-bottom border-secondary mx-3"></div>
+            </li>
+            
+            <!-- View All Services -->
             <li>
-                <a class="dropdown-item" 
+                <a class="dropdown-item d-flex align-items-center gap-3 py-3 px-4 bg-primary-gradient text-white fw-bold" 
                    asp-controller="DroneServices" 
                    asp-action="Index">
-                    View All Services
+                    <div class="icon-wrapper bg-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <i class="bi bi-grid-3x3-gap-fill text-primary"></i>
+                    </div>
+                    <span>View All Services</span>
+                    <i class="bi bi-arrow-right-circle ms-auto"></i>
                 </a>
             </li>
         }
+        else
+        {
+            <!-- No Services Available -->
+            <li>
+                <div class="dropdown-item d-flex align-items-center gap-3 py-4 px-4 text-center">
+                    <div class="icon-wrapper bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 48px; height: 48px;">
+                        <i class="bi bi-inbox fs-4"></i>
+                    </div>
+                    <div class="w-100">
+                        <span class="fw-medium text-white d-block">No services available</span>
+                        <small class="text-muted">Check back soon for updates</small>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- View Services Page Anyway -->
+            <li>
+                <div class="border-bottom border-secondary mx-3 my-2"></div>
+                <a class="dropdown-item d-flex align-items-center gap-3 py-3 px-4 text-white" 
+                   asp-controller="DroneServices" 
+                   asp-action="Index">
+                    <i class="bi bi-eye-fill"></i>
+                    <span>Visit Services Page</span>
+                </a>
+            </li>
+        }
+        
+        <!-- Footer -->
+        <li class="dropdown-footer bg-dark px-3 py-2 border-top border-secondary">
+            <small class="text-muted">Expert drone solutions for every industry</small>
+        </li>
     </ul>
 </li>
+
+<style>
+    .dropdown-menu-dark {
+        background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+        border: 1px solid #444;
+    }
+    
+    .dropdown-header {
+        background: rgba(13, 110, 253, 0.1) !important;
+        border-bottom: 1px solid rgba(13, 110, 253, 0.3) !important;
+    }
+    
+    .hover-item {
+        transition: all 0.2s ease;
+        background: transparent;
+    }
+    
+    .hover-item:hover {
+        background: rgba(13, 110, 253, 0.15) !important;
+        transform: translateX(5px);
+        border-left: 3px solid #0d6efd;
+    }
+    
+    .icon-wrapper {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-item:hover .icon-wrapper {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+    }
+    
+    .bg-primary-gradient {
+        background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .bg-primary-gradient:hover {
+        background: linear-gradient(45deg, #0b5ed7, #0a58ca);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+    }
+    
+    .dropdown-footer {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .shadow-lg {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+</style>

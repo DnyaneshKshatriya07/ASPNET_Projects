@@ -5,35 +5,125 @@
 
 <div class="row">
     <div class="col-md-10 offset-md-1">
-        <h2>@ViewData["Title"]</h2>
-        <hr />
+        <!-- Page Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">@ViewData["Title"]</h1>
+            <div class="border-bottom border-primary mx-auto" style="width: 80px; height: 3px;"></div>
+        </div>
 
-        <p class="lead">
-            Welcome to AeroDroxUAV, your trusted partner in unmanned aerial vehicle technology.
-            We are dedicated to revolutionizing industries through advanced drone hardware and specialized services.
-        </p>
+        <!-- Welcome Lead -->
+        <div class="card shadow-sm border-0 mb-5">
+            <div class="card-body p-5">
+                <p class="lead fs-4 text-dark mb-0 text-center">
+                    Welcome to <span class="fw-bold text-primary">AeroDroxUAV</span>, your trusted partner in unmanned aerial vehicle technology.
+                    We are dedicated to revolutionizing industries through advanced drone hardware and specialized services.
+                </p>
+            </div>
+        </div>
 
-        <h3>Our Story</h3>
-        <p>
-            Founded in **@ViewBag.YearFounded**, AeroDroxUAV started with a small team of aviation enthusiasts and engineers
-            who saw the potential of drones to transform businesses. From agricultural surveying to infrastructure inspection,
-            our goal has always been to deliver reliable, high-performance solutions.
-        </p>
-        
-        <h3>Our Mission</h3>
-        <p>
-            "**@ViewBag.Mission**"
-        </p>
+        <div class="row g-5">
+            <!-- Left Column: Our Story -->
+            <div class="col-lg-6">
+                <div class="h-100 p-4 bg-light rounded-3 shadow-sm">
+                    <h3 class="fw-bold text-primary mb-4 pb-2 border-bottom">
+                        <i class="bi bi-rocket-takeoff me-2"></i>Our Story
+                    </h3>
+                    <p class="fs-5">
+                        Founded in <strong class="text-primary">@ViewBag.YearFounded</strong>, AeroDroxUAV started with a small team of aviation enthusiasts and engineers
+                        who saw the potential of drones to transform businesses. From agricultural surveying to infrastructure inspection,
+                        our goal has always been to deliver reliable, high-performance solutions.
+                    </p>
+                </div>
+            </div>
 
-        <h3>What We Offer</h3>
-        <ul>
-            <li>State-of-the-art **Drones** for various applications.</li>
-            <li>Professional **Drone Services** like aerial mapping and cinematography.</li>
-            <li>A wide range of high-quality **Accessories** and parts.</li>
-        </ul>
-        
-        <p class="mt-4">
-            We are committed to quality, innovation, and customer success.
-        </p>
+            <!-- Right Column: Our Mission -->
+            <div class="col-lg-6">
+                <div class="h-100 p-4 bg-primary text-white rounded-3 shadow">
+                    <h3 class="fw-bold mb-4 pb-2 border-bottom border-light">
+                        <i class="bi bi-bullseye me-2"></i>Our Mission
+                    </h3>
+                    <blockquote class="fs-5 fst-italic mb-0">
+                        "@ViewBag.Mission"
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+
+        <!-- What We Offer Section -->
+        <div class="mt-5 pt-4">
+            <h3 class="fw-bold text-center text-primary mb-5">
+                <i class="bi bi-list-check me-2"></i>What We Offer
+            </h3>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-primary border-2 shadow-sm hover-shadow text-center">
+                        <div class="card-body p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-drone text-primary" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-primary">State-of-the-art Drones</h5>
+                            <p class="card-text">For various applications including surveying, inspection, and photography.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 border-success border-2 shadow-sm hover-shadow text-center">
+                        <div class="card-body p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-camera-video text-success" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-success">Professional Drone Services</h5>
+                            <p class="card-text">Aerial mapping, cinematography, inspection, and data analysis services.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card h-100 border-warning border-2 shadow-sm hover-shadow text-center">
+                        <div class="card-body p-4">
+                            <div class="mb-3">
+                                <i class="bi bi-tools text-warning" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-warning">Accessories & Parts</h5>
+                            <p class="card-text">High-quality accessories, spare parts, and maintenance components.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commitment Section -->
+        <div class="mt-5 pt-5">
+            <div class="text-center bg-light p-5 rounded-3 shadow-sm">
+                <h4 class="fw-bold text-dark mb-4">Our Commitment</h4>
+                <p class="fs-5 text-muted mb-0">
+                    We are dedicated to <span class="text-primary fw-bold">quality</span>, 
+                    <span class="text-success fw-bold">innovation</span>, and 
+                    <span class="text-warning fw-bold">customer success</span> in every project we undertake.
+                </p>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .border-primary {
+        border-color: #0d6efd !important;
+    }
+    
+    .text-primary {
+        color: #0d6efd !important;
+    }
+</style>

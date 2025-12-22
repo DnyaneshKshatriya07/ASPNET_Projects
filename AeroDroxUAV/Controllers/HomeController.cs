@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AeroDroxUAV.Models;
-using AeroDroxUAV.Services; // Add this using statement
+using AeroDroxUAV.Services; 
+using Microsoft.AspNetCore.Http;
 
 namespace AeroDroxUAV.Controllers;
 
@@ -9,22 +10,46 @@ namespace AeroDroxUAV.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IDroneServicesService _droneServicesService; // Injected Service
+    private readonly IDroneServicesService _droneServicesService;
+    private readonly IDroneService _droneService;
+    private readonly IAccessoriesService _accessoriesService;
 
-    // Constructor updated to include IDroneServicesService
-    public HomeController(ILogger<HomeController> logger, IDroneServicesService droneServicesService)
+    public HomeController(ILogger<HomeController> logger, 
+                         IDroneServicesService droneServicesService,
+                         IDroneService droneService,
+                         IAccessoriesService accessoriesService)
     {
         _logger = logger;
         _droneServicesService = droneServicesService;
+        _droneService = droneService;
+        _accessoriesService = accessoriesService;
     }
 
     private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        // If logged in, they can still view the public-facing single-page website.
-        // We are removing the redirect to Drone/Index to allow the home page to be accessible via the navbar link.
         ViewData["Title"] = "AeroDroxUAV - Precision Aerial Solutions";
+        
+        // Get featured drones
+        var allDrones = await _droneService.GetAllDronesAsync();
+        var featuredDrones = allDrones.Where(d => d.IsFeatured).Take(6).ToList();
+        var newDrones = allDrones.OrderByDescending(d => d.CreatedAt).Take(6).ToList();
+        
+        // Get accessories
+        var allAccessories = await _accessoriesService.GetAllAccessoriesAsync();
+        var featuredAccessories = allAccessories.Take(6).ToList();
+        var newAccessories = allAccessories.OrderByDescending(a => a.CreatedAt).Take(6).ToList();
+        
+        ViewBag.FeaturedDrones = featuredDrones;
+        ViewBag.NewDrones = newDrones;
+        ViewBag.FeaturedAccessories = featuredAccessories;
+        ViewBag.NewAccessories = newAccessories;
+        ViewBag.TotalDrones = allDrones.Count();
+        ViewBag.TotalAccessories = allAccessories.Count();
+        ViewBag.FeaturedServices = await _droneServicesService.GetFeaturedDroneServicesAsync();
+        ViewBag.IsLoggedIn = IsLoggedIn();
+        
         return View(); 
     }
 
