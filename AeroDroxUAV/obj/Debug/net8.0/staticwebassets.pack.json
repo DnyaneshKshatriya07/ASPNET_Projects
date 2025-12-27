@@ -257,6 +257,14 @@
       "PackagePath": "staticwebassets/uploads/accessories/6eb2aaea-e7c8-4ca2-8142-72c417ed9ea4.jpg"
     },
     {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/e311b93b-b0d0-4a38-8d60-d1b2b5babc59.jpg",
+      "PackagePath": "staticwebassets/uploads/accessories/e311b93b-b0d0-4a38-8d60-d1b2b5babc59.jpg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/0344d49e-825d-4590-b754-af3228daef8a_snjbapplogo.png",
+      "PackagePath": "staticwebassets/uploads/drones/0344d49e-825d-4590-b754-af3228daef8a_snjbapplogo.png"
+    },
+    {
       "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/8a97df30-8885-417e-b391-dacf6ca45f3b_about-whyus.jpg",
       "PackagePath": "staticwebassets/uploads/drones/8a97df30-8885-417e-b391-dacf6ca45f3b_about-whyus.jpg"
     },
@@ -267,6 +275,10 @@
     {
       "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/f7009160-6416-4059-99e6-f7816dc6e984_ic_launcher.png",
       "PackagePath": "staticwebassets/uploads/drones/f7009160-6416-4059-99e6-f7816dc6e984_ic_launcher.png"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/profiles/profile_1_c67f3e5e-cf37-423d-b6b6-bac3cd9cafbb.jpg",
+      "PackagePath": "staticwebassets/uploads/profiles/profile_1_c67f3e5e-cf37-423d-b6b6-bac3cd9cafbb.jpg"
     },
     {
       "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/profiles/profile_2_87059a3e-11b3-43b5-b7c8-f72ff209d0a9.png",
