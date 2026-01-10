@@ -34,32 +34,7 @@
                             
                             <div class="col-md-6 mb-4">
                                 <div class="form-floating">
-                                    <input type="text" asp-for="Type" class="form-control" 
-                                           id="type" placeholder="Enter drone type" required />
-                                    <label for="type">
-                                        <i class="fas fa-tag me-2"></i>Type
-                                    </label>
-                                    <span asp-validation-for="Type" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="number" asp-for="Price" step="0.01" 
-                                           class="form-control" id="price" 
-                                           placeholder="Enter price" required />
-                                    <label for="price">
-                                        <i class="fas fa-dollar-sign me-2"></i>Price
-                                    </label>
-                                    <span asp-validation-for="Price" class="text-danger"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <select asp-for="Category" class="form-select" id="category">
+                                    <select asp-for="Category" class="form-select" id="category" required>
                                         <option value="">Select Category</option>
                                         <option value="Consumer">Consumer</option>
                                         <option value="Professional">Professional</option>
@@ -72,6 +47,65 @@
                                     <label for="category">
                                         <i class="fas fa-layer-group me-2"></i>Category
                                     </label>
+                                    <span asp-validation-for="Category" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <input type="number" asp-for="Price" step="0.01" min="0"
+                                           class="form-control" id="price" 
+                                           placeholder="Enter price" required />
+                                    <label for="price">
+                                        <i class="fas fa-dollar-sign me-2"></i>Original Price
+                                    </label>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <input type="number" asp-for="DiscountPrice" step="0.01" min="0"
+                                           class="form-control" id="discountPrice" 
+                                           placeholder="Enter discount price (optional)" />
+                                    <label for="discountPrice">
+                                        <i class="fas fa-percentage me-2"></i>Discount Price (Optional)
+                                    </label>
+                                    <div class="form-text">
+                                        Only show if less than original price
+                                    </div>
+                                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Condition Dropdown -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <select asp-for="Condition" class="form-select" id="condition" required>
+                                        <option value="">Select Condition</option>
+                                        <option value="New">New</option>
+                                        <option value="Refurbished">Refurbished</option>
+                                        <option value="Used">Used</option>
+                                    </select>
+                                    <label for="condition">
+                                        <i class="fas fa-clipboard-check me-2"></i>Condition
+                                    </label>
+                                    <span asp-validation-for="Condition" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <input type="number" asp-for="StockQuantity" class="form-control" 
+                                           id="stock" placeholder="Stock quantity" min="0" required />
+                                    <label for="stock">
+                                        <i class="fas fa-boxes me-2"></i>Stock Quantity
+                                    </label>
+                                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -108,42 +142,6 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="text" asp-for="BatteryLife" class="form-control" 
-                                           id="battery" placeholder="Battery life" />
-                                    <label for="battery">
-                                        <i class="fas fa-battery-full me-2"></i>Battery Life
-                                    </label>
-                                    <div class="form-text">
-                                        e.g., 30 minutes, 45 mins
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="number" asp-for="Range" class="form-control" 
-                                           id="range" placeholder="Flight range" step="0.1" />
-                                    <label for="range">
-                                        <i class="fas fa-satellite-dish me-2"></i>Range (km)
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="number" asp-for="StockQuantity" class="form-control" 
-                                           id="stock" placeholder="Stock quantity" min="0" required />
-                                    <label for="stock">
-                                        <i class="fas fa-boxes me-2"></i>Stock Quantity
-                                    </label>
-                                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
-                                </div>
-                            </div>
-                            
                             <div class="col-md-6 mb-4">
                                 <div class="form-check form-switch mt-4">
                                     <input class="form-check-input" type="checkbox" asp-for="IsFeatured" id="featured">
@@ -194,6 +192,22 @@
                 }
             });
 
+            // Discount price validation
+            $('#discountPrice').on('blur', function() {
+                const originalPrice = parseFloat($('#price').val()) || 0;
+                const discountPrice = parseFloat($(this).val()) || 0;
+                
+                if (discountPrice > 0 && discountPrice >= originalPrice) {
+                    $(this).addClass('is-invalid');
+                    $(this).next('.form-text').addClass('text-danger');
+                    $(this).next('.form-text').text('Discount price must be less than original price');
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).next('.form-text').removeClass('text-danger');
+                    $(this).next('.form-text').text('Only show if less than original price');
+                }
+            });
+
             // Form validation
             $('#droneForm').submit(function(e) {
                 e.preventDefault();
@@ -208,13 +222,22 @@
                     }
                 });
                 
+                // Validate discount price
+                const originalPrice = parseFloat($('#price').val()) || 0;
+                const discountPrice = parseFloat($('#discountPrice').val()) || 0;
+                
+                if (discountPrice > 0 && discountPrice >= originalPrice) {
+                    $('#discountPrice').addClass('is-invalid');
+                    isValid = false;
+                }
+                
                 if (isValid) {
                     this.submit();
                 }
             });
             
             // Real-time validation
-            $('input[required], textarea[required]').on('blur', function() {
+            $('input[required], select[required], textarea[required]').on('blur', function() {
                 if ($(this).val() === '') {
                     $(this).addClass('is-invalid');
                 } else {
@@ -223,9 +246,9 @@
             });
             
             // Price formatting
-            $('#price').on('blur', function() {
+            $('#price, #discountPrice').on('blur', function() {
                 var value = parseFloat($(this).val());
-                if (!isNaN(value)) {
+                if (!isNaN(value) && value >= 0) {
                     $(this).val(value.toFixed(2));
                 }
             });

@@ -6,15 +6,14 @@ namespace AeroDroxUAV.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required string Type { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }
         public string? Category { get; set; }
-        public string? BatteryLife { get; set; }
-        public double? Range { get; set; }
+        public string? Condition { get; set; } // New field: New, Refurbished, Used
         public int StockQuantity { get; set; } = 0;
         public bool IsFeatured { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public double? DiscountPrice { get; set; } // New field: Optional discount price
         
         // Image properties
         public string? ImageUrl { get; set; }

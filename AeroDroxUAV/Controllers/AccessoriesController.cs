@@ -6,190 +6,196 @@ using System.IO;
 namespace AeroDroxUAV.Controllers
 {
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-public class AccessoriesController : Controller
-{
-    private readonly IAccessoriesService _accessoriesService; 
-    private readonly IWebHostEnvironment _environment;
-
-    public AccessoriesController(IAccessoriesService accessoriesService, IWebHostEnvironment environment) 
+    public class AccessoriesController : Controller
     {
-        _accessoriesService = accessoriesService;
-        _environment = environment;
-    }
+        private readonly IAccessoriesService _accessoriesService; 
+        private readonly IWebHostEnvironment _environment;
 
-    // Security Helpers
-    private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
-    private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
-
-    // View all accessories - NO LOGIN REQUIRED
-    public async Task<IActionResult> Index()
-    {
-        var accessories = await _accessoriesService.GetAllAccessoriesAsync();
-        ViewBag.Role = HttpContext.Session.GetString("Role") ?? "";
-        ViewBag.IsLoggedIn = IsLoggedIn();
-        return View(accessories);
-    }
-
-    // Accessory Details - NO LOGIN REQUIRED
-    public async Task<IActionResult> Details(int id)
-    {
-        var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
-        if (accessory == null) return NotFound();
-        ViewBag.IsLoggedIn = IsLoggedIn();
-        ViewBag.Role = HttpContext.Session.GetString("Role") ?? "";
-        return View(accessory);
-    }
-
-    // ========== ADMIN CRUD ONLY ==========
-    // These actions still require login and admin role
-
-    public IActionResult Create()
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Accessories accessory)
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
-
-        if(ModelState.IsValid)
+        public AccessoriesController(IAccessoriesService accessoriesService, IWebHostEnvironment environment) 
         {
-            // Handle image upload
-            if (accessory.ImageFile != null && accessory.ImageFile.Length > 0)
-            {
-                // Ensure uploads directory exists
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "accessories");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                // Generate unique filename
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(accessory.ImageFile.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                // Save the file
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await accessory.ImageFile.CopyToAsync(fileStream);
-                }
-
-                // Set the ImageUrl - use forward slash for web URLs
-                accessory.ImageUrl = $"/uploads/accessories/{uniqueFileName}";
-            }
-            else
-            {
-                // Set default image if no file uploaded
-                accessory.ImageUrl = "/images/default-accessory.jpg";
-            }
-
-            accessory.CreatedAt = DateTime.Now;
-            await _accessoriesService.CreateAccessoriesAsync(accessory);
-            return RedirectToAction("Index");
+            _accessoriesService = accessoriesService;
+            _environment = environment;
         }
-        
-        // If we got this far, something failed, redisplay form
-        return View(accessory);
-    }
 
-    public async Task<IActionResult> Edit(int id)
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+        // Security Helpers
+        private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
+        private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
 
-        var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
-        if(accessory == null) return NotFound();
-        return View(accessory);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Accessories accessory)
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
-
-        if(ModelState.IsValid)
+        // View all accessories - NO LOGIN REQUIRED
+        public async Task<IActionResult> Index()
         {
-            var existingAccessory = await _accessoriesService.GetAccessoriesByIdAsync(accessory.Id);
-            if (existingAccessory == null) return NotFound();
+            var accessories = await _accessoriesService.GetAllAccessoriesAsync();
+            ViewBag.Role = HttpContext.Session.GetString("Role") ?? "";
+            ViewBag.IsLoggedIn = IsLoggedIn();
+            return View(accessories);
+        }
 
-            // Handle image upload
-            if (accessory.ImageFile != null && accessory.ImageFile.Length > 0)
+        // Accessory Details - NO LOGIN REQUIRED
+        public async Task<IActionResult> Details(int id)
+        {
+            var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
+            if (accessory == null) return NotFound();
+            ViewBag.IsLoggedIn = IsLoggedIn();
+            ViewBag.Role = HttpContext.Session.GetString("Role") ?? "";
+            return View(accessory);
+        }
+
+        // ========== ADMIN CRUD ONLY ==========
+        public IActionResult Create()
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Accessories accessory)
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+
+            if(ModelState.IsValid)
             {
-                // Delete old image if exists
-                if (!string.IsNullOrEmpty(existingAccessory.ImageUrl) && 
-                    existingAccessory.ImageUrl != "/images/default-accessory.jpg")
+                // Handle image upload
+                if (accessory.ImageFile != null && accessory.ImageFile.Length > 0)
                 {
-                    var oldImagePath = Path.Combine(_environment.WebRootPath, existingAccessory.ImageUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(oldImagePath))
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "accessories");
+                    if (!Directory.Exists(uploadsFolder))
                     {
-                        System.IO.File.Delete(oldImagePath);
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(accessory.ImageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await accessory.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    accessory.ImageUrl = $"/uploads/accessories/{uniqueFileName}";
+                }
+                else
+                {
+                    accessory.ImageUrl = "/images/default-accessory.jpg";
+                }
+
+                accessory.CreatedAt = DateTime.Now;
+                
+                // Validate discount price
+                if (accessory.DiscountPrice.HasValue && accessory.DiscountPrice.Value >= accessory.Price)
+                {
+                    ModelState.AddModelError("DiscountPrice", "Discount price must be less than original price");
+                    return View(accessory);
+                }
+
+                await _accessoriesService.CreateAccessoriesAsync(accessory);
+                return RedirectToAction("Index");
+            }
+            
+            return View(accessory);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+
+            var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
+            if(accessory == null) return NotFound();
+            return View(accessory);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Accessories accessory)
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+
+            if(ModelState.IsValid)
+            {
+                var existingAccessory = await _accessoriesService.GetAccessoriesByIdAsync(accessory.Id);
+                if (existingAccessory == null) return NotFound();
+
+                // Handle image upload
+                if (accessory.ImageFile != null && accessory.ImageFile.Length > 0)
+                {
+                    // Delete old image if exists
+                    if (!string.IsNullOrEmpty(existingAccessory.ImageUrl) && 
+                        existingAccessory.ImageUrl != "/images/default-accessory.jpg")
+                    {
+                        var oldImagePath = Path.Combine(_environment.WebRootPath, existingAccessory.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    // Save new image
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "accessories");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(accessory.ImageFile.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await accessory.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    accessory.ImageUrl = $"/uploads/accessories/{uniqueFileName}";
+                }
+                else
+                {
+                    accessory.ImageUrl = existingAccessory.ImageUrl;
+                }
+
+                // Validate discount price
+                if (accessory.DiscountPrice.HasValue && accessory.DiscountPrice.Value >= accessory.Price)
+                {
+                    ModelState.AddModelError("DiscountPrice", "Discount price must be less than original price");
+                    return View(accessory);
+                }
+
+                await _accessoriesService.UpdateAccessoriesAsync(accessory);
+                return RedirectToAction("Index");
+            }
+            return View(accessory);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+
+            var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
+            if(accessory == null) return NotFound();
+            return View(accessory);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
+
+            var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
+            if (accessory != null)
+            {
+                // Delete image file if exists and not default
+                if (!string.IsNullOrEmpty(accessory.ImageUrl) && 
+                    accessory.ImageUrl != "/images/default-accessory.jpg")
+                {
+                    var imagePath = Path.Combine(_environment.WebRootPath, accessory.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
                     }
                 }
-
-                // Save new image
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", "accessories");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(accessory.ImageFile.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await accessory.ImageFile.CopyToAsync(fileStream);
-                }
-
-                accessory.ImageUrl = $"/uploads/accessories/{uniqueFileName}";
-            }
-            else
-            {
-                // Keep existing image
-                accessory.ImageUrl = existingAccessory.ImageUrl;
             }
 
-            await _accessoriesService.UpdateAccessoriesAsync(accessory);
+            await _accessoriesService.DeleteAccessoriesAsync(id);
             return RedirectToAction("Index");
         }
-        return View(accessory);
     }
-
-    public async Task<IActionResult> Delete(int id)
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
-
-        var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
-        if(accessory == null) return NotFound();
-        return View(accessory);
-    }
-
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        if(!IsLoggedIn() || !IsAdmin()) return Unauthorized();
-
-        var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
-        if (accessory != null)
-        {
-            // Delete image file if exists and not default
-            if (!string.IsNullOrEmpty(accessory.ImageUrl) && 
-                accessory.ImageUrl != "/images/default-accessory.jpg")
-            {
-                var imagePath = Path.Combine(_environment.WebRootPath, accessory.ImageUrl.TrimStart('/'));
-                if (System.IO.File.Exists(imagePath))
-                {
-                    System.IO.File.Delete(imagePath);
-                }
-            }
-        }
-
-        await _accessoriesService.DeleteAccessoriesAsync(id);
-        return RedirectToAction("Index");
-    }
-}
 }

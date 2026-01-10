@@ -35,7 +35,6 @@
                     <div class="accessory-details p-4 mb-4 rounded" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
                         <h4 class="text-center mb-4">
                             <i class="fas fa-tools text-primary me-2"></i>@Model.Name
-                            <small class="text-muted d-block mt-1">(@Model.Type)</small>
                         </h4>
                         
                         <div class="row text-center">
@@ -44,20 +43,50 @@
                                     <h6 class="text-muted mb-2">
                                         <i class="fas fa-dollar-sign me-1"></i>Price
                                     </h6>
-                                    <h4 class="text-success fw-bold">$@Model.Price</h4>
+                                    @if (Model.DiscountPrice.HasValue)
+                                    {
+                                        <div>
+                                            <h4 class="text-success fw-bold">$@Model.DiscountPrice.Value.ToString("N2")</h4>
+                                            <small class="text-muted text-decoration-line-through">$@Model.Price.ToString("N2")</small>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="text-success fw-bold">$@Model.Price.ToString("N2")</h4>
+                                    }
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="p-3 bg-white rounded shadow-sm">
                                     <h6 class="text-muted mb-2">
-                                        <i class="fas fa-box me-1"></i>Type
+                                        <i class="fas fa-box me-1"></i>Stock
                                     </h6>
                                     <h4>
-                                        <span class="badge bg-success">@Model.Type</span>
+                                        <span class="badge @(Model.StockQuantity > 0 ? "bg-success" : "bg-danger")">
+                                            @Model.StockQuantity
+                                        </span>
                                     </h4>
                                 </div>
                             </div>
                         </div>
+                        
+                        @if (!string.IsNullOrEmpty(Model.Condition))
+                        {
+                            <div class="row text-center mb-3">
+                                <div class="col-12">
+                                    <div class="p-3 bg-white rounded shadow-sm">
+                                        <h6 class="text-muted mb-2">
+                                            <i class="fas fa-certificate me-1"></i>Condition
+                                        </h6>
+                                        <h4>
+                                            <span class="badge @(Model.Condition == "New" ? "bg-success" : Model.Condition == "Refurbished" ? "bg-warning" : "bg-secondary")">
+                                                @Model.Condition
+                                            </span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         
                         <div class="mt-4">
                             <h6 class="text-muted mb-2">
@@ -149,5 +178,9 @@
     
     .shadow-sm {
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    }
+    
+    .text-decoration-line-through {
+        text-decoration: line-through;
     }
 </style>

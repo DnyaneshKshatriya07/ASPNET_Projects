@@ -1,6 +1,11 @@
 @model AeroDroxUAV.Models.Drone
 @{
     ViewData["Title"] = Model.Name + " - Details";
+    var discountPercentage = 0;
+    if (Model.DiscountPrice.HasValue && Model.DiscountPrice > 0)
+    {
+        discountPercentage = (int)Math.Round(((Model.Price - Model.DiscountPrice.Value) / Model.Price) * 100, 0);
+    }
 }
 
 <div class="container py-4">
@@ -64,14 +69,29 @@
                             <i class="fas fa-tag me-1"></i>@Model.Category
                         </span>
                         <span class="badge bg-secondary me-2 mb-2">
-                            <i class="fas fa-box me-1"></i>@Model.Type
+                            <i class="fas fa-clipboard-check me-1"></i>@Model.Condition
                         </span>
                     </div>
                     
                     <!-- Product Title and Price -->
                     <h1 class="h2 fw-bold mb-3">@Model.Name</h1>
-                    <div class="d-flex align-items-center mb-4">
-                        <h2 class="text-success fw-bold me-3">$@Model.Price.ToString("N2")</h2>
+                    
+                    <!-- Price Display -->
+                    <div class="mb-4">
+                        @if (Model.DiscountPrice.HasValue && Model.DiscountPrice > 0)
+                        {
+                            <div class="d-flex align-items-center mb-2">
+                                <h2 class="text-danger fw-bold me-3">$@Model.DiscountPrice.Value.ToString("N2")</h2>
+                                <h4 class="text-muted text-decoration-line-through">$@Model.Price.ToString("N2")</h4>
+                                <span class="badge bg-danger ms-3">
+                                    -@discountPercentage%
+                                </span>
+                            </div>
+                        }
+                        else
+                        {
+                            <h2 class="text-success fw-bold">$@Model.Price.ToString("N2")</h2>
+                        }
                         @if(Model.StockQuantity > 0)
                         {
                             <span class="text-muted">+ Free Shipping</span>
@@ -80,35 +100,31 @@
                     
                     <!-- Specifications -->
                     <div class="row mb-4">
-                        @if(!string.IsNullOrEmpty(Model.BatteryLife))
-                        {
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-primary text-white rounded-circle p-3 me-3">
-                                        <i class="fas fa-battery-full"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1">Battery Life</h6>
-                                        <p class="mb-0 fw-semibold">@Model.BatteryLife</p>
-                                    </div>
+                        <!-- Condition -->
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Condition</h6>
+                                    <p class="mb-0 fw-semibold">@Model.Condition</p>
                                 </div>
                             </div>
-                        }
+                        </div>
                         
-                        @if(Model.Range.HasValue && Model.Range > 0)
-                        {
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-info text-white rounded-circle p-3 me-3">
-                                        <i class="fas fa-satellite-dish"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-1">Flight Range</h6>
-                                        <p class="mb-0 fw-semibold">@Model.Range.Value.ToString("N1") km</p>
-                                    </div>
+                        <!-- Category -->
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-info text-white rounded-circle p-3 me-3">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Category</h6>
+                                    <p class="mb-0 fw-semibold">@Model.Category</p>
                                 </div>
                             </div>
-                        }
+                        </div>
                     </div>
                     
                     <!-- Description -->
@@ -158,8 +174,21 @@
                             <div class="col-md-4 mb-3">
                                 <div class="bg-light p-3 rounded">
                                     <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
-                                    <h6 class="fw-bold mb-1">2-Year Warranty</h6>
-                                    <p class="text-muted small mb-0">Full manufacturer coverage</p>
+                                    <h6 class="fw-bold mb-1">Warranty</h6>
+                                    <p class="text-muted small mb-0">
+                                        @if(Model.Condition == "New")
+                                        {
+                                            <span>2-Year Warranty</span>
+                                        }
+                                        else if(Model.Condition == "Refurbished")
+                                        {
+                                            <span>1-Year Warranty</span>
+                                        }
+                                        else
+                                        {
+                                            <span>90 Days Warranty</span>
+                                        }
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
@@ -204,5 +233,9 @@
     
     .btn-lg {
         padding: 1rem 2rem;
+    }
+    
+    .text-decoration-line-through {
+        text-decoration: line-through !important;
     }
 </style>
