@@ -28,7 +28,7 @@
                 <span class="input-group-text">
                     <i class="fas fa-search"></i>
                 </span>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search accessories by name...">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search accessories by name or description...">
                 <button class="btn btn-outline-primary" type="button" id="searchBtn">
                     Search
                 </button>
@@ -36,121 +36,127 @@
         </div>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3 col-6">
-            <div class="card bg-primary text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-tools fa-2x"></i>
+    <!-- Stats Cards - Admin Only -->
+    @if(role == "Admin")
+    {
+        <div class="row mb-4">
+            <div class="col-md-3 col-6">
+                <div class="card bg-primary text-white shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-tools fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">@Model.Count()</h4>
+                                <p class="mb-0">Total Accessories</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="mb-0">@Model.Count()</h4>
-                            <p class="mb-0">Total Accessories</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card bg-success text-white shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-boxes fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">@Model.Sum(a => a.StockQuantity)</h4>
+                                <p class="mb-0">In Stock</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card bg-info text-white shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-tag fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">@Model.Count(a => a.DiscountPrice.HasValue)</h4>
+                                <p class="mb-0">On Sale</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="card bg-warning text-white shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-tools fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">@Model.Count(a => a.StockQuantity == 0)</h4>
+                                <p class="mb-0">Out of Stock</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-6">
-            <div class="card bg-success text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-boxes fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4 class="mb-0">@Model.Sum(a => a.StockQuantity)</h4>
-                            <p class="mb-0">In Stock</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="card bg-info text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-tag fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4 class="mb-0">@Model.Count(a => a.DiscountPrice.HasValue)</h4>
-                            <p class="mb-0">On Sale</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="card bg-warning text-white shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
-                            <i class="fas fa-tools fa-2x"></i>
-                        </div>
-                        <div>
-                            <h4 class="mb-0">@Model.Count(a => a.StockQuantity == 0)</h4>
-                            <p class="mb-0">Out of Stock</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 
-    <!-- Accessories Cards Grid -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="accessoryGrid">
+    <!-- Accessories Cards Grid - 4 cards per row -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3" id="accessoryGrid">
         @foreach(var accessory in Model)
         {
-            <div class="col accessory-card" data-name="@accessory.Name.ToLower()">
+            <div class="col accessory-card" 
+                 data-name="@accessory.Name.ToLower()" 
+                 data-description="@accessory.Description?.ToLower()"
+                 data-condition="@accessory.Condition?.ToLower()">
                 <div class="card product-card shadow-sm h-100">
                     <!-- Image Section -->
                     <div class="position-relative">
                         @if (!string.IsNullOrEmpty(accessory.ImageUrl))
                         {
                             <img src="@accessory.ImageUrl" class="card-img-top accessory-image" 
-                                 alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                                 alt="@accessory.Name" style="height: 180px; object-fit: cover;">
                         }
                         else
                         {
                             <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                  class="card-img-top accessory-image" 
-                                 alt="@accessory.Name" style="height: 220px; object-fit: cover;">
+                                 alt="@accessory.Name" style="height: 180px; object-fit: cover;">
                         }
                         
                         <!-- Sale Badge -->
                         @if (accessory.DiscountPrice.HasValue)
                         {
-                            <div class="position-absolute top-0 start-0 p-3">
-                                <span class="badge bg-danger">
-                                    <i class="fas fa-fire me-1"></i>ON SALE
+                            <div class="position-absolute top-0 start-0 p-2">
+                                <span class="badge bg-danger small-badge">
+                                    <i class="fas fa-fire me-1"></i>SALE
                                 </span>
                             </div>
                         }
                         
                         <!-- Condition Badge -->
-                        <div class="position-absolute top-0 end-0 p-3">
+                        <div class="position-absolute top-0 end-0 p-2">
                             @if(!string.IsNullOrEmpty(accessory.Condition))
                             {
-                                <span class="badge @(accessory.Condition == "New" ? "bg-success" : accessory.Condition == "Refurbished" ? "bg-warning" : "bg-secondary")">
+                                <span class="badge @(accessory.Condition == "New" ? "bg-success" : accessory.Condition == "Refurbished" ? "bg-warning" : "bg-secondary") small-badge">
                                     @accessory.Condition
                                 </span>
                             }
                         </div>
                         
                         <!-- Stock Status -->
-                        <div class="position-absolute bottom-0 start-0 p-3">
+                        <div class="position-absolute bottom-0 start-0 p-2">
                             @if(accessory.StockQuantity > 0)
                             {
-                                <span class="badge bg-success">
+                                <span class="badge bg-success small-badge">
                                     <i class="fas fa-check-circle me-1"></i>In Stock (@accessory.StockQuantity)
                                 </span>
                             }
                             else
                             {
-                                <span class="badge bg-danger">
+                                <span class="badge bg-danger small-badge">
                                     <i class="fas fa-times-circle me-1"></i>Out of Stock
                                 </span>
                             }
@@ -158,10 +164,10 @@
                     </div>
                     
                     <!-- Card Body -->
-                    <div class="card-body d-flex flex-column">
+                    <div class="card-body d-flex flex-column p-3">
                         <!-- Title -->
-                        <div class="mb-3">
-                            <h5 class="card-title fw-bold mb-1">@accessory.Name</h5>
+                        <div class="mb-2">
+                            <h6 class="card-title fw-bold mb-1">@accessory.Name</h6>
                             
                             <!-- Price Display -->
                             <div class="d-flex justify-content-between align-items-center">
@@ -169,19 +175,19 @@
                                     @if (accessory.DiscountPrice.HasValue)
                                     {
                                         <div>
-                                            <span class="text-success fw-bold fs-5">$@accessory.DiscountPrice.Value.ToString("N2")</span>
-                                            <small class="text-muted text-decoration-line-through ms-2">$@accessory.Price.ToString("N2")</small>
+                                            <span class="text-success fw-bold">₹@accessory.DiscountPrice.Value.ToString("N2")</span>
+                                            <small class="text-muted text-decoration-line-through ms-2 small">₹@accessory.Price.ToString("N2")</small>
                                         </div>
                                     }
                                     else
                                     {
-                                        <span class="text-success fw-bold fs-5">$@accessory.Price.ToString("N2")</span>
+                                        <span class="text-success fw-bold">₹@accessory.Price.ToString("N2")</span>
                                     }
                                 </div>
                                 @if (accessory.DiscountPrice.HasValue)
                                 {
                                     var discountPercent = (100 - (accessory.DiscountPrice.Value / accessory.Price * 100)).ToString("N0");
-                                    <span class="badge bg-danger">
+                                    <span class="badge bg-danger small-badge">
                                         Save @discountPercent%
                                     </span>
                                 }
@@ -189,10 +195,10 @@
                         </div>
                         
                         <!-- Description -->
-                        <p class="card-text text-muted mb-4 flex-grow-1">
+                        <p class="card-text text-muted mb-3 flex-grow-1 small" style="font-size: 0.85rem;">
                             @if(!string.IsNullOrEmpty(accessory.Description))
                             {
-                                @(accessory.Description.Length > 100 ? accessory.Description.Substring(0, 100) + "..." : accessory.Description)
+                                @(accessory.Description.Length > 60 ? accessory.Description.Substring(0, 60) + "..." : accessory.Description)
                             }
                         </p>
                         
@@ -216,38 +222,41 @@
                                     {
                                         @if(ViewBag.IsLoggedIn == true)
                                         {
-                                            <button class="btn btn-primary btn-buy" data-accessory-id="@accessory.Id">
-                                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                            <button class="btn btn-success btn-sm btn-buy" data-accessory-id="@accessory.Id">
+                                                <i class="fas fa-shopping-cart me-1"></i>Add to Cart
                                             </button>
                                         }
                                         else
                                         {
-                                            <a asp-controller="Account" asp-action="BuyProduct" asp-route-productId="@accessory.Id" asp-route-productType="accessory" class="btn btn-primary">
-                                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                            <a asp-controller="Account" asp-action="BuyProduct" asp-route-productId="@accessory.Id" asp-route-productType="accessory" class="btn btn-success btn-sm">
+                                                <i class="fas fa-shopping-cart me-1"></i>Add to Cart
                                             </a>
                                         }
                                     }
                                     else
                                     {
-                                        <button class="btn btn-secondary" disabled>
-                                            <i class="fas fa-bell me-2"></i>Notify When Available
+                                        <button class="btn btn-secondary btn-sm" disabled>
+                                            <i class="fas fa-bell me-1"></i>Notify
                                         </button>
                                     }
-                                    <a href="/Accessories/Details/@accessory.Id" class="btn btn-outline-secondary">
-                                        <i class="fas fa-info-circle me-2"></i>View Details
+                                    <a href="/Accessories/Details/@accessory.Id" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-info-circle me-1"></i>Details
                                     </a>
                                 </div>
                             }
                         </div>
                     </div>
                     
-                    <!-- Card Footer -->
-                    <div class="card-footer bg-white border-top py-2">
-                        <small class="text-muted">
-                            <i class="fas fa-calendar-alt me-1"></i>
-                            Added @accessory.CreatedAt.ToString("MMM dd, yyyy")
-                        </small>
-                    </div>
+                    <!-- Card Footer - Admin Only -->
+                    @if(role == "Admin")
+                    {
+                        <div class="card-footer bg-white border-top py-2 px-3">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt me-1"></i>
+                                Added @accessory.CreatedAt.ToString("MMM dd, yyyy")
+                            </small>
+                        </div>
+                    }
                 </div>
             </div>
         }
@@ -266,13 +275,18 @@
         $(document).ready(function() {
             // Search functionality
             function filterAccessories() {
-                const searchTerm = $('#searchInput').val().toLowerCase();
+                const searchTerm = $('#searchInput').val().toLowerCase().trim();
                 let visibleCount = 0;
                 
                 $('.accessory-card').each(function() {
                     const accessoryName = $(this).data('name') || '';
+                    const accessoryDescription = $(this).data('description') || '';
+                    const accessoryCondition = $(this).data('condition') || '';
                     
-                    const matchesSearch = accessoryName.includes(searchTerm);
+                    const matchesSearch = searchTerm === '' || 
+                                         accessoryName.includes(searchTerm) ||
+                                         accessoryDescription.includes(searchTerm) ||
+                                         accessoryCondition.includes(searchTerm);
                     
                     if (matchesSearch) {
                         $(this).show();
@@ -293,6 +307,9 @@
             // Event listeners for search
             $('#searchInput').on('keyup', filterAccessories);
             $('#searchBtn').on('click', filterAccessories);
+            
+            // Initialize filtering
+            filterAccessories();
             
             // Buy button click handler
             $('.btn-buy').click(function() {
@@ -316,38 +333,44 @@
     
     <style>
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
             transition: all 0.3s ease;
         }
         
+        .product-card {
+            height: 100%;
+        }
+        
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
         
         .product-card .card-img-top {
             transition: transform 0.3s ease;
         }
         
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.35em 0.65em;
+        .small-badge {
+            font-size: 0.7rem;
+            padding: 0.25em 0.5em;
             border-radius: 50px;
         }
         
         .btn-buy {
             background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.375rem 0.75rem;
             transition: all 0.3s ease;
         }
         
         .btn-buy:hover {
             background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(32, 201, 151, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(32, 201, 151, 0.3);
         }
         
         .position-absolute {
@@ -355,7 +378,7 @@
         }
         
         .input-group {
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
         }
         
@@ -365,7 +388,7 @@
         }
         
         .stats-card {
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
         }
         
@@ -374,7 +397,20 @@
         }
         
         .text-decoration-line-through {
-            text-decoration: line-through;
+            text-decoration: line-through !important;
+        }
+        
+        .row-cols-lg-4 > .col {
+            padding: 0.5rem;
+        }
+        
+        .card-title {
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+        
+        .small {
+            font-size: 0.875rem;
         }
     </style>
 }

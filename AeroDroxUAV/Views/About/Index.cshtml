@@ -1,122 +1,171 @@
 @* Views/About/Index.cshtml *@
 @{
-    ViewData["Title"] = "About Us";
+    ViewData["Title"] = "About Us - AeroDrox UAV";
 }
 
-<div class="row">
-    <div class="col-md-10 offset-md-1">
-        <!-- Page Header -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary mb-3">@ViewData["Title"]</h1>
-            <div class="border-bottom border-primary mx-auto" style="width: 80px; height: 3px;"></div>
-        </div>
-
-        <!-- Welcome Lead -->
-        <div class="card shadow-sm border-0 mb-5">
-            <div class="card-body p-5">
-                <p class="lead fs-4 text-dark mb-0 text-center">
-                    Welcome to <span class="fw-bold text-primary">AeroDroxUAV</span>, your trusted partner in unmanned aerial vehicle technology.
-                    We are dedicated to revolutionizing industries through advanced drone hardware and specialized services.
-                </p>
-            </div>
-        </div>
-
-        <div class="row g-5">
-            <!-- Left Column: Our Story -->
-            <div class="col-lg-6">
-                <div class="h-100 p-4 bg-light rounded-3 shadow-sm">
-                    <h3 class="fw-bold text-primary mb-4 pb-2 border-bottom">
-                        <i class="bi bi-rocket-takeoff me-2"></i>Our Story
-                    </h3>
-                    <p class="fs-5">
-                        Founded in <strong class="text-primary">@ViewBag.YearFounded</strong>, AeroDroxUAV started with a small team of aviation enthusiasts and engineers
-                        who saw the potential of drones to transform businesses. From agricultural surveying to infrastructure inspection,
-                        our goal has always been to deliver reliable, high-performance solutions.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Right Column: Our Mission -->
-            <div class="col-lg-6">
-                <div class="h-100 p-4 bg-primary text-white rounded-3 shadow">
-                    <h3 class="fw-bold mb-4 pb-2 border-bottom border-light">
-                        <i class="bi bi-bullseye me-2"></i>Our Mission
-                    </h3>
-                    <blockquote class="fs-5 fst-italic mb-0">
-                        "@ViewBag.Mission"
-                    </blockquote>
-                </div>
-            </div>
-        </div>
-
-        <!-- What We Offer Section -->
-        <div class="mt-5 pt-4">
-            <h3 class="fw-bold text-center text-primary mb-5">
-                <i class="bi bi-list-check me-2"></i>What We Offer
-            </h3>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-primary border-2 shadow-sm hover-shadow text-center">
-                        <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-drone text-primary" style="font-size: 2.5rem;"></i>
-                            </div>
-                            <h5 class="card-title fw-bold text-primary">State-of-the-art Drones</h5>
-                            <p class="card-text">For various applications including surveying, inspection, and photography.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card h-100 border-success border-2 shadow-sm hover-shadow text-center">
-                        <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-camera-video text-success" style="font-size: 2.5rem;"></i>
-                            </div>
-                            <h5 class="card-title fw-bold text-success">Professional Drone Services</h5>
-                            <p class="card-text">Aerial mapping, cinematography, inspection, and data analysis services.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4">
-                    <div class="card h-100 border-warning border-2 shadow-sm hover-shadow text-center">
-                        <div class="card-body p-4">
-                            <div class="mb-3">
-                                <i class="bi bi-tools text-warning" style="font-size: 2.5rem;"></i>
-                            </div>
-                            <h5 class="card-title fw-bold text-warning">Accessories & Parts</h5>
-                            <p class="card-text">High-quality accessories, spare parts, and maintenance components.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Commitment Section -->
-        <div class="mt-5 pt-5">
-            <div class="text-center bg-light p-5 rounded-3 shadow-sm">
-                <h4 class="fw-bold text-dark mb-4">Our Commitment</h4>
-                <p class="fs-5 text-muted mb-0">
-                    We are dedicated to <span class="text-primary fw-bold">quality</span>, 
-                    <span class="text-success fw-bold">innovation</span>, and 
-                    <span class="text-warning fw-bold">customer success</span> in every project we undertake.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <style>
+    .about-hero {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 100%), 
+                    url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') 
+                    no-repeat center center;
+        background-size: cover;
+        color: white;
+        padding: 100px 0 60px;
+        text-align: center;
+        border-radius: 0 0 20px 20px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .about-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+    
+    .about-sidebar {
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+        color: white;
+        padding: 40px;
+        height: 100%;
+        position: relative;
+    }
+    
+    .about-sidebar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') no-repeat center center;
+        background-size: cover;
+        opacity: 0.1;
+    }
+    
+    .mission-card {
+        background: linear-gradient(135deg, rgba(26, 41, 128, 0.9) 0%, rgba(38, 208, 206, 0.9) 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .team-section {
+        margin-top: 60px;
+        padding: 40px 0;
+        background: #f8f9fa;
+        border-radius: 20px;
+    }
+    
+    .team-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+        border: 2px solid transparent;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-10px);
+        border-color: #26d0ce;
+        box-shadow: 0 20px 40px rgba(38, 208, 206, 0.2);
+    }
+    
+    .team-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .team-info {
+        padding: 20px;
+    }
+    
+    .team-social {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .team-social a {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1a2980;
+        transition: all 0.3s ease;
+    }
+    
+    .team-social a:hover {
+        background: #26d0ce;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .price-tag {
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        display: inline-block;
+        margin: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .price-tag::before {
+        content: '₹ ';
+        font-weight: normal;
+    }
+    
+    .stats-section {
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 20px;
+        margin: 40px 0;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .form-control-sm {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+    
+    .btn-sm-custom {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+    
+    .small-map {
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-top: 30px;
+    }
+    
     .hover-shadow:hover {
         transform: translateY(-5px);
         transition: transform 0.3s ease;
         box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    
-    .card {
-        transition: all 0.3s ease;
     }
     
     .border-primary {
@@ -127,3 +176,324 @@
         color: #0d6efd !important;
     }
 </style>
+
+<style>
+    .drone-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #26d0ce;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        animation: pulse-badge 2s infinite;
+    }
+    
+    @@keyframes pulse-badge {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">About AeroDrox UAV</h1>
+        <p class="lead mb-0">Pioneering Drone Technology Since <strong>@ViewBag.YearFounded</strong></p>
+        <div class="mt-4">
+            <span class="price-tag">Starting from ₹89,999</span>
+            <span class="price-tag bg-success">Services from ₹9,999</span>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Main About Container -->
+    <div class="about-container">
+        <div class="row g-0">
+            <!-- About Information Sidebar -->
+            <div class="col-lg-5">
+                <div class="about-sidebar">
+                    <div class="drone-badge">
+                        <i class="fas fa-drone me-1"></i>Certified UAV Manufacturer
+                    </div>
+                    
+                    <h3 class="fw-bold mb-4">
+                        <i class="fas fa-rocket me-2"></i>Our Journey
+                    </h3>
+                    <p class="mb-5 opacity-90">
+                        Founded in <strong>@ViewBag.YearFounded</strong>, AeroDrox UAV began as a passion project by aviation enthusiasts 
+                        and has grown into India's leading drone technology company.
+                    </p>
+                    
+                    <div class="mb-5">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">DGCA Certified</h5>
+                                <p class="mb-0 opacity-75">Approved by Directorate General of Civil Aviation</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">Make in India</h5>
+                                <p class="mb-0 opacity-75">Proudly designed and manufactured in India</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">ISO 9001:2015</h5>
+                                <p class="mb-0 opacity-75">Quality Management System Certified</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h5 class="fw-bold mb-3">Our Achievements</h5>
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="stat-number">500+</div>
+                                <div class="small">Projects Completed</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stat-number">50+</div>
+                                <div class="small">Cities Served</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-number">24/7</div>
+                                <div class="small">Support Available</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-number">100%</div>
+                                <div class="small">Client Satisfaction</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Content -->
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <h3 class="fw-bold mb-4 text-primary">
+                        <i class="fas fa-bullseye me-2"></i>Our Mission & Vision
+                    </h3>
+                    
+                    <div class="mission-card">
+                        <blockquote class="fs-5 fst-italic mb-0">
+                            "@ViewBag.Mission"
+                        </blockquote>
+                        <p class="mt-3 mb-0 opacity-90">
+                            <i class="fas fa-quote-right float-end opacity-50"></i>
+                            To revolutionize industries through innovative UAV solutions that are accessible, 
+                            reliable, and environmentally sustainable.
+                        </p>
+                    </div>
+                    
+                    <div class="row g-4 mt-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="mb-3 text-primary">
+                                        <i class="fas fa-cogs fa-2x"></i>
+                                    </div>
+                                    <h5 class="card-title fw-bold text-primary">Core Values</h5>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>
+                                            Innovation & Excellence
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>
+                                            Integrity & Transparency
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>
+                                            Customer Centricity
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-check text-success me-2"></i>
+                                            Sustainability
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="mb-3 text-success">
+                                        <i class="fas fa-chart-line fa-2x"></i>
+                                    </div>
+                                    <h5 class="card-title fw-bold text-success">What We Offer</h5>
+                                    <p class="card-text">
+                                        <span class="price-tag">₹89,999 - ₹5,99,999</span><br>
+                                        Industrial & Commercial Drones
+                                    </p>
+                                    <p class="card-text">
+                                        <span class="price-tag bg-success">₹9,999/day</span><br>
+                                        Aerial Survey Services
+                                    </p>
+                                    <p class="card-text">
+                                        <span class="price-tag bg-warning">₹1,999</span><br>
+                                        Training Programs
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Team Section -->
+    <div class="team-section">
+        <h3 class="text-center mb-5 display-6 fw-bold text-primary">
+            <i class="fas fa-users me-2"></i>Meet Our Leadership Team
+        </h3>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         class="team-img" alt="CEO">
+                    <div class="team-info">
+                        <h5 class="fw-bold mb-1">Arjun Mehta</h5>
+                        <p class="text-primary mb-2">Founder & CEO</p>
+                        <p class="small text-muted mb-3">
+                            Former IAF pilot with 15+ years of aviation experience. 
+                            Passionate about drone technology innovation.
+                        </p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         class="team-img" alt="CTO">
+                    <div class="team-info">
+                        <h5 class="fw-bold mb-1">Priya Sharma</h5>
+                        <p class="text-primary mb-2">Chief Technology Officer</p>
+                        <p class="small text-muted mb-3">
+                            PhD in Aerospace Engineering. Leads R&D for next-gen 
+                            drone technologies and AI integration.
+                        </p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         class="team-img" alt="Operations Head">
+                    <div class="team-info">
+                        <h5 class="fw-bold mb-1">Rohan Patel</h5>
+                        <p class="text-primary mb-2">Head of Operations</p>
+                        <p class="small text-muted mb-3">
+                            Manages nationwide drone operations with focus on 
+                            safety and regulatory compliance.
+                        </p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Additional Team Members -->
+        <div class="row mt-4">
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                         class="rounded-circle mb-2" width="80" height="80" alt="Team Member">
+                    <h6 class="fw-bold mb-1">Ananya Reddy</h6>
+                    <p class="small text-muted">Lead Engineer</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                         class="rounded-circle mb-2" width="80" height="80" alt="Team Member">
+                    <h6 class="fw-bold mb-1">Karan Singh</h6>
+                    <p class="small text-muted">Flight Operations</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                         class="rounded-circle mb-2" width="80" height="80" alt="Team Member">
+                    <h6 class="fw-bold mb-1">Neha Verma</h6>
+                    <p class="small text-muted">Customer Success</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                         class="rounded-circle mb-2" width="80" height="80" alt="Team Member">
+                    <h6 class="fw-bold mb-1">Vikram Joshi</h6>
+                    <p class="small text-muted">Sales Director</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="stats-section">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-number">1000+</div>
+                <div class="small">Drones Deployed</div>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <div class="stat-number">50+</div>
+                <div class="small">Team Members</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-number">15+</div>
+                <div class="small">States Covered</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-number">₹5Cr+</div>
+                <div class="small">Annual Revenue</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact CTA -->
+    <div class="text-center mt-5">
+        <div class="card border-0 shadow">
+            <div class="card-body p-5">
+                <h3 class="fw-bold mb-3">Ready to Transform Your Business with Drones?</h3>
+                <p class="lead mb-4">
+                    Get a customized quote for your drone needs starting from <span class="price-tag">₹49,999</span>
+                </p>
+                <a href="/Contact" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane me-2"></i>Contact Our Team
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

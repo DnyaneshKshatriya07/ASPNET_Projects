@@ -4,144 +4,189 @@
 
 <style>
     .contact-hero {
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%), 
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.7) 100%), 
                     url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') 
                     no-repeat center center;
         background-size: cover;
         color: white;
-        padding: 100px 0 60px;
+        padding: 80px 0 40px;
         text-align: center;
         border-radius: 0 0 20px 20px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
     }
     
     .contact-container {
         background: white;
-        border-radius: 20px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
     
     .contact-sidebar {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
         color: white;
-        padding: 40px;
+        padding: 30px;
         height: 100%;
     }
     
     .contact-info-item {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
     
     .contact-info-item i {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
+        margin-bottom: 10px;
+        font-size: 1rem;
     }
     
     .contact-form {
-        padding: 40px;
+        padding: 30px;
     }
     
-    .form-control-lg {
-        border-radius: 10px;
+    .form-control-sm {
+        border-radius: 8px;
         border: 2px solid #e0e0e0;
-        padding: 15px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        height: calc(2.5rem + 2px);
         transition: all 0.3s ease;
     }
     
-    .form-control-lg:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    .form-control-sm:focus {
+        border-color: #26d0ce;
+        box-shadow: 0 0 0 0.2rem rgba(38, 208, 206, 0.25);
     }
     
-    .btn-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .btn-sm-custom {
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
         border: none;
         color: white;
-        padding: 15px 30px;
-        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        border-radius: 8px;
         font-weight: 600;
         transition: all 0.3s ease;
     }
     
-    .btn-gradient-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    .btn-sm-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(38, 208, 206, 0.3);
     }
     
-    .map-container {
-        border-radius: 15px;
+    .small-map {
+        height: 250px;
+        border-radius: 10px;
         overflow: hidden;
-        margin-top: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
     
     .faq-section {
-        margin-top: 60px;
+        margin-top: 40px;
     }
     
     .faq-item {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         border: 1px solid #e0e0e0;
-        border-radius: 10px;
+        border-radius: 8px;
         overflow: hidden;
     }
     
     .faq-question {
-        padding: 20px;
+        padding: 15px;
         background: #f8f9fa;
         cursor: pointer;
         font-weight: 600;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        font-size: 0.95rem;
     }
     
     .faq-answer {
-        padding: 20px;
+        padding: 15px;
         display: none;
+        font-size: 0.9rem;
     }
     
     .social-links a {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 8px;
         color: white;
         transition: all 0.3s ease;
     }
     
     .social-links a:hover {
         background: white;
-        color: #667eea;
-        transform: translateY(-3px);
+        color: #1a2980;
+        transform: translateY(-2px);
     }
     
     .alert-success {
-        border-radius: 10px;
+        border-radius: 8px;
         border: none;
         background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
         color: white;
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .price-display {
+        background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    
+    .price-tag {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0 5px;
+    }
+    
+    .price-tag::before {
+        content: '₹ ';
+        font-weight: normal;
+    }
+    
+    .form-select-sm {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+        height: calc(2.5rem + 2px);
+    }
+    
+    textarea.form-control-sm {
+        min-height: 120px;
+        resize: vertical;
     }
 </style>
 
 <!-- Hero Section -->
 <section class="contact-hero">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
-        <p class="lead mb-0">Get in touch with our team for expert drone solutions</p>
+        <h1 class="display-5 fw-bold mb-3">Contact Us</h1>
+        <p class="lead mb-0">Get expert drone solutions tailored for India</p>
+        <div class="price-display mt-3">
+            <span class="price-tag">Call for pricing</span>
+            <span class="mx-2">|</span>
+            <span class="price-tag">Starting from ₹49,999</span>
+        </div>
     </div>
 </section>
 
@@ -152,54 +197,55 @@
             <!-- Contact Information Sidebar -->
             <div class="col-lg-5">
                 <div class="contact-sidebar">
-                    <h3 class="fw-bold mb-4">
+                    <h4 class="fw-bold mb-3">
                         <i class="fas fa-headset me-2"></i>Get In Touch
-                    </h3>
-                    <p class="mb-5 opacity-75">
-                        Our team is ready to assist you with any questions about our drones, services, or training programs.
+                    </h4>
+                    <p class="mb-4 opacity-75 small">
+                        Our Indian team is ready to assist you with drone solutions across India.
                     </p>
                     
                     <div class="contact-info-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <h5 class="fw-bold mb-2">Our Location</h5>
-                        <p class="mb-0 opacity-75">
-                            123 Tech Street<br>
-                            Innovation City, IC 10101<br>
-                            United States
+                        <h6 class="fw-bold mb-2">Our India Office</h6>
+                        <p class="mb-0 opacity-75 small">
+                            Tech Park, Sector 62<br>
+                            Noida, Uttar Pradesh 201301<br>
+                            India
                         </p>
                     </div>
                     
                     <div class="contact-info-item">
                         <i class="fas fa-phone"></i>
-                        <h5 class="fw-bold mb-2">Phone Number</h5>
-                        <p class="mb-0 opacity-75">
-                            <strong>Sales:</strong> +1 (555) 123-4567<br>
-                            <strong>Support:</strong> +1 (555) 987-6543
+                        <h6 class="fw-bold mb-2">Phone Numbers</h6>
+                        <p class="mb-0 opacity-75 small">
+                            <strong>Toll-Free:</strong> 1800-123-4567<br>
+                            <strong>Sales:</strong> +91 98765 43210<br>
+                            <strong>Support:</strong> +91 98765 43211
                         </p>
                     </div>
                     
                     <div class="contact-info-item">
                         <i class="fas fa-envelope"></i>
-                        <h5 class="fw-bold mb-2">Email Address</h5>
-                        <p class="mb-0 opacity-75">
-                            <strong>General:</strong> info@aerodrox.com<br>
-                            <strong>Support:</strong> support@aerodrox.com<br>
-                            <strong>Sales:</strong> sales@aerodrox.com
+                        <h6 class="fw-bold mb-2">Email Address</h6>
+                        <p class="mb-0 opacity-75 small">
+                            <strong>India Sales:</strong> sales.in@aerodrox.com<br>
+                            <strong>Support:</strong> support.in@aerodrox.com<br>
+                            <strong>Careers:</strong> careers@aerodrox.com
                         </p>
                     </div>
                     
                     <div class="contact-info-item">
                         <i class="fas fa-clock"></i>
-                        <h5 class="fw-bold mb-2">Business Hours</h5>
-                        <p class="mb-0 opacity-75">
-                            <strong>Mon-Fri:</strong> 9:00 AM - 6:00 PM<br>
-                            <strong>Saturday:</strong> 10:00 AM - 4:00 PM<br>
-                            <strong>Sunday:</strong> Closed
+                        <h6 class="fw-bold mb-2">Business Hours (IST)</h6>
+                        <p class="mb-0 opacity-75 small">
+                            <strong>Mon-Sat:</strong> 9:00 AM - 7:00 PM<br>
+                            <strong>Sunday:</strong> 10:00 AM - 5:00 PM<br>
+                            <strong>Emergency:</strong> 24/7 Available
                         </p>
                     </div>
                     
-                    <div class="mt-5">
-                        <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-2">Follow Us</h6>
                         <div class="social-links">
                             <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
@@ -214,109 +260,107 @@
             <!-- Contact Form -->
             <div class="col-lg-7">
                 <div class="contact-form">
-                    <h3 class="fw-bold mb-4">
-                        <i class="fas fa-envelope me-2"></i>Send Us a Message
-                    </h3>
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-envelope me-2"></i>Send Message
+                    </h4>
                     
                     @if(ViewBag.SuccessMessage != null)
                     {
-                        <div class="alert alert-success alert-dismissible fade show mb-4">
+                        <div class="alert alert-success mb-3">
                             <div class="d-flex align-items-center">
-                                <i class="fas fa-check-circle fa-2x me-3"></i>
+                                <i class="fas fa-check-circle me-2"></i>
                                 <div>
-                                    <h5 class="alert-heading mb-1">Message Sent Successfully!</h5>
-                                    <p class="mb-0">@ViewBag.SuccessMessage</p>
+                                    <strong>Message Sent!</strong> @ViewBag.SuccessMessage
                                 </div>
                             </div>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                         </div>
                     }
                     
                     <form method="post" asp-controller="Contact" asp-action="Submit" id="contactForm">
                         <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label for="name" class="form-label fw-semibold">
-                                    <i class="fas fa-user me-2"></i>Your Name *
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label fw-semibold small">
+                                    <i class="fas fa-user me-1"></i>Your Name *
                                 </label>
-                                <input type="text" name="name" id="name" class="form-control form-control-lg" 
-                                       placeholder="John Doe" required>
-                                <div class="invalid-feedback">Please enter your name.</div>
+                                <input type="text" name="name" id="name" class="form-control form-control-sm" 
+                                       placeholder="Enter your name" required>
+                                <div class="invalid-feedback small">Please enter your name.</div>
                             </div>
                             
-                            <div class="col-md-6 mb-4">
-                                <label for="email" class="form-label fw-semibold">
-                                    <i class="fas fa-envelope me-2"></i>Email Address *
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label fw-semibold small">
+                                    <i class="fas fa-envelope me-1"></i>Email *
                                 </label>
-                                <input type="email" name="email" id="email" class="form-control form-control-lg" 
-                                       placeholder="john@example.com" required>
-                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                                <input type="email" name="email" id="email" class="form-control form-control-sm" 
+                                       placeholder="your@email.com" required>
+                                <div class="invalid-feedback small">Please enter valid email.</div>
                             </div>
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label for="phone" class="form-label fw-semibold">
-                                    <i class="fas fa-phone me-2"></i>Phone Number
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label fw-semibold small">
+                                    <i class="fas fa-phone me-1"></i>Phone
                                 </label>
-                                <input type="tel" name="phone" id="phone" class="form-control form-control-lg" 
-                                       placeholder="+1 (555) 123-4567">
+                                <input type="tel" name="phone" id="phone" class="form-control form-control-sm" 
+                                       placeholder="+91 98765 43210">
                             </div>
                             
-                            <div class="col-md-6 mb-4">
-                                <label for="company" class="form-label fw-semibold">
-                                    <i class="fas fa-building me-2"></i>Company/Organization
+                            <div class="col-md-6 mb-3">
+                                <label for="company" class="form-label fw-semibold small">
+                                    <i class="fas fa-building me-1"></i>Company
                                 </label>
-                                <input type="text" name="company" id="company" class="form-control form-control-lg" 
-                                       placeholder="Your Company Name">
+                                <input type="text" name="company" id="company" class="form-control form-control-sm" 
+                                       placeholder="Your company">
                             </div>
                         </div>
                         
-                        <div class="mb-4">
-                            <label for="subject" class="form-label fw-semibold">
-                                <i class="fas fa-tag me-2"></i>Subject *
+                        <div class="mb-3">
+                            <label for="subject" class="form-label fw-semibold small">
+                                <i class="fas fa-tag me-1"></i>Subject *
                             </label>
-                            <select name="subject" id="subject" class="form-select form-select-lg" required>
-                                <option value="">Select a subject</option>
+                            <select name="subject" id="subject" class="form-select form-select-sm" required>
+                                <option value="">Select subject</option>
                                 <option value="general">General Inquiry</option>
-                                <option value="sales">Sales & Pricing</option>
+                                <option value="sales">Sales & Pricing (₹)</option>
                                 <option value="support">Technical Support</option>
                                 <option value="service">Service Request</option>
-                                <option value="training">Training Inquiry</option>
-                                <option value="partnership">Partnership Opportunity</option>
+                                <option value="training">Training (Starting ₹1,999)</option>
+                                <option value="partnership">Partnership</option>
                                 <option value="other">Other</option>
                             </select>
-                            <div class="invalid-feedback">Please select a subject.</div>
+                            <div class="invalid-feedback small">Please select subject.</div>
                         </div>
                         
-                        <div class="mb-4">
-                            <label for="message" class="form-label fw-semibold">
-                                <i class="fas fa-comment-dots me-2"></i>Your Message *
+                        <div class="mb-3">
+                            <label for="message" class="form-label fw-semibold small">
+                                <i class="fas fa-comment me-1"></i>Message *
                             </label>
-                            <textarea name="message" id="message" rows="6" 
-                                      class="form-control form-control-lg" 
-                                      placeholder="Please describe your inquiry in detail..." 
+                            <textarea name="message" id="message" rows="4" 
+                                      class="form-control form-control-sm" 
+                                      placeholder="Your message..." 
                                       required></textarea>
-                            <div class="invalid-feedback">Please enter your message.</div>
+                            <div class="invalid-feedback small">Please enter message.</div>
                         </div>
                         
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter" checked>
-                                <label class="form-check-label" for="newsletter">
-                                    Subscribe to our newsletter for updates and special offers
+                                <label class="form-check-label small" for="newsletter">
+                                    Subscribe to newsletter
                                 </label>
                             </div>
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-gradient-primary btn-lg">
+                            <button type="submit" class="btn btn-sm-custom">
                                 <i class="fas fa-paper-plane me-2"></i>Send Message
                             </button>
                         </div>
                         
-                        <p class="text-muted small mt-3">
+                        <p class="text-muted small mt-3 mb-0">
                             <i class="fas fa-info-circle me-1"></i>
-                            Fields marked with * are required. We typically respond within 24 hours.
+                            * Required fields. Response within 24 hours.
                         </p>
                     </form>
                 </div>
@@ -325,68 +369,68 @@
     </div>
     
     <!-- Map Section -->
-    <div class="map-container">
-        <div class="ratio ratio-16x9">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a3163006c5d%3A0x7e3c7b7b7b7b7b7b!2sTech+Street%2C+New+York%2C+NY%2C+USA!5e0!3m2!1sen!2sus!4v1623941212121!5m2!1sen!2sus" 
+    <div class="small-map">
+        <div class="ratio ratio-16x9 h-100">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.223073625087!2d77.36996637532938!3d28.496485875733513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce8aa1a22b7cd%3A0x4d4c5b4b4d4c5b4b!2sNoida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1623941212121!5m2!1sen!2sin" 
                     style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </div>
     
-    <!-- FAQ Section -->
+    <!-- FAQ Section with Improved Toggle -->
     <div class="faq-section">
-        <h3 class="text-center mb-5 display-6 fw-bold">
+        <h4 class="text-center mb-4 fw-bold">
             <i class="fas fa-question-circle me-2"></i>Frequently Asked Questions
-        </h3>
+        </h4>
         
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>What types of drone services do you offer?</span>
+                        <span>What drone services do you offer in India?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>We offer a wide range of drone services including aerial photography & videography, infrastructure inspection, 3D mapping & modeling, agricultural surveying, search & rescue operations, and professional drone training programs.</p>
+                        <p>We offer aerial photography, agricultural surveys, infrastructure inspection, 3D mapping, drone training (from <span class="price-tag">₹1,999</span>), and custom drone solutions across India.</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Do I need a license to operate your drones?</span>
+                        <span>Do I need DGCA approval for drone operations?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes, for commercial operations in the US, you need a Part 107 Remote Pilot Certificate from the FAA. We provide training to help you obtain this certification. For recreational use, basic drone registration may be required depending on weight.</p>
+                        <p>Yes, commercial drone operations require DGCA approval. We help with Digital Sky platform registration, UIN, and UAOP applications.</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>What is your typical response time for inquiries?</span>
+                        <span>What are your drone prices in Indian Rupees?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>We strive to respond to all inquiries within 24 hours during business days. For urgent matters, please call our support line for immediate assistance. Emergency service requests are prioritized for rapid response.</p>
+                        <p>Our drones start from <span class="price-tag">₹49,999</span> for basic models, <span class="price-tag">₹1,99,999</span> for professional models, and <span class="price-tag">₹4,99,999+</span> for industrial drones.</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Do you provide drone repair services?</span>
+                        <span>Do you provide repair services in India?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes, we offer comprehensive drone repair and maintenance services for all major brands. Our certified technicians can handle everything from minor repairs to complete overhauls. We also offer maintenance plans for regular upkeep.</p>
+                        <p>Yes, we have service centers in Delhi, Mumbai, Bangalore, and Chennai. Basic repairs start from <span class="price-tag">₹999</span>.</p>
                     </div>
                 </div>
                 
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Can you customize drones for specific applications?</span>
+                        <span>Can you customize drones for Indian conditions?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Absolutely! We specialize in custom drone solutions for specific industry needs. Whether you need specialized sensors, extended flight time, payload capacity modifications, or custom software integration, our engineering team can develop solutions tailored to your requirements.</p>
+                        <p>Yes, we customize drones for Indian weather, with dust protection, extended range (up to 10km), and local language support.</p>
                     </div>
                 </div>
             </div>
@@ -403,7 +447,7 @@
                 
                 var isValid = true;
                 $(this).find('[required]').each(function() {
-                    if ($(this).val() === '') {
+                    if ($(this).val() === '' || $(this).val() === null) {
                         $(this).addClass('is-invalid');
                         isValid = false;
                     } else {
@@ -412,48 +456,74 @@
                 });
                 
                 if (isValid) {
-                    this.submit();
+                    // Show loading state
+                    const submitBtn = $(this).find('button[type="submit"]');
+                    const originalText = submitBtn.html();
+                    submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Sending...');
+                    submitBtn.prop('disabled', true);
+                    
+                    // Submit form after a brief delay for UX
+                    setTimeout(() => {
+                        this.submit();
+                    }, 1000);
                 }
             });
             
             // Real-time validation
             $('input[required], textarea[required], select[required]').on('blur', function() {
-                if ($(this).val() === '') {
+                if ($(this).val() === '' || $(this).val() === null) {
                     $(this).addClass('is-invalid');
                 } else {
                     $(this).removeClass('is-invalid');
                 }
             });
             
-            // Phone number formatting
+            // Phone number formatting for Indian numbers
             $('#phone').on('input', function() {
-                this.value = this.value.replace(/[^0-9+\-\s()]/g, '');
+                let value = $(this).val().replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.length <= 10) {
+                        value = '+91 ' + value;
+                    }
+                }
+                $(this).val(value.substring(0, 14));
             });
         });
         
-        // FAQ toggle function
+        // FAQ toggle function with animation
         function toggleFAQ(element) {
-            var answer = $(element).next('.faq-answer');
-            var icon = $(element).find('i');
+            const $question = $(element);
+            const $answer = $question.next('.faq-answer');
+            const $icon = $question.find('i');
             
-            if (answer.is(':visible')) {
-                answer.slideUp();
-                icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            // Toggle current FAQ
+            if ($answer.is(':visible')) {
+                $answer.slideUp(300);
+                $icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
             } else {
                 // Close all other FAQs
-                $('.faq-answer').slideUp();
+                $('.faq-answer').slideUp(300);
                 $('.faq-question i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
                 
-                // Open this one
-                answer.slideDown();
-                icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                // Open current FAQ
+                $answer.slideDown(300);
+                $icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            }
+            
+            // Scroll to question if it's being opened
+            if ($answer.is(':visible')) {
+                $('html, body').animate({
+                    scrollTop: $question.offset().top - 100
+                }, 300);
             }
         }
         
         // Auto-open first FAQ
         $(document).ready(function() {
             if ($('.faq-item').length > 0) {
-                $('.faq-item:first-child .faq-question').click();
+                setTimeout(() => {
+                    $('.faq-item:first-child .faq-question').click();
+                }, 1000);
             }
         });
     </script>

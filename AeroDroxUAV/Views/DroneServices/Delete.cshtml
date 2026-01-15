@@ -4,107 +4,103 @@
     ViewData["Title"] = "Delete Drone Service";
 }
 
-<div class="container py-5">
+<div class="container py-3">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
+        <div class="col-lg-8 col-xl-6">
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-danger text-white py-4">
+                <div class="card-header bg-danger text-white py-3">
                     <div class="d-flex align-items-center">
                         <div class="me-3">
-                            <i class="fas fa-exclamation-triangle fa-2x"></i>
+                            <i class="fas fa-exclamation-triangle fa-lg"></i>
                         </div>
                         <div>
-                            <h1 class="h3 mb-0">Delete Drone Service</h1>
-                            <p class="mb-0 opacity-75">Confirm service deletion</p>
+                            <h1 class="h4 mb-0">Delete Drone Service</h1>
+                            <p class="mb-0 opacity-75 small">Confirm service deletion</p>
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-5">
-                    <div class="alert alert-warning border-warning">
+                <div class="card-body p-4">
+                    <div class="alert alert-warning border-warning mb-4">
                         <div class="d-flex">
                             <div class="me-3">
-                                <i class="fas fa-exclamation-circle fa-2x text-warning"></i>
+                                <i class="fas fa-exclamation-circle text-warning"></i>
                             </div>
                             <div>
-                                <h5 class="alert-heading">Critical Action!</h5>
-                                <p class="mb-0">You are about to permanently delete a service. All service data will be lost.</p>
+                                <h5 class="alert-heading h6 mb-1">Critical Action!</h5>
+                                <p class="mb-0 small">You are about to permanently delete a service. All service data will be lost.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="service-details p-4 mb-4 rounded" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-                        <h4 class="text-center mb-4">
+                    <div class="service-details p-3 mb-4 rounded" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                        <h4 class="text-center mb-3">
                             <i class="fas fa-concierge-bell text-primary me-2"></i>@Model.Name
-                            <small class="text-muted d-block mt-1">@Model.Category</small>
+                            <small class="text-muted d-block mt-1 small">@Model.Category</small>
                         </h4>
                         
                         <!-- Service Image -->
                         @if (!string.IsNullOrEmpty(Model.ImageUrl))
                         {
-                            <div class="text-center mb-4">
-                                <img src="@Model.ImageUrl" class="img-fluid rounded" style="max-height: 200px;" alt="@Model.Name">
+                            <div class="text-center mb-3">
+                                <img src="@Model.ImageUrl" class="img-fluid rounded" style="max-height: 150px;" alt="@Model.Name">
                             </div>
                         }
                         
                         <div class="row text-center">
-                            <div class="col-md-6 mb-3">
-                                <div class="p-3 bg-white rounded shadow-sm">
-                                    <h6 class="text-muted mb-2">
+                            <div class="col-md-6 mb-2">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <h6 class="text-muted small mb-1">
                                         <i class="fas fa-layer-group me-1"></i>Category
                                     </h6>
-                                    <h4>
-                                        <span class="badge bg-info">@Model.Category</span>
-                                    </h4>
+                                    <span class="badge bg-info">@Model.Category</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="p-3 bg-white rounded shadow-sm">
-                                    <h6 class="text-muted mb-2">
+                            <div class="col-md-6 mb-2">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <h6 class="text-muted small mb-1">
                                         <i class="fas fa-toggle-on me-1"></i>Status
                                     </h6>
-                                    <h4>
-                                        <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
-                                            @(Model.IsActive ? "Active" : "Inactive")
-                                        </span>
-                                    </h4>
+                                    <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary") small">
+                                        @(Model.IsActive ? "Active" : "Inactive")
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="mt-4">
-                            <h6 class="text-muted mb-2">
+                        <div class="mt-3">
+                            <h6 class="text-muted small mb-2">
                                 <i class="fas fa-align-left me-1"></i>Description
                             </h6>
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <p class="mb-0">@Model.Description</p>
+                            <div class="p-2 bg-white rounded shadow-sm">
+                                <p class="mb-0 small">@Model.Description</p>
                             </div>
                         </div>
                         
                         @if(!string.IsNullOrEmpty(Model.Benefits))
                         {
-                            <div class="mt-4">
-                                <h6 class="text-muted mb-2">
+                            <div class="mt-3">
+                                <h6 class="text-muted small mb-2">
                                     <i class="fas fa-star me-1"></i>Key Benefits
                                 </h6>
-                                <div class="p-3 bg-white rounded shadow-sm">
+                                <div class="p-2 bg-white rounded shadow-sm">
                                     @{
                                         var benefits = Model.Benefits.Split(',', StringSplitOptions.RemoveEmptyEntries);
                                         foreach(var benefit in benefits)
                                         {
-                                            <span class="badge bg-light text-dark me-1 mb-1">@benefit.Trim()</span>
+                                            <span class="badge bg-light text-dark me-1 mb-1 small">@benefit.Trim()</span>
                                         }
                                     }
                                 </div>
                             </div>
                         }
                         
-                        <div class="mt-4 text-center">
-                            <div class="alert alert-danger border-danger">
+                        <div class="mt-3">
+                            <div class="alert alert-danger border-danger small">
                                 <i class="fas fa-users me-2"></i>
                                 <strong>Note:</strong> This service may have active bookings.
                                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
                                 {
-                                    <div class="mt-2">
+                                    <div class="mt-1">
                                         <i class="fas fa-image me-2"></i>
                                         <strong>Image will also be deleted:</strong> @Model.ImageUrl
                                     </div>
@@ -118,29 +114,29 @@
                         <input type="hidden" asp-for="ImageUrl" />
                         
                         <div class="text-center">
-                            <h5 class="mb-4 text-danger">
+                            <h5 class="mb-3 text-danger h6">
                                 <i class="fas fa-question-circle me-2"></i>
                                 Are you absolutely sure you want to delete this service?
                             </h5>
                             
-                            <div class="form-check mb-4">
+                            <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="confirmDelete">
-                                <label class="form-check-label text-danger fw-semibold" for="confirmDelete">
+                                <label class="form-check-label text-danger fw-semibold small" for="confirmDelete">
                                     <i class="fas fa-check-circle me-1"></i>
                                     Yes, I understand this action is permanent and cannot be undone
                                 </label>
                             </div>
                             
-                            <div class="d-flex justify-content-center gap-3">
-                                <button type="submit" class="btn btn-danger btn-lg px-5" id="deleteBtn">
-                                    <i class="fas fa-trash me-2"></i>Delete Service
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="submit" class="btn btn-danger btn-sm px-4" id="deleteBtn">
+                                    <i class="fas fa-trash me-1"></i>Delete Service
                                 </button>
-                                <a href="/DroneServices/Index" class="btn btn-outline-secondary btn-lg px-5">
-                                    <i class="fas fa-times me-2"></i>Cancel
+                                <a href="/DroneServices/Index" class="btn btn-outline-secondary btn-sm px-4">
+                                    <i class="fas fa-times me-1"></i>Cancel
                                 </a>
                             </div>
                             
-                            <p class="text-muted mt-4 small">
+                            <p class="text-muted mt-3 small">
                                 <i class="fas fa-info-circle me-1"></i>
                                 This action will permanently remove the service and all associated data.
                                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -169,12 +165,8 @@
     
     <style>
         .card {
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
-        }
-        
-        .card-header {
-            border-radius: 20px 20px 0 0 !important;
         }
         
         .bg-danger {
@@ -182,63 +174,36 @@
         }
         
         .alert-warning {
-            border-radius: 12px;
-            border-left: 5px solid #ffc107;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.875rem;
         }
         
         .alert-danger {
-            border-radius: 12px;
-            border-left: 5px solid #dc3545;
-        }
-        
-        .service-details {
-            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            font-size: 0.875rem;
         }
         
         .btn-danger {
             background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
             border: none;
-            border-radius: 12px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+            border-radius: 8px;
+            padding: 0.375rem 1rem;
+            font-weight: 500;
+            font-size: 0.875rem;
         }
         
         .btn-outline-secondary {
-            border-radius: 12px;
-            padding: 12px 30px;
-            border-width: 2px;
+            border-radius: 8px;
+            padding: 0.375rem 1rem;
+            font-size: 0.875rem;
         }
         
         .badge {
-            font-size: 0.9rem;
-            padding: 0.5em 1em;
+            font-size: 0.75rem;
+            padding: 0.25em 0.5em;
             border-radius: 50px;
-        }
-        
-        .shadow-sm {
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-        }
-        
-        .form-check-input:checked {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-        
-        .form-check-label {
-            font-size: 0.9rem;
-        }
-        
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
         }
     </style>
 }

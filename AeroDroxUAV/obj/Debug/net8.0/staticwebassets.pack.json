@@ -13,6 +13,18 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/images/services/351c56b4-6f8a-4ae1-a519-e92d57600a17_AeroDrox Vima.jpeg",
+      "PackagePath": "staticwebassets/images/services/351c56b4-6f8a-4ae1-a519-e92d57600a17_AeroDrox Vima.jpeg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/images/services/7c5174d5-1759-4076-95ce-1c7ea469c959_Motors.webp",
+      "PackagePath": "staticwebassets/images/services/7c5174d5-1759-4076-95ce-1c7ea469c959_Motors.webp"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/images/services/9d0fc5d4-7513-4026-90ef-d988d00b6379_AeroDrox Vima.jpeg",
+      "PackagePath": "staticwebassets/images/services/9d0fc5d4-7513-4026-90ef-d988d00b6379_AeroDrox Vima.jpeg"
+    },
+    {
       "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/images/services/a8fbca3e-8eb6-4ba9-b92a-63f7d51852ef_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg",
       "PackagePath": "staticwebassets/images/services/a8fbca3e-8eb6-4ba9-b92a-63f7d51852ef_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg"
     },
@@ -253,8 +265,44 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
-      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/eb42f220-713b-464b-a7b4-267bf78ef21a_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg",
-      "PackagePath": "staticwebassets/uploads/drones/eb42f220-713b-464b-a7b4-267bf78ef21a_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg"
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/2dc06776-7be5-469e-a1f1-d36a1bbd3af8.webp",
+      "PackagePath": "staticwebassets/uploads/accessories/2dc06776-7be5-469e-a1f1-d36a1bbd3af8.webp"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/4a57e42e-3c21-407b-9f85-bb16e505e6d3.webp",
+      "PackagePath": "staticwebassets/uploads/accessories/4a57e42e-3c21-407b-9f85-bb16e505e6d3.webp"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/6fe99061-8c23-4dbb-930f-80452e7981a8.webp",
+      "PackagePath": "staticwebassets/uploads/accessories/6fe99061-8c23-4dbb-930f-80452e7981a8.webp"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/ad42ee65-5f1e-4b39-8610-2adbe71107ef.jpeg",
+      "PackagePath": "staticwebassets/uploads/accessories/ad42ee65-5f1e-4b39-8610-2adbe71107ef.jpeg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/cab6783d-d142-4d8c-ab4f-15df659919f9.jfif",
+      "PackagePath": "staticwebassets/uploads/accessories/cab6783d-d142-4d8c-ab4f-15df659919f9.jfif"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/23da70fb-0f55-4cc4-8b7a-f75cc83e5af5_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg",
+      "PackagePath": "staticwebassets/uploads/drones/23da70fb-0f55-4cc4-8b7a-f75cc83e5af5_WhatsApp Image 2026-01-05 at 6.31.12 PM.jpeg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/49c46af9-1f62-428a-a931-b1fa5b5dfcff_Simplilearn Introduction to Java Spring framework 101_page-0001.jpg",
+      "PackagePath": "staticwebassets/uploads/drones/49c46af9-1f62-428a-a931-b1fa5b5dfcff_Simplilearn Introduction to Java Spring framework 101_page-0001.jpg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/6ebbd906-833a-4f1f-b6e8-5f2f9774c892_snjb_logo.jpg",
+      "PackagePath": "staticwebassets/uploads/drones/6ebbd906-833a-4f1f-b6e8-5f2f9774c892_snjb_logo.jpg"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/9f1f9469-3cbf-4067-9fc1-9935ec155fe7_Untitled.png",
+      "PackagePath": "staticwebassets/uploads/drones/9f1f9469-3cbf-4067-9fc1-9935ec155fe7_Untitled.png"
+    },
+    {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/c70f9a07-47a8-411b-8125-49a8c302a898_ic_launcher.png",
+      "PackagePath": "staticwebassets/uploads/drones/c70f9a07-47a8-411b-8125-49a8c302a898_ic_launcher.png"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.AeroDroxUAV.Microsoft.AspNetCore.StaticWebAssets.props",
