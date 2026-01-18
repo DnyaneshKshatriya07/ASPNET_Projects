@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BrXvvpSkelfQn56dscnW+hMEwm1JVPQrIjJoSGHHXZ0=",
+  "Hash": "O5y6p8oq0awQgrT1LPWMWJn15kK5AprghemUVU1nENc=",
   "Source": "AeroDroxUAV",
   "BasePath": "_content/AeroDroxUAV",
   "Mode": "Default",
@@ -1423,6 +1423,25 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
     },
     {
+      "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/05076aae-7867-426e-891e-767161985e4d.jpg",
+      "SourceId": "AeroDroxUAV",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/",
+      "BasePath": "_content/AeroDroxUAV",
+      "RelativePath": "uploads/accessories/05076aae-7867-426e-891e-767161985e4d.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/accessories/05076aae-7867-426e-891e-767161985e4d.jpg"
+    },
+    {
       "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/accessories/2dc06776-7be5-469e-a1f1-d36a1bbd3af8.webp",
       "SourceId": "AeroDroxUAV",
       "SourceType": "Discovered",
@@ -1554,6 +1573,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/drones/49c46af9-1f62-428a-a931-b1fa5b5dfcff_Simplilearn Introduction to Java Spring framework 101_page-0001.jpg"
+    },
+    {
+      "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/4f386c36-34c3-4433-96b5-f41bcf7304f4_Controller.jpg",
+      "SourceId": "AeroDroxUAV",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/",
+      "BasePath": "_content/AeroDroxUAV",
+      "RelativePath": "uploads/drones/4f386c36-34c3-4433-96b5-f41bcf7304f4_Controller.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/drones/4f386c36-34c3-4433-96b5-f41bcf7304f4_Controller.jpg"
     },
     {
       "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/uploads/drones/6ebbd906-833a-4f1f-b6e8-5f2f9774c892_snjb_logo.jpg",

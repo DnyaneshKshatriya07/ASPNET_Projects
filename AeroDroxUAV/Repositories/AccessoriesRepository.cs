@@ -43,5 +43,14 @@ namespace AeroDroxUAV.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        // NEW METHOD: Get accessories for homepage
+        public async Task<IEnumerable<Accessories>> GetHomepageAccessoriesAsync()
+        {
+            return await _context.Accessories
+                .Where(a => a.ShowOnHomepage)
+                .OrderByDescending(a => a.CreatedAt)
+                .ToListAsync();
+        }
     }
 }

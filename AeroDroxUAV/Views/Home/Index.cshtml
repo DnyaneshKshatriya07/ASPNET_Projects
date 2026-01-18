@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿@{
+﻿﻿﻿@{
     ViewData["Title"] = "AeroDrox UAV - Precision Aerial Solutions";
     
     // Helper function to check if user is logged in
@@ -203,13 +203,12 @@
         row-gap: 30px;
     }
     
-    /* ===== UPDATED DRONE SUVICHA CAROUSEL - SINGLE CARD FOCUS ===== */
-    /* Updated Drone Suvidha's Carousel - Single Card Focus */
+    /* ===== DRONE SUVICHA CAROUSEL - SINGLE CARD FOCUS ===== */
     .services-carousel-container {
         position: relative;
         padding: 40px 0;
-        overflow: hidden; /* Hides cards not in the center view */
-        max-width: 600px; /* Adjust this to match your preferred card width */
+        overflow: hidden;
+        max-width: 600px;
         margin: 0 auto;
     }
 
@@ -219,7 +218,7 @@
     }
 
     .carousel-slide {
-        flex: 0 0 100%; /* Show exactly 1 card at a time */
+        flex: 0 0 100%;
         padding: 20px;
         transition: all 0.5s ease;
         opacity: 0.4;
@@ -422,6 +421,22 @@
         font-size: 0.75rem;
         font-weight: 600;
         z-index: 1;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    /* Featured Badge */
+    .featured-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: linear-gradient(135deg, #fbb034 0%, #ffdd00 100%);
+        color: #000;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        z-index: 1;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     
     /* Responsive adjustments */
@@ -432,6 +447,10 @@
         
         .section-content-wrapper {
             padding: 60px 0;
+        }
+        
+        .hero-section {
+            padding: 80px 0 40px;
         }
     }
     
@@ -450,8 +469,11 @@
         .section-content-wrapper {
             padding: 40px 0;
         }
+        
+        .hero-section {
+            padding: 60px 0 30px;
+        }
     }
-    
 </style>
 
 <!-- Hero Section -->
@@ -468,8 +490,8 @@
                 Professional drones and services for industrial, commercial, and recreational applications.
             </p>
             <div class="mt-4 animate__animated animate__fadeInUp animate__delay-3s">
-                <a href="#featured-drones" class="btn btn-gradient-primary btn-lg me-3">
-                    <i class="fas fa-drone me-2"></i>Explore Products
+                <a href="#customized-drones" class="btn btn-gradient-primary btn-lg me-3">
+                    <i class="fas fa-drone me-2"></i>Explore Drones
                 </a>
                 <a href="#contact" class="btn btn-gradient-outline btn-lg">
                     <i class="fas fa-calendar-check me-2"></i>Get a Quote
@@ -559,7 +581,7 @@
     </div>
 </section>
 
-<!-- ===== UPDATED DRONE SUVICHA CAROUSEL - SINGLE CARD FOCUS ===== -->
+<!-- ===== DRONE SUVICHA CAROUSEL ===== -->
 @if (ViewBag.FeaturedServices != null && ((IEnumerable<AeroDroxUAV.Models.DroneServices>)ViewBag.FeaturedServices).Any())
 {
     <section class="drone-suvidha-section" id="drone-suvidha">
@@ -567,7 +589,7 @@
             <div class="container section-content">
                 <div class="text-center mb-5">
                     <h2 class="section-title display-5 fw-bold">
-                        <i class="fas fa-concierge-bell text-primary me-2"></i>Our Drone Suvidha's
+                        <i class="fas fa-concierge-bell text-primary me-2"></i>Our Drone Services
                     </h2>
                     <p class="lead mb-4">Professional drone solutions for various industries</p>
                     <a href="/DroneServices/Index" class="btn btn-outline-light">
@@ -653,17 +675,17 @@
     </section>
 }
 
-<!-- Featured Drones Section - Customized Drones -->
-<section id="featured-drones" class="customized-drones-section">
+<!-- Customized Drones Section (Featured Drones) -->
+<section id="customized-drones" class="customized-drones-section">
     <div class="section-content-wrapper">
         <div class="container section-content">
             <h2 class="section-title display-5 fw-bold">Customized Drones</h2>
             <p class="text-center mb-5 fs-5">
-                Top-rated drones chosen by our experts
+                Premium drones handpicked by our experts
             </p>
             
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                @if (ViewBag.FeaturedDrones != null)
+                @if (ViewBag.FeaturedDrones != null && ((IEnumerable<AeroDroxUAV.Models.Drone>)ViewBag.FeaturedDrones).Any())
                 {
                     @foreach(var drone in ViewBag.FeaturedDrones)
                     {
@@ -686,10 +708,8 @@
                                         }
                                         
                                         <!-- Featured Badge -->
-                                        <div class="position-absolute top-0 start-0 p-3">
-                                            <span class="badge bg-warning">
-                                                <i class="fas fa-star me-1"></i>Customized
-                                            </span>
+                                        <div class="featured-badge">
+                                            <i class="fas fa-star me-1"></i>Customized
                                         </div>
                                         
                                         <!-- Price Badge -->
@@ -697,14 +717,14 @@
                                             @if (drone.DiscountPrice != null && drone.DiscountPrice > 0)
                                             {
                                                 <span class="badge bg-danger fs-6">
-                                                    <del class="text-light opacity-75">$@drone.Price.ToString("N2")</del> 
-                                                    $@((drone.DiscountPrice ?? 0).ToString("N2"))
+                                                    <del class="text-light opacity-75">₹@drone.Price.ToString("N2")</del> 
+                                                    ₹@((drone.DiscountPrice ?? 0).ToString("N2"))
                                                 </span>
                                             }
                                             else
                                             {
                                                 <span class="badge bg-success fs-6">
-                                                    $@drone.Price.ToString("N2")
+                                                    ₹@drone.Price.ToString("N2")
                                                 </span>
                                             }
                                         </div>
@@ -754,25 +774,14 @@
                             </div>
                         }
                     }
-                    
-                    @if (ViewBag.FeaturedDrones.Count == 0)
-                    {
-                        <div class="col-12">
-                            <div class="text-center py-5">
-                                <i class="fas fa-drone fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
-                                <h4 class="text-white">No featured drones available</h4>
-                                <p>Check back soon for featured products</p>
-                            </div>
-                        </div>
-                    }
                 }
                 else
                 {
                     <div class="col-12">
                         <div class="text-center py-5">
                             <i class="fas fa-drone fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
-                            <h4 class="text-white">No featured drones available</h4>
-                            <p>Check back soon for featured products</p>
+                            <h4 class="text-white">No customized drones available</h4>
+                            <p class="mb-3">Mark drones as "Customized Build Drone" to appear here</p>
                         </div>
                     </div>
                 }
@@ -787,19 +796,19 @@
     </div>
 </section>
 
-<!-- Featured Accessories Section - Now "Drone Bazaar" with 4 cards per row -->
-<section id="featured-accessories" class="drone-bazaar-section">
+<!-- Drone Bazaar Section (Only accessories with ShowOnHomepage = true) -->
+<section id="drone-bazaar" class="drone-bazaar-section">
     <div class="section-content-wrapper">
         <div class="container section-content">
             <h2 class="section-title display-5 fw-bold">Drone Bazaar</h2>
             <p class="text-center mb-5 fs-5">
-                Essential drone accessories for enhanced performance
+                Essential accessories for enhanced drone performance
             </p>
             
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                @if (ViewBag.FeaturedAccessories != null)
+                @if (ViewBag.DroneBazaarAccessories != null && ((IEnumerable<AeroDroxUAV.Models.Accessories>)ViewBag.DroneBazaarAccessories).Any())
                 {
-                    @foreach(var accessory in ViewBag.FeaturedAccessories)
+                    @foreach(var accessory in ViewBag.DroneBazaarAccessories)
                     {
                         @if (accessory != null)
                         {
@@ -819,19 +828,24 @@
                                                  alt="@accessory.Name" style="height: 220px; object-fit: cover;">
                                         }
                                         
+                                        <!-- Homepage Badge -->
+                                        <div class="homepage-badge">
+                                            <i class="fas fa-home me-1"></i>On Homepage
+                                        </div>
+                                        
                                         <!-- Price Badge -->
                                         <div class="position-absolute top-0 end-0 p-3">
                                             @if (accessory.DiscountPrice != null && accessory.DiscountPrice > 0)
                                             {
                                                 <span class="badge bg-danger fs-6">
-                                                    <del class="text-light opacity-75">$@accessory.Price.ToString("N2")</del> 
-                                                    $@((accessory.DiscountPrice ?? 0).ToString("N2"))
+                                                    <del class="text-light opacity-75">₹@accessory.Price.ToString("N2")</del> 
+                                                    ₹@((accessory.DiscountPrice ?? 0).ToString("N2"))
                                                 </span>
                                             }
                                             else
                                             {
                                                 <span class="badge bg-primary fs-6">
-                                                    $@accessory.Price.ToString("N2")
+                                                    ₹@accessory.Price.ToString("N2")
                                                 </span>
                                             }
                                         </div>
@@ -877,25 +891,17 @@
                             </div>
                         }
                     }
-                    
-                    @if (ViewBag.FeaturedAccessories.Count == 0)
-                    {
-                        <div class="col-12">
-                            <div class="text-center py-5">
-                                <i class="fas fa-tools fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
-                                <h4 class="text-white">No featured accessories available</h4>
-                                <p>Check back soon for featured accessories</p>
-                            </div>
-                        </div>
-                    }
                 }
                 else
                 {
                     <div class="col-12">
                         <div class="text-center py-5">
                             <i class="fas fa-tools fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
-                            <h4 class="text-white">No featured accessories available</h4>
-                            <p>Check back soon for featured accessories</p>
+                            <h4 class="text-white">No accessories in Drone Bazaar</h4>
+                            <p class="mb-3">Mark accessories as "Add to Home Page" to appear here</p>
+                            <a href="/Accessories/Create" class="btn btn-outline-light mt-2">
+                                <i class="fas fa-plus me-2"></i>Add New Accessory
+                            </a>
                         </div>
                     </div>
                 }
@@ -910,7 +916,7 @@
     </div>
 </section>
 
-<!-- New Arrivals Section with 4 cards per row - UPDATED: Only show drones with ShowOnHomepage = true -->
+<!-- New Arrivals Section (Only drones with ShowOnHomepage = true) -->
 <section id="new-arrivals" class="new-arrivals-section">
     <div class="section-content-wrapper">
         <div class="container section-content">
@@ -967,13 +973,13 @@
                                             @if (drone.DiscountPrice != null && drone.DiscountPrice > 0)
                                             {
                                                 <span class="text-success fw-bold fs-5">
-                                                    <del class="text-muted small">$@drone.Price.ToString("N2")</del> 
-                                                     $@((drone.DiscountPrice ?? 0).ToString("N2"))
+                                                    <del class="text-muted small">₹@drone.Price.ToString("N2")</del> 
+                                                     ₹@((drone.DiscountPrice ?? 0).ToString("N2"))
                                                 </span>
                                             }
                                             else
                                             {
-                                                <span class="text-success fw-bold fs-5">$@drone.Price.ToString("N2")</span>
+                                                <span class="text-success fw-bold fs-5">₹@drone.Price.ToString("N2")</span>
                                             }
                                         </div>
                                         <p class="card-text mb-4 flex-grow-1">
@@ -1018,11 +1024,10 @@
                         <div class="text-center py-5">
                             <i class="fas fa-drone fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
                             <h4 class="text-white">No new arrivals available</h4>
-                            <p class="mb-4">Drones will appear here when marked "Add to Home Page" in drone settings</p>
-                            <div class="alert alert-info d-inline-block">
-                                <i class="fas fa-info-circle me-2"></i>
-                                Only drones with "Add to Home Page" enabled appear in this section
-                            </div>
+                            <p class="mb-3">Mark drones as "Add to Home Page" to appear here</p>
+                            <a href="/Drone/Create" class="btn btn-outline-light mt-2">
+                                <i class="fas fa-plus me-2"></i>Add New Drone
+                            </a>
                         </div>
                     </div>
                 }
@@ -1149,7 +1154,7 @@
                                     <label for="email" class="form-label fw-semibold">
                                         <i class="fas fa-envelope me-2"></i>Email Address
                                     </label>
-                                    <input type="email" name="email" id="email" class="form-form-control form-control-lg" 
+                                    <input type="email" name="email" id="email" class="form-control form-control-lg" 
                                            placeholder="john@example.com" required>
                                 </div>
                                 
@@ -1286,7 +1291,7 @@
                 });
             }
             
-            // ===== UPDATED DRONE SUVICHA CAROUSEL - SIMPLE & WORKING =====
+            // ===== DRONE SUVICHA CAROUSEL =====
             $(function() {
                 if ($('#servicesCarousel').length) {
                     console.log('Carousel found. Initializing...');
@@ -1319,7 +1324,6 @@
                     // Next slide function
                     function nextSlide() {
                         console.log('Moving to next slide');
-                        // Cycle through slides (Right to Left movement)
                         currentIndex = (currentIndex + 1) % totalSlides;
                         updateCarousel();
                     }
@@ -1342,7 +1346,6 @@
                     function startAutoSlide() {
                         console.log('Starting auto slide');
                         stopAutoSlide();
-                        // Automatic slide every 3.5 seconds
                         autoSlideInterval = setInterval(nextSlide, 3500);
                     }
                     
@@ -1356,10 +1359,7 @@
                     startAutoSlide();
                     
                     // ===== EVENT HANDLERS =====
-                    
-                    // Next button click - FIXED
                     $(document).on('click', '#carouselNext', function(e) {
-                        console.log('Next button clicked');
                         e.preventDefault();
                         e.stopPropagation();
                         stopAutoSlide();
@@ -1367,9 +1367,7 @@
                         startAutoSlide();
                     });
                     
-                    // Previous button click - FIXED
                     $(document).on('click', '#carouselPrev', function(e) {
-                        console.log('Previous button clicked');
                         e.preventDefault();
                         e.stopPropagation();
                         stopAutoSlide();
@@ -1377,10 +1375,8 @@
                         startAutoSlide();
                     });
                     
-                    // Dot click
                     $(document).on('click', '.carousel-dot', function() {
                         const slideIndex = parseInt($(this).data('slide'));
-                        console.log('Dot clicked, going to slide:', slideIndex);
                         stopAutoSlide();
                         goToSlide(slideIndex);
                         startAutoSlide();
@@ -1388,36 +1384,8 @@
                     
                     // Pause on Hover
                     $('#carouselWrapper').on('mouseenter', function() {
-                        console.log('Mouse entered, pausing carousel');
                         stopAutoSlide();
                     }).on('mouseleave', function() {
-                        console.log('Mouse left, resuming carousel');
-                        startAutoSlide();
-                    });
-                    
-                    // Touch swipe support
-                    let touchStartX = 0;
-                    let touchEndX = 0;
-                    
-                    $('#carouselWrapper').on('touchstart', function(e) {
-                        touchStartX = e.originalEvent.touches[0].clientX;
-                        stopAutoSlide();
-                    });
-                    
-                    $('#carouselWrapper').on('touchend', function(e) {
-                        touchEndX = e.originalEvent.changedTouches[0].clientX;
-                        const swipeThreshold = 50;
-                        const diff = touchStartX - touchEndX;
-                        
-                        if (Math.abs(diff) > swipeThreshold) {
-                            if (diff > 0) {
-                                // Swipe left - next slide
-                                nextSlide();
-                            } else {
-                                // Swipe right - previous slide
-                                prevSlide();
-                            }
-                        }
                         startAutoSlide();
                     });
                     
@@ -1433,8 +1401,6 @@
                     });
                     
                     console.log('Carousel initialized successfully with', totalSlides, 'slides');
-                } else {
-                    console.log('Carousel not found');
                 }
             });
         });

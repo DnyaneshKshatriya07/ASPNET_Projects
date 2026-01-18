@@ -10,5 +10,8 @@ namespace AeroDroxUAV.Repositories
         void Update(Accessories accessories); // Correct return type and name
         void Delete(Accessories accessories);
         Task SaveChangesAsync();
+        
+        // NEW METHOD: Get accessories for homepage
+        Task<IEnumerable<Accessories>> GetHomepageAccessoriesAsync();
     }
 }

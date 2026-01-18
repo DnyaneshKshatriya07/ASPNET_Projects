@@ -34,7 +34,7 @@ public class HomeController : Controller
         // Initialize ViewBag collections to empty lists to avoid null references
         ViewBag.FeaturedDrones = new List<Drone>();
         ViewBag.NewDrones = new List<Drone>();
-        ViewBag.FeaturedAccessories = new List<Accessories>();
+        ViewBag.DroneBazaarAccessories = new List<Accessories>(); // UPDATED: Changed from FeaturedAccessories to DroneBazaarAccessories
         ViewBag.NewAccessories = new List<Accessories>();
         ViewBag.FeaturedServices = new List<DroneServices>();
         ViewBag.TotalDrones = 0;
@@ -48,7 +48,7 @@ public class HomeController : Controller
             {
                 ViewBag.FeaturedDrones = allDrones.Where(d => d.IsFeatured).Take(6).ToList();
                 
-                // UPDATED: Get New Arrivals - only show drones with ShowOnHomepage = true
+                // Get New Arrivals - only show drones with ShowOnHomepage = true
                 ViewBag.NewDrones = allDrones
                     .Where(d => d.ShowOnHomepage) // Only drones marked for homepage
                     .OrderByDescending(d => d.CreatedAt)
@@ -62,7 +62,14 @@ public class HomeController : Controller
             var allAccessories = await _accessoriesService.GetAllAccessoriesAsync();
             if (allAccessories != null)
             {
-                ViewBag.FeaturedAccessories = allAccessories.Take(8).ToList();
+                // UPDATED: Get Drone Bazaar accessories - only show accessories with ShowOnHomepage = true
+                ViewBag.DroneBazaarAccessories = allAccessories
+                    .Where(a => a.ShowOnHomepage) // Only accessories marked for homepage
+                    .OrderByDescending(a => a.CreatedAt)
+                    .Take(8)
+                    .ToList();
+                    
+                // Still keep NewAccessories for other sections if needed
                 ViewBag.NewAccessories = allAccessories.OrderByDescending(a => a.CreatedAt).Take(8).ToList();
                 ViewBag.TotalAccessories = allAccessories.Count();
             }

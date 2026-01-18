@@ -11,6 +11,7 @@ namespace AeroDroxUAV.Models
         public string? Description { get; set; }
         public string? Condition { get; set; }
         public int StockQuantity { get; set; } = 0;
+        public bool ShowOnHomepage { get; set; } = false; // NEW FIELD: Add to Home Page
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
         // Image properties

@@ -9,5 +9,8 @@ namespace AeroDroxUAV.Services
         Task CreateAccessoriesAsync(Accessories accessories);
         Task UpdateAccessoriesAsync(Accessories accessories);
         Task DeleteAccessoriesAsync(int id);
+        
+        // NEW METHOD: Get accessories for homepage
+        Task<IEnumerable<Accessories>> GetHomepageAccessoriesAsync();
     }
 }
