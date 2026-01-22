@@ -37,7 +37,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-0">
-                <i class="fas fa-tools me-2"></i>Accessories Store
+                <i class="fas fa-tools me-2"></i>Drone Bazaar
             </h1>
             <p class="text-muted mb-0">Browse and purchase drone accessories and spare parts</p>
         </div>
@@ -49,18 +49,34 @@
         }
     </div>
 
-    <!-- Search Section -->
+    <!-- Search and Filter Section -->
     <div class="row mb-4">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="input-group">
                 <span class="input-group-text">
                     <i class="fas fa-search"></i>
                 </span>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search accessories by name or description...">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search accessories by name, category or condition...">
                 <button class="btn btn-outline-primary" type="button" id="searchBtn">
                     Search
                 </button>
             </div>
+        </div>
+        <div class="col-md-4">
+            <select class="form-select" id="categoryFilter">
+                <option value="">All Categories</option>
+                <option value="Motors">Motors</option>
+                <option value="Cameras">Cameras</option>
+                <option value="DroneFrames">Drone Frames</option>
+                <option value="Sensors">Sensors</option>
+                <option value="Gimbal">Gimbal</option>
+                <option value="Batteries">Batteries</option>
+                <option value="Propellers">Propellers</option>
+                <option value="FlightControllers">Flight Controllers</option>
+                <option value="RemoteControllers">Remote Controllers</option>
+                <option value="GPSModule">GPS Module</option>
+                <option value="Other">Other</option>
+            </select>
         </div>
     </div>
 
@@ -138,7 +154,8 @@
             <div class="col accessory-card" 
                  data-name="@accessory.Name.ToLower()" 
                  data-description="@accessory.Description?.ToLower()"
-                 data-condition="@accessory.Condition?.ToLower()">
+                 data-condition="@accessory.Condition?.ToLower()"
+                 data-category="@accessory.Category?.ToLower()">
                 <div class="card product-card shadow-sm h-100">
                     <!-- Image Section -->
                     <div class="position-relative">
@@ -164,11 +181,21 @@
                             </div>
                         }
                         
-                        <!-- Condition Badge -->
+                        <!-- Category Badge -->
                         <div class="position-absolute top-0 end-0 p-2">
+                            @if(!string.IsNullOrEmpty(accessory.Category))
+                            {
+                                <span class="badge bg-info small-badge">
+                                    <i class="fas fa-tag me-1"></i>@accessory.Category
+                                </span>
+                            }
+                        </div>
+                        
+                        <!-- Condition Badge -->
+                        <div class="position-absolute top-0 end-0 p-2" style="top: 40px !important;">
                             @if(!string.IsNullOrEmpty(accessory.Condition))
                             {
-                                <span class="badge @(accessory.Condition == "New" ? "bg-success" : accessory.Condition == "Refurbished" ? "bg-warning" : "bg-secondary") small-badge">
+                                <span class="badge @(accessory.Condition == "New" ? "bg-success" : accessory.Condition == "Refurbished" ? "bg-warning" : "bg-secondary") small-badge mt-1">
                                     @accessory.Condition
                                 </span>
                             }
@@ -196,6 +223,16 @@
                         <!-- Title -->
                         <div class="mb-2">
                             <h6 class="card-title fw-bold mb-1">@accessory.Name</h6>
+                            
+                            <!-- Category -->
+                            @if(!string.IsNullOrEmpty(accessory.Category))
+                            {
+                                <div class="mb-2">
+                                    <span class="badge bg-light text-dark border small-badge">
+                                        <i class="fas fa-layer-group me-1"></i>@accessory.Category
+                                    </span>
+                                </div>
+                            }
                             
                             <!-- Price Display -->
                             <div class="d-flex justify-content-between align-items-center">
@@ -250,15 +287,25 @@
                                     {
                                         @if(ViewBag.IsLoggedIn == true)
                                         {
+                                            /*
                                             <button class="btn btn-success btn-sm btn-buy" data-accessory-id="@accessory.Id">
                                                 <i class="fas fa-shopping-cart me-1"></i>Add to Cart
+                                            </button>
+                                            */
+                                            <button href="/Contact/Index" class="btn btn-success btn-sm btn-buy">
+                                                <i class="class="fas fa-calendar-check me-1"></i>Inquire Now
                                             </button>
                                         }
                                         else
                                         {
+                                            /*
                                             <a asp-controller="Account" asp-action="BuyProduct" asp-route-productId="@accessory.Id" asp-route-productType="accessory" class="btn btn-success btn-sm">
                                                 <i class="fas fa-shopping-cart me-1"></i>Add to Cart
                                             </a>
+                                            */
+                                            <button href="/Contact/Index" class="btn btn-success btn-sm btn-buy">
+                                                <i class="class="fas fa-calendar-check me-1"></i>Inquire Now
+                                            </button>
                                         }
                                     }
                                     else
@@ -294,7 +341,7 @@
     <div id="noResults" class="text-center py-5 d-none">
         <i class="fas fa-search fa-4x text-muted mb-3"></i>
         <h4>No accessories found</h4>
-        <p class="text-muted">Try adjusting your search</p>
+        <p class="text-muted">Try adjusting your search or filter</p>
     </div>
 </div>
 
@@ -486,22 +533,27 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            // Search functionality
+            // Search and Filter functionality
             function filterAccessories() {
                 const searchTerm = $('#searchInput').val().toLowerCase().trim();
+                const categoryFilter = $('#categoryFilter').val().toLowerCase();
                 let visibleCount = 0;
                 
                 $('.accessory-card').each(function() {
                     const accessoryName = $(this).data('name') || '';
                     const accessoryDescription = $(this).data('description') || '';
                     const accessoryCondition = $(this).data('condition') || '';
+                    const accessoryCategory = $(this).data('category') || '';
                     
                     const matchesSearch = searchTerm === '' || 
                                          accessoryName.includes(searchTerm) ||
                                          accessoryDescription.includes(searchTerm) ||
-                                         accessoryCondition.includes(searchTerm);
+                                         accessoryCondition.includes(searchTerm) ||
+                                         accessoryCategory.includes(searchTerm);
                     
-                    if (matchesSearch) {
+                    const matchesCategory = !categoryFilter || accessoryCategory.includes(categoryFilter);
+                    
+                    if (matchesSearch && matchesCategory) {
                         $(this).show();
                         visibleCount++;
                     } else {
@@ -517,9 +569,10 @@
                 }
             }
             
-            // Event listeners for search
+            // Event listeners for search and filter
             $('#searchInput').on('keyup', filterAccessories);
             $('#searchBtn').on('click', filterAccessories);
+            $('#categoryFilter').on('change', filterAccessories);
             
             // Initialize filtering
             filterAccessories();

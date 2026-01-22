@@ -1,7 +1,7 @@
 @model IEnumerable<AeroDroxUAV.Models.Drone>
 @{
     var role = ViewBag.Role as string;
-    ViewData["Title"] = "Drone Store";
+    ViewData["Title"] = "Product Store";
 }
 
 <!-- Video Background Section -->
@@ -37,14 +37,14 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-0">
-                <i class="fas fa-drone me-2"></i>Drone Store
+                <i class="fas fa-drone me-2"></i>Products
             </h1>
-            <p class="text-muted mb-0">Browse and purchase our premium drone collection</p>
+            <p class="text-muted mb-0">Browse and purchase our premium Products collection</p>
         </div>
         @if(role == "Admin")
         {
             <a href="/Drone/Create" class="btn btn-success">
-                <i class="fas fa-plus me-2"></i>Add New Drone
+                <i class="fas fa-plus me-2"></i>Add New Product
             </a>
         }
     </div>
@@ -56,7 +56,7 @@
                 <span class="input-group-text">
                     <i class="fas fa-search"></i>
                 </span>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search drones by name, category or condition...">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search Products by name, category or condition...">
                 <button class="btn btn-outline-primary" type="button" id="searchBtn">
                     Search
                 </button>
@@ -89,7 +89,7 @@
                             </div>
                             <div>
                                 <h4 class="mb-0">@Model.Count()</h4>
-                                <p class="mb-0">Total Drones</p>
+                                <p class="mb-0">Total Products</p>
                             </div>
                         </div>
                     </div>
@@ -275,15 +275,25 @@
                                     {
                                         @if(ViewBag.IsLoggedIn == true)
                                         {
+                                            /*
                                             <button class="btn btn-primary btn-sm btn-buy" data-drone-id="@drone.Id">
                                                 <i class="fas fa-shopping-cart me-1"></i>Buy Now
+                                            </button>
+                                            */
+                                            <button href="/Contact/Index" class="btn btn-success btn-sm btn-buy">
+                                                <i class="class="fas fa-calendar-check me-1"></i>Inquire Now
                                             </button>
                                         }
                                         else
                                         {
+                                            /*
                                             <a asp-controller="Account" asp-action="BuyProduct" asp-route-productId="@drone.Id" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-shopping-cart me-1"></i>Buy Now
                                             </a>
+                                            */
+                                            <button href="/Contact/Index" class="btn btn-success btn-sm btn-buy">
+                                                <i class="class="fas fa-calendar-check me-1"></i>Inquire Now
+                                            </button>
                                         }
                                     }
                                     else
@@ -318,7 +328,7 @@
     <!-- No Results Message -->
     <div id="noResults" class="text-center py-5 d-none">
         <i class="fas fa-search fa-4x text-muted mb-3"></i>
-        <h4>No drones found</h4>
+        <h4>No products found</h4>
         <p class="text-muted">Try adjusting your search or filter</p>
     </div>
 </div>

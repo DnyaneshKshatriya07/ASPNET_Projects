@@ -38,7 +38,7 @@
                         </h4>
                         
                         <div class="row text-center">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-4 mb-2">
                                 <div class="p-2 bg-white rounded shadow-sm">
                                     <h6 class="text-muted mb-1 small">
                                         <i class="fas fa-rupee-sign me-1"></i>Price
@@ -56,7 +56,8 @@
                                     }
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            
+                            <div class="col-md-4 mb-2">
                                 <div class="p-2 bg-white rounded shadow-sm">
                                     <h6 class="text-muted mb-1 small">
                                         <i class="fas fa-box me-1"></i>Stock
@@ -65,6 +66,17 @@
                                         <span class="badge @(Model.StockQuantity > 0 ? "bg-success" : "bg-danger") small">
                                             @Model.StockQuantity
                                         </span>
+                                    </h4>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-2">
+                                <div class="p-2 bg-white rounded shadow-sm">
+                                    <h6 class="text-muted mb-1 small">
+                                        <i class="fas fa-layer-group me-1"></i>Category
+                                    </h6>
+                                    <h4>
+                                        <span class="badge bg-info small">@Model.Category</span>
                                     </h4>
                                 </div>
                             </div>

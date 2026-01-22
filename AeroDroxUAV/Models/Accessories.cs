@@ -7,11 +7,12 @@ namespace AeroDroxUAV.Models
         public int Id { get; set; }
         public required string Name { get; set; }
         public double Price { get; set; }
-        public double? DiscountPrice { get; set; } // New field
+        public double? DiscountPrice { get; set; }
         public string? Description { get; set; }
         public string? Condition { get; set; }
+        public string? Category { get; set; } // NEW FIELD: Added category
         public int StockQuantity { get; set; } = 0;
-        public bool ShowOnHomepage { get; set; } = false; // NEW FIELD: Add to Home Page
+        public bool ShowOnHomepage { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
         // Image properties

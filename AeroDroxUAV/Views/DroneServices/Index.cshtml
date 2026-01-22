@@ -1,6 +1,6 @@
 @model IEnumerable<AeroDroxUAV.Models.DroneServices>
 @{
-    ViewData["Title"] = "Drone Services";
+    ViewData["Title"] = "Drone Suvidha's";
     var role = ViewBag.Role as string;
 }
 
@@ -36,14 +36,14 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h3 mb-0">
-                <i class="fas fa-concierge-bell me-2"></i>Drone Services
+                <i class="fas fa-concierge-bell me-2"></i>Drone Suvidha's
             </h1>
-            <p class="text-muted mb-0">Professional drone services for various industries</p>
+            <p class="text-muted mb-0">Professional drone suvidha's for various industries</p>
         </div>
         @if(role == "Admin")
         {
             <a href="/DroneServices/Create" class="btn btn-success btn-sm">
-                <i class="fas fa-plus me-1"></i>Add New Service
+                <i class="fas fa-plus me-1"></i>Add New Suvidha
             </a>
         }
     </div>
@@ -61,7 +61,7 @@
                             </div>
                             <div>
                                 <h3 class="h4 mb-0">@Model.Count()</h3>
-                                <p class="mb-0 small">Total Services</p>
+                                <p class="mb-0 small">Total Suvidha's</p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div>
                                 <h3 class="h4 mb-0">@Model.Count(s => s.IsActive)</h3>
-                                <p class="mb-0 small">Active Services</p>
+                                <p class="mb-0 small">Active Suvidha's</p>
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex gap-2">
                                 <a href="/Contact/Index" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-calendar-check me-1"></i>Book Now
+                                    <i class="fas fa-calendar-check me-1"></i>Inquire Now
                                 </a>
                                 <a href="/DroneServices/Details/@service.Id" class="btn btn-outline-primary btn-sm">
                                     <i class="fas fa-eye me-1"></i>View Details
@@ -193,12 +193,12 @@
         <div class="text-center py-5">
             <div class="mb-4">
                 <i class="fas fa-concierge-bell fa-4x text-muted mb-3"></i>
-                <h3 class="text-muted">No Drone Services Available</h3>
-                <p class="text-muted mb-4">There are no drone services to display at the moment.</p>
+                <h3 class="text-muted">Drone Suvidha's Unavailable</h3>
+                <p class="text-muted mb-4">There are no drone suvidha's to display at the moment.</p>
                 @if(role == "Admin")
                 {
                     <a href="/DroneServices/Create" class="btn btn-primary btn-sm">
-                        <i class="fas fa-plus me-2"></i>Add Your First Service
+                        <i class="fas fa-plus me-2"></i>Add Your First Drone Suvidha
                     </a>
                 }
             </div>
