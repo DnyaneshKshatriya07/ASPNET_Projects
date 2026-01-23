@@ -18,6 +18,7 @@ namespace AeroDroxUAV.Controllers
             _droneService = droneService;
         }
 
+        // Helper methods for session/authorization
         private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
         private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
 
@@ -25,6 +26,7 @@ namespace AeroDroxUAV.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Drone>>> GetDrones()
         {
+            // Temporarily disabled authorization for testing
             // if (!IsLoggedIn()) { return Unauthorized(); }
             
             var drones = await _droneService.GetAllDronesAsync(); 
@@ -35,6 +37,7 @@ namespace AeroDroxUAV.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Drone>> GetDrone(int id)
         {
+            // Temporarily disabled authorization for testing
             // if (!IsLoggedIn()) { return Unauthorized(); }
 
             var drone = await _droneService.GetDroneByIdAsync(id);
@@ -51,6 +54,7 @@ namespace AeroDroxUAV.Controllers
         [HttpPost]
         public async Task<ActionResult<Drone>> PostDrone(Drone drone)
         {
+            // Temporarily disabled authorization for testing
             // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
 
             if (!ModelState.IsValid)
@@ -73,6 +77,7 @@ namespace AeroDroxUAV.Controllers
                 return BadRequest();
             }
 
+            // Temporarily disabled authorization for testing
             // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
 
             if (!ModelState.IsValid)
@@ -106,10 +111,8 @@ namespace AeroDroxUAV.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDrone(int id)
         {
-            // if (!IsLoggedIn() || !IsAdmin())
-            // {
-            //     return Forbid();
-            // }
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
 
             await _droneService.DeleteDroneAsync(id);
             

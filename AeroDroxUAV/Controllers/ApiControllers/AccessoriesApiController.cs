@@ -18,7 +18,7 @@ namespace AeroDroxUAV.Controllers
             _accessoriesService = accessoriesService;
         }
 
-        // Helper methods for session/authorization (if uncommented)
+        // Helper methods for session/authorization
         private bool IsLoggedIn() => !string.IsNullOrEmpty(HttpContext.Session.GetString("Username"));
         private bool IsAdmin() => HttpContext.Session.GetString("Role") == "Admin";
 
@@ -26,7 +26,8 @@ namespace AeroDroxUAV.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Accessories>>> GetAccessories()
         {
-            // if (!IsLoggedIn()) { return Unauthorized(); } // <-- Temporarily commented
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn()) { return Unauthorized(); }
             
             var accessories = await _accessoriesService.GetAllAccessoriesAsync(); 
             return Ok(accessories);
@@ -36,7 +37,8 @@ namespace AeroDroxUAV.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Accessories>> GetAccessory(int id)
         {
-            // if (!IsLoggedIn()) { return Unauthorized(); } // <-- Temporarily commented
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn()) { return Unauthorized(); }
 
             var accessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
 
@@ -52,7 +54,8 @@ namespace AeroDroxUAV.Controllers
         [HttpPost]
         public async Task<ActionResult<Accessories>> PostAccessory(Accessories accessories)
         {
-            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); } // <-- Temporarily commented
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
 
             if (!ModelState.IsValid)
             {
@@ -74,7 +77,13 @@ namespace AeroDroxUAV.Controllers
                 return BadRequest();
             }
 
-            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); } // <-- Temporarily commented
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             
             var existingAccessory = await _accessoriesService.GetAccessoriesByIdAsync(id);
             if (existingAccessory == null)
@@ -102,7 +111,8 @@ namespace AeroDroxUAV.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccessory(int id)
         {
-            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); } // <-- Temporarily commented
+            // Temporarily disabled authorization for testing
+            // if (!IsLoggedIn() || !IsAdmin()) { return Forbid(); }
 
             await _accessoriesService.DeleteAccessoriesAsync(id);
             
