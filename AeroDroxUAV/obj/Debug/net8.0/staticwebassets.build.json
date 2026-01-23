@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CkbedF2IIJcxW4zAymxn2JhE8SZA6yGTqaSGy2pS2rQ=",
+  "Hash": "s9ESAdGOJdlFutijPnwPjMKzOTIT1rxwDoGFPv/OF78=",
   "Source": "AeroDroxUAV",
   "BasePath": "_content/AeroDroxUAV",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/background/logo.ico"
+    },
+    {
+      "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/background/logo.png",
+      "SourceId": "AeroDroxUAV",
+      "SourceType": "Discovered",
+      "ContentRoot": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/",
+      "BasePath": "_content/AeroDroxUAV",
+      "RelativePath": "background/logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/background/logo.png"
     },
     {
       "Identity": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/css/site.css",

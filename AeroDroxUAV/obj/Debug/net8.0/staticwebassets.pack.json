@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets/background/logo.ico"
     },
     {
+      "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/background/logo.png",
+      "PackagePath": "staticwebassets/background/logo.png"
+    },
+    {
       "Id": "/workspaces/ASPNET_Projects/AeroDroxUAV/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

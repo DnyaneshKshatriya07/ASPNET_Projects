@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AeroDroxUAV")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43e6a13d505d3f1aa462df4cec2f36f5802167ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55bbec86c4c31a88fa98f225d8fa0201ad0e7d68")]
 [assembly: System.Reflection.AssemblyProductAttribute("AeroDroxUAV")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AeroDroxUAV")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
